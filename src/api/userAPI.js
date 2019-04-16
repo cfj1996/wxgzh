@@ -86,7 +86,28 @@ export default {
       success: successCallback
     })
   },
-
+  /*
+   * 发送短信验证码带图片验证码
+   * @param params
+   * @param successCallback
+   */
+  getPhoneAuthCode(params, successCallback) {
+    http.request('/m/security/getPhoneAuthCode', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+   * 修改手机号
+   * @param params
+   * @param successCallback
+   */
+  changeMobile(params, successCallback) {
+    http.request('/m/member/changeMobile', {
+      data: params,
+      success: successCallback
+    })
+  },
   /*
    * 发送短信验证码
    * @param params
@@ -98,7 +119,17 @@ export default {
       success: successCallback
     })
   },
-
+  /**
+   * 短信验证码 验证
+   * @param params
+   * @param successCallback
+   */
+  validatePhoneAuthCode(params, successCallback) {
+    http.request('/m/auth/validatePhoneAuthCode', {
+      data: params,
+      success: successCallback
+    })
+  },
   /*
    * 获取授权列表
    * @param params

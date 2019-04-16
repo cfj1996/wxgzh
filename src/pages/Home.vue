@@ -443,10 +443,7 @@
           case 3:
             // 代金券
             this.$router.push({
-              path: '/cashCoupon',
-              query: {
-                _key: _key
-              }
+              path: '/userCenter'
             })
             break;
         }

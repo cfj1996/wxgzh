@@ -4,9 +4,10 @@
 * @date    19.04.04
 */
 
-<style scoped  lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
-  .page-main{
+
+  .page-main {
     min-height: 100%;
     padding-bottom: 61px;
     margin-bottom: 0;
@@ -16,14 +17,14 @@
       text-align: center;
       padding: 30px 10px 10px;
       /*background: -webkit-gradient(linear, 0 0, 0 100%, from(#535BFF), to(#41C2FF));*/
-      background-image:linear-gradient(to bottom, $color2 -30%, $color3);
+      background-image: linear-gradient(to bottom, $color2 -30%, $color3);
       color: #fff;
       padding-bottom: 10px;
-      h3{
+      h3 {
         margin: 10px 0;
       }
     }
-    .form-section{
+    .form-section {
       background-color: #fff;
 
       @mixin line {
@@ -35,8 +36,8 @@
         background-color: #eee;
       }
 
-      .form-cell{
-        &:after{
+      .form-cell {
+        &:after {
           bottom: 0;
           @include line
         }
@@ -59,50 +60,51 @@
           color: $color4;
         }
       }*/
-      .badge-section{
+      .badge-section {
         padding-bottom: 10px;
       }
-      .mint-badge.is-primary{
+      .mint-badge.is-primary {
         border: 1px solid #7c868c;
         color: $mainFontColor;
         margin: 10px 0 0 10px;
         background-color: #fff;
-        &.checked{
+        &.checked {
           background-color: $color3;
           color: #fff;
         }
       }
 
-      .credit-card-section{
+      .credit-card-section {
         padding: 0 10px 10px;
-        span{
+        span {
           color: $color4;
         }
       }
-      .credit-card-badge-section{
+      .credit-card-badge-section {
 
       }
     }
 
-    .notice{
+    .notice {
       padding: 10px 10px 10px;
-      h4{
+      h4 {
         margin: 6px 0;
         font-size: 14px;
       }
-      p{
+      p {
         line-height: 18px;
         color: $color4;
       }
     }
   }
-  .tip-content{
+
+  .tip-content {
     padding: 2px 10px 0;
-    .line-1{
+    .line-1 {
       line-height: 20px;
       color: gray;
     }
-    .line-2{
+    .line-2 {
       line-height: 20px;
       color: red;
       margin-bottom: 4px;
@@ -116,12 +118,13 @@
       }
     }
   }
-  .dialog-btns{
+
+  .dialog-btns {
     display: flex;
     padding: 6px 0;
     border-top: 1px solid #eee;
 
-    div{
+    div {
       flex: 50%;
       text-align: center;
       button {
@@ -133,17 +136,18 @@
   }
 </style>
 <style lang="scss" rel="stylesheet/scss">
-  .applicant-confirm-modify-dialog{
-    .tip-content{
+  .applicant-confirm-modify-dialog {
+    .tip-content {
       padding: 0;
     }
-    .mint-cell .mint-cell-wrapper{
+    .mint-cell .mint-cell-wrapper {
       padding: 0;
-      .mint-cell-title{
+      .mint-cell-title {
         width: 54px;
       }
     }
-    .refresh-check-code{
+    .refresh-check-code {
+      color: #3eb7f3;
       width: 64px;
       font-size: 12px;
       text-align: center;
@@ -163,9 +167,12 @@
 
       <div class="form-section">
         <mt-field class="form-cell" label="用户名" placeholder="" disabled readonly v-model="formInfo.realName"></mt-field>
-        <mt-field class="form-cell" label="身份证号" placeholder="" disabled readonly v-model="formInfo.IDCardNo"></mt-field>
-        <mt-field class="form-cell" label="手机号" placeholder="" disabled readonly type="tel" :attr="{maxlength: 11}" v-model="formInfo.mobile"></mt-field>
-        <mt-field class="form-cell" label="微信号" placeholder="" disabled readonly type="tel" v-model="formInfo.weixinAccountNo"></mt-field>
+        <mt-field class="form-cell" label="身份证号" placeholder="" disabled readonly
+                  v-model="formInfo.IDCardNo"></mt-field>
+        <mt-field class="form-cell" label="手机号" placeholder="" disabled readonly type="tel" :attr="{maxlength: 11}"
+                  v-model="formInfo.mobile"></mt-field>
+        <mt-field class="form-cell" label="微信号" placeholder="" disabled readonly type="tel"
+                  v-model="formInfo.weixinAccountNo"></mt-field>
       </div>
 
       <mt-checklist class="agree-checkbox"
@@ -221,22 +228,28 @@
                 :showCloseButton="false"
                 :showHeader="true"
                 :showFooter="true">
-        <div slot="header" style="line-height: 40px;">
+      <div slot="header" style="line-height: 40px;">
         {{ isModifyState? '修改手机号码' : '修改个人信息' }}
       </div>
       <div class="tip-content">
         <p class="line-2">系统将给以下手机号发送验证码</p>
-        <mt-field class="form-cell" label="手机号" type="tel" disabled readonly v-model="dialogForm.mobile" v-if="!isModifyState"></mt-field>
-        <mt-field class="form-cell" label="手机号" type="tel" placeholder="请输入新手机号"  v-model="dialogForm.newMobile" v-else></mt-field>
-        <mt-field label="校验码"  placeholder="请输入校验码" :attr="{ maxlength: 4 }" v-if="!isModifyState">
-          <img src="../../assets/img/banks_banner/guangda-1.jpg" height="30px" width="60px">
-          <a href="javascript:;" class="refresh-check-code">
+        <mt-field class="form-cell" label="手机号" type="tel" disabled readonly v-model="dialogForm.mobile"
+                  v-if="!isModifyState"></mt-field>
+        <mt-field class="form-cell" label="手机号" type="tel" placeholder="请输入新手机号" v-model="dialogForm.newMobile"
+                  v-else></mt-field>
+        <mt-field label="校验码" placeholder="请输入校验码" v-if="!isModifyState" :attr="{maxlength: 4}"
+                  v-model="dialogForm.imgCode">
+          <img :src="imgDataCode.src" height="30px" width="60px">
+          <p class="refresh-check-code" @click="getImgCode">
             看不清楚？
             换一个
-          </a>
+          </p>
         </mt-field>
-        <mt-field label="验证码"  placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="dialogForm.authCode" >
-          <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}</mt-button>
+        <mt-field label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="dialogForm.authCode">
+          <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum"
+                     :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum
+            > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
+          </mt-button>
         </mt-field>
       </div>
       <section class="dialog-btns" slot="footer">
@@ -258,10 +271,12 @@
 <script>
   import { mapState } from 'vuex'
   import store from '../../store/index'
-  import BzwDialog from "@/components/dialog/BzwDialog"
+  import BzwDialog from '@/components/dialog/BzwDialog'
   import { Toast } from 'mint-ui'
   import userAPI from '@/api/userAPI'
   import orderAPI from '@/api/orderAPI'
+  import config from '@/config'
+
   export default {
     name: 'ConfirmApplicantInfo',
     components: {
@@ -281,7 +296,7 @@
 
       }
     },
-    data () {
+    data() {
       return {
         countDownNum: 0, // 倒计时
         isVisibleModifyDialog: false,
@@ -290,7 +305,8 @@
         dialogForm: {
           mobile: '',
           newMobile: '',
-          authCode: ''
+          authCode: '',
+          imgCode: ''
         },
         formInfo: {
           realName: '',
@@ -306,22 +322,30 @@
             value: '1',
             checked: true
           }
-        ]
+        ],
+        imgDataCode: {
+          src: ''
+        }
       }
     },
     methods: {
       validateMobile(mobile) {
         if (!mobile) {
           return '请填写手机号'
-        } else if (this.$util.checkMobile(mobile, () => {})) {
+        } else if (this.$util.checkMobile(mobile, () => {
+        })) {
           return '请填写正确的手机号'
         } else if (this.isModifyState && this.dialogForm.newMobile === this.dialogForm.mobile) {
           return '新手机号不能与原手机号相同'
         }
         return null
       },
+      getImgCode() {
+        // 点击重新获取图片验证码
+        this.imgDataCode.src = `${config.HOST}/m/auth/getImageAuthCode?${Math.floor(Math.random() * 100)}`
+      },
       sendAuthCode() {
-        // todo 刷新短信验证码
+        // 图片验证码检验，获取短信验证码
         const mobile = this.isModifyState ? this.dialogForm.newMobile : this.dialogForm.mobile
         let msg = this.validateMobile(mobile)
         if (msg) {
@@ -332,19 +356,36 @@
           return
         }
         this.$util.countDown(10, (iCount) =>{this.countDownNum = iCount},()=>{ this.countDownNum = 0 })
-        userAPI.sendPhoneAuthCode({
-          mobile: this.dialogForm.newMobile, // 手机号码
-          category: 'REGISTER' // CHANGEMOBILE=修改手机号码，REGISTER=注册
-        }, () => {
-          Toast({
-            message: '短信验证码发送成功！',
-            position: 'top'
+        if (this.isModifyState) { // 修改手机号不带图片验证码
+          userAPI.sendPhoneAuthCode({
+            mobile, // 手机号码
+            category: 'REGISTER' // CHANGEMOBILE=修改手机号码，REGISTER=注册
+          }, () => {
+            this.$util.countDown(10, (iCount) => {
+              this.countDownNum = iCount
+            }, () => {
+              this.countDownNum = 0
+            })
+            Toast({
+              message: '短信验证码发送成功！',
+              position: 'top'
+            })
           })
-        })
+        } else { // 修改手机号带图片验证码
+          userAPI.getPhoneAuthCode({
+            mobile,
+            category: 'CHANGEMOBILE',
+            imageAuthCode: this.dialogForm.imgCode
+          }, () => {
+            Toast({
+              message: '短信验证码发送成功！',
+              position: 'top'
+            })
+          })
+        }
       },
       agreeChange(data) {
         this.agreeState = data
-        console.log(data)
       },
       onSubmit() {
         this.isVisibleConfirmDialog = true
@@ -358,6 +399,11 @@
           productId: this.productId
         }, (res) => {
           this.resetDialogVisible()
+          this.$router.push('/')
+          Toast({
+            message: '申请成功！',
+            position: 'top'
+          })
           // 创建订单成功后跳转到具体银行的办卡页面
           // window.location.href = 'www.guagnda-bank.com'
         })
@@ -371,20 +417,33 @@
         this.isVisibleConfirmDialog = false
         this.isModifyState = false
       },
-      dialogNextOperate() {
-        if (this.validate()) {
-          if (!this.isModifyState) {
-            this.dialogForm.newMobile = ''
-            this.dialogForm.authCode = ''
+      dialogNextOperate() { // 下一步或者确认
+        const mobile = this.isModifyState ? this.dialogForm.newMobile : this.dialogForm.mobile
+        const category = this.isModifyState ? 'REGISTER' : 'CHANGEMOBILE'
+        if (!this.isModifyState) { // 下一步
+          userAPI.validatePhoneAuthCode({
+            mobile: this.dialogForm.mobile,
+            smsAuthCode: this.dialogForm.authCode,
+            category: 'CHANGEMOBILE'
+          }, () => {
             this.isModifyState = true
-          } else {
-            // 确定修改手机号
+            this.dialogForm.authCode = ''
+          })
+        } else { // 确认谢盖
+          userAPI.changeMobile({
+            mobile: this.dialogForm.newMobile,
+            authCode: this.dialogForm.authCode
+          }, () => {
+            this.dialogForm.imgCode = ''
+            this.dialogForm.mobile = ''
             this.dialogForm.newMobile = ''
             this.dialogForm.authCode = ''
-            // to save new phone number
-            // after save new phone number
-            this.isModifyState = false
-          }
+            this.isVisibleConfirmDialog = false
+            Toast({
+              message: '修改成功！',
+              position: 'top'
+            })
+          })
         }
       },
       modifyPhone() {
@@ -407,6 +466,7 @@
       // this.$router.push('/confirm_applicant_info')
     },
     mounted() {
+      this.getImgCode()
       this.productId = this.$route.query.creditCardId || ''
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
