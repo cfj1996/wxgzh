@@ -1,0 +1,279 @@
+/*
+* @class   银行卡详情页
+* @author  Dennis Lei
+* @date    19.04.04
+*/
+
+<style scoped  lang="scss" rel="stylesheet/scss">
+  @import "~@/assets/css/variable.scss";
+  .page-main{
+    height: 100%;
+    overflow: auto;
+    padding-bottom: 55px;
+    margin-bottom: 0;
+    background-color: #fff;
+
+    .bank-card-content{
+      width: 100%;
+    }
+  }
+  .card-group{
+    display: flex;
+    display: -webkit-flex; /* Safari */
+    flex-wrap: wrap;
+    justify-content: left;
+    padding: 0 10px;
+
+    li{
+      box-sizing: border-box;
+      height: 26px;
+      text-align: center;
+
+      &:first-child{
+        flex: 50%;
+        height: 100%;
+        position: relative;
+        display: flex;
+        /*css3 实现背景line */
+        background: linear-gradient(270deg,
+          #fff calc(57% - 1px),
+          #999 calc(40% - 4px),
+          #fff calc(50% + 50px)
+        );
+        background-position: 50% 49.6%;
+        background-size: 1px 80%;
+        background-repeat: no-repeat;
+
+        .menu{
+          flex: 1;
+          &:first-child{
+            i{
+              color: #ff4f0b;
+            }
+          }
+          &:last-child{
+            i{
+              color: #3ecd0f;
+            }
+          }
+          span{
+            font-size: 12px;
+            line-height: 18px;
+          }
+        }
+      }
+      &:last-child{
+        flex: 50%;
+        text-align: right;
+      }
+    }
+  }
+  .share-to-popup{
+    width: 100%;
+
+    .share-ul{
+      display: flex;
+      padding: 8px 0;
+      >li {
+        flex: 1;
+        text-align: center;
+        border-right: 1px solid #cecece;
+
+        &:last-child{
+          border-right: none;
+        }
+      }
+    }
+  }
+</style>
+<style lang="scss" rel="stylesheet/scss">
+  .bank-card-promotion-dialog {
+    .dialog-box{
+      position: relative;
+      width: 100%;
+      min-width: 300px;
+      margin: 0 auto;
+      background: transparent;
+      height: 100%;
+    }
+    .dialog-body{
+      height: 60%;
+      .tip-content{
+        height: 100%;
+      }
+    }
+    .dialog-footer{
+      position: absolute;
+      width: 100%;
+      height: 40%;
+      top: 60%;
+      background: #fff;
+    }
+    .promotion-desc{
+      line-height: 16px;
+      padding: 10px;
+      text-align: left;
+    }
+    .promotion-url-section{
+      display: flex;
+      padding: 10px;
+
+      input{
+        flex:60%;
+        border: 1px solid #999;
+        margin-right: 10px;
+        border-radius: 4px;
+      }
+
+    }
+  }
+</style>
+<template>
+  <div class="page">
+    <section class="page-main">
+      <div class="bank-card-content" v-html="bankCardContent"></div>
+    </section>
+    <section class="bottom-single-btn" style="height: 54px;">
+      <ul class="card-group">
+        <li>
+
+          <div class="menu" v-if="!isAgent">
+            <router-link :to="{ path: 'credit_promotion', query: { creditCardId: this.$route.query.creditCardId }}">
+            <i class="iconfont iconzizhutuiguang"></i>
+            <p>我要推广</p>
+            </router-link>
+          </div>
+          <div class="menu" v-else @click="isVisibleSharePopup = true">
+            <i class="iconfont iconzizhutuiguang"></i>
+            <p>分享</p>
+          </div>
+          <div class="menu">
+            <i class="iconfont iconbangzhuzhongxin"></i>
+            <p>申请指南</p>
+          </div>
+        </li>
+        <li>
+          <mt-button type="primary" size="small" @click="toApply">立即申请</mt-button>
+        </li>
+      </ul>
+    </section>
+
+    <mt-popup v-model="isVisibleSharePopup" position="bottom" class="share-to-popup">
+      <ul class="share-ul">
+        <li @click="share">
+          <img src="../../assets/img/wechat.png" width="24" height="24">
+          <p>微信</p>
+        </li>
+        <li @click="share">
+          <img src="../../assets/img/wx-zone.png" width="24" height="24">
+          <p>微信朋友圈</p>
+        </li>
+      </ul>
+    </mt-popup>
+  </div>
+</template>
+
+<script>
+  import { mapState } from 'vuex'
+  import { Toast } from 'mint-ui'
+  import config from '@/config'
+  import BzwDialog from '@/components/dialog/BzwDialog'
+  import banner1 from '@/assets/img/banks_banner/guangda-1.jpg'
+  import banner2 from '@/assets/img/banks_banner/guangda-2.jpg'
+  import banner3 from '@/assets/img/banks_banner/guangda-3.png'
+  import weixin from '../../common/weixin'
+  import creditCardAPI from '@/api/creditCardAPI'
+
+  export default {
+    name: 'BankCardDetail',
+    components: {
+      BzwDialog
+    },
+    data () {
+      return {
+        isToBeingAgent: false, // 控制是否显示代理人相关表单信息
+        isVisibleSharePopup: false, // 分享
+        bankCardContent: '',
+        detail: {}
+      }
+    },
+    computed: {
+      ...mapState({
+        user: (state => state.security.user),
+        initialized: (state => state.metadata.initialized)
+      }),
+      isAgent() {
+        return Number(this.user.level) > 1
+      }
+    },
+    methods: {
+      share() {
+        console.log('this.user -- ', this.user)
+        Toast({
+          message: `${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`,
+          position: 'top'
+        })
+        weixin.wxShare({
+          title: encodeURI(this.detail.name),
+          desc: this.detail.descn,
+          link: encodeURI(`${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`),
+          imgUrl: encodeURI(this.detail.galleryImg || '')
+        })
+      },
+      toApply() {
+        if (this.user) {
+          if (this.user.identity && this.user.identity.IDCardNo) {
+            // 已经实名认证过
+            if (Number(this.user.level) > 1) {
+              // 代理商
+              // 跳转到确认申请人信息页面
+              this.$router.push({
+                path: '/confirm_applicant_info',
+                query: {
+                  bankId: this.paramBankId,
+                  creditCardId: this.paramCreditCardId
+                }
+              })
+            } else {
+              // 普通用户
+              this.$router.push({
+                path: '/confirm_applicant_info',
+                query: {
+                  bankId: this.paramBankId,
+                  creditCardId: this.paramCreditCardId
+                }
+              })
+            }
+          } else {
+            // 未实名认证则跳转到信用卡申请，用户资料填写
+            this.$router.push({
+              path: '/apply_credit_card_form',
+              query: this.$route.query
+            })
+          }
+        } else {
+          // 未登录授权
+        }
+      },
+      getCardDetail() {
+        creditCardAPI.getCardDetail({
+          id: this.$route.query.creditCardId || ''
+        }, (res) => {
+          this.detail = res.data
+          this.$util.setWxTitle(res.data.name) // 银行信用卡
+          this.bankCardContent = res.data.content || '暂无信用卡详情'
+          this.share()
+        })
+      }
+    },
+    created() {
+      this.getCardDetail()
+    },
+    mounted() {
+      // 银行信用卡详情
+      if (this.$route.path.includes('/be_agent_form')) {
+        this.isToBeingAgent = true
+      }
+    }
+  }
+</script>

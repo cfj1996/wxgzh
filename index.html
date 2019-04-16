@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="hotcss" content="max-width=640" >
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="共享充电" />
+  <meta name="theme-color" content="#0096ff" />
+  <meta name="format-detection" content="telephone=no,email=no" />
+  <meta name="full-screen" content="yes" />
+  <meta name="x5-fullscreen" content="true" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+  <!--<link rel="stylesheet" href="<%= htmlWebpackPlugin.options.path %>/widgets/animate/animate.css">-->
+  <link rel="stylesheet" href="//at.alicdn.com/t/font_1060638_76fy3t9sf03.css">
+  <title>小猪办卡</title>
+  <style>
+    html {
+      font-family: 'Avenir', Helvetica, Microsoft YaHei, Arial, sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      font-size: 14px;
+    }
+    html, body {
+      background-color: #F5F5F5;
+      -webkit-overflow-scrolling: touch;
+      user-select: none;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body ontouchstart>
+<div id="app">
+  <router-view></router-view>
+</div>
+<!-- built files will be auto injected -->
+</body>
+<script>
+  window.WX_SIGN_URL = location.href
+  window.WEIXIN_NAME = '小猪办卡'
+</script>
+<script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.min.js"></script>
+
+</html>

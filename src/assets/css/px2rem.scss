@@ -1,0 +1,11 @@
+//@function px2rem($px){
+//	@return $px*320/$designWidth/20 + rem;
+//}
+//$designWidth: 750;
+// 如果你的项目是单尺寸设计图，那么就可以定义全局的designWidth了。否则需要在你的业务scss中单独定义。如以下是style.scss
+
+
+@function px2rem($px){
+  @return $px / $baseFontSize * 1rem;
+}
+$baseFontSize: 14; // 设置基础字体大小为14px

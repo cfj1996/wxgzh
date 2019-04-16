@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>办个卡</title>
+  <meta charset="utf-8" />
+  <meta name="hotcss" content="max-width=640" >
+  <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />
+  <meta name="screen-orientation" content="portrait" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="办个卡" />
+  <meta name="theme-color" content="#0096ff" />
+  <meta name="format-detection" content="telephone=no,email=no" />
+  <meta name="full-screen" content="yes" />
+  <meta name="x5-fullscreen" content="true" />
+  <!-- <link rel="icon" href="/favicon.ico" type="image/x-icon" />-->
+  <!--<link rel="stylesheet" href="<%= htmlWebpackPlugin.options.path %>/widgets/animate/animate.css">-->
+  <title>办个卡</title>
+  <style>
+    html {
+      font-family: 'Avenir', Helvetica, Microsoft YaHei, Arial, sans-serif;
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      font-size: 14px;
+    }
+    html, body {
+      background-color: #F5F5F5;
+      -webkit-overflow-scrolling: touch;
+      user-select: none;
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+
+  <style>
+    html,body{
+      font-size: 14px;
+      color: #000000;
+    }
+    .recommend-card-ul{
+      display: flex;
+      display: -webkit-flex; /* Safari */
+      flex-wrap: wrap;
+      justify-content: left;
+      padding: 10px;
+      align-items: normal;
+    }
+
+    .card-li:nth-child(3n) {
+      padding-right: 0;
+      padding-left: 5px;
+    }
+    .card-li:nth-child(3n+1) {
+      padding-right: 5px;
+      padding-left: 0;
+    }
+
+    .card-li{
+      overflow: hidden;
+      flex: 0 0 33.3333%;
+      padding-right: 5px;
+      padding-left: 5px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      vertical-align: top;
+    }
+    .card-li section{
+      position: relative;
+      padding-bottom: 6px;
+      width: 100%;
+      height: 100%;
+      background-color: #fff;
+    }
+    .card-li section .bank-icon{
+      position: relative;
+      width: 64px;
+      height: 64px;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: 60%;
+      margin: 0 auto;
+    }
+    .card-li a{
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .bank-card-tags{
+      position: relative;
+      height: 1px;
+      text-align: center;
+
+      /*css3 实现背景line  methods 2*/
+      background: linear-gradient(180deg,
+      #fff calc(57% - 1px),
+      #999 calc(40% - 4px),
+      #fff calc(50% + 50px)
+      );
+      background-position: 50% 49.6%;
+      background-size: 80% 1px;
+      background-repeat: no-repeat;
+    }
+    .bank-card-tags span{
+      padding: 2px 4px;
+      color: #fff;
+      background-color: #ff782e;
+      font-size: 12px;
+      transform: scale(0.4);
+      transform-origin: center;
+      border-radius: 3px;
+    }
+    .bank-card-name{
+      text-align: center;
+      font-weight: bold;
+    }
+    .bank-card-desc{
+      font-size: 12px;
+      color: gray;
+      padding: 4px 6px;
+    }
+  </style>
+</head>
+<body>
+
+<div>
+  <ul class="recommend-card-ul" id="container">
+  </ul>
+</div>
+<script>
+  var recommendBankCard = [
+    {
+      id: 1,
+      logourl: 'https://crmresources.winbons.com/icon_yinhanglogo_guangdayinhang.png',
+      text: '免年费的白金卡\n\r3点/年机场贵宾厅服务\n\r云闪付交易双倍积分/n/r抖音网红商品京东购物随机立减\n\r10元观影、美食、唱歌等',
+      title: '光大银行',
+      bonus: '30',
+      href: 'https://xyk.cebbank.com/cebmms/apply/ps/card-list.htm?pro_code=FHTG067633SA0183HEZZ',
+      tags: []
+    },
+    {
+      id: 2,
+      logourl: 'https://crmresources.winbons.com/icon_yinhanglogo_jiansheyinhang.png',
+      text: '百家知名商户会员权益一卡尽享\n\r专属商户 立减优惠\n\r分期商户 最优可优0元手续费',
+      title: '建设银行',
+      bonus: '100',
+      href: 'https://ccb.topoto.cn/spread/index.html?business_id=1611&code=186512',
+      tags: []
+    }
+  ]
+</script>
+<script>
+  //var URL = 'http://baidu.com'
+  var container = document.getElementById('container');
+  var htmlArr = []
+  for (var i=0, len = recommendBankCard.length; i<len; i++) {
+    var item = recommendBankCard[i]
+    htmlArr.push(`
+    <li class="card-li" attr-id="${item.id}">
+      <a href="${item.href}">
+        <section>
+          <div class="bank-icon" style="background-image:url(${item.logourl})"></div>
+          <div class="bank-card-tags" v-if="item.tags && item.tags.length">
+          </div>
+          <p class="bank-card-name">${item.title}</p>
+          <p class="bank-card-desc">${item.text.replace(/\n\r/gm, '</br>')}</p>
+        </section>
+      </a>
+    </li>
+    `)
+  }
+  container.innerHTML = htmlArr.join('')
+  /*container.addEventListener('click', function (e) {
+    var dom = getClosestLi(e.target)
+    if (dom) {
+      var id = dom.getAttribute('attr-id')
+      location.href = URL + '?id=' + id
+    }
+  })
+  function getClosestLi(dom) {
+    if (dom) {
+      if (dom.className === 'card-li') {
+        return dom
+      } else {
+        return getClosestLi(dom.parentElement)
+      }
+    } else {
+      return null
+    }
+  }*/
+</script>
+</body>
+</html>
