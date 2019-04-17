@@ -41,7 +41,7 @@ export default {
     })
   },
   /*
- * 获取信用卡产品海报详情
+ * 自定义信用卡产品海报
  * @param params { id 产品Id}
  * @param successCallback
  */
