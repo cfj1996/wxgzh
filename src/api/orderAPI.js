@@ -40,6 +40,16 @@ export default {
       data: params,
       success: successCallback
     })
+  },
+  /*
+  * 获取用户订单数
+  * @param params
+  * @param successCallback
+  */
+  count(successCallback) {
+    http.request('/m/order/count', {
+      success: successCallback
+    })
   }
 }
 

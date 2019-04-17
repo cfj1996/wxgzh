@@ -39,6 +39,17 @@ export default {
       data: params,
       success: successCallback
     })
+  },
+  /*
+ * 获取信用卡产品海报详情
+ * @param params { id 产品Id}
+ * @param successCallback
+ */
+  generateCreditCardPoster(params, successCallback) {
+    http.request('/m/campaign/generateCreditCardPoster', {
+      data: params,
+      success: successCallback
+    })
   }
 }
 

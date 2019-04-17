@@ -141,6 +141,6 @@ export default {
       page,
       success: successCallback
     })
-  },
+  }
 }
 

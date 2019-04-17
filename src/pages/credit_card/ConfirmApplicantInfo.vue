@@ -246,7 +246,7 @@
           </p>
         </mt-field>
         <mt-field label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="dialogForm.authCode">
-          <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum"
+          <mt-button style="font-size: 12px;" type="primary" size="small" :readonly="!!countDownNum"
                      :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum
             > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
           </mt-button>
@@ -294,6 +294,10 @@
     watch: {
       user() {
 
+      },
+      'isVisibleModifyDialog': function () {
+        this.getImgCode()
+        this.dialogForm.imgCode = ''
       }
     },
     data() {
@@ -348,6 +352,7 @@
         // 图片验证码检验，获取短信验证码
         const mobile = this.isModifyState ? this.dialogForm.newMobile : this.dialogForm.mobile
         let msg = this.validateMobile(mobile)
+        console.log('msg', msg)
         if (msg) {
           Toast({
             message: msg,
@@ -355,17 +360,12 @@
           })
           return
         }
-        this.$util.countDown(10, (iCount) =>{this.countDownNum = iCount},()=>{ this.countDownNum = 0 })
         if (this.isModifyState) { // 修改手机号不带图片验证码
           userAPI.sendPhoneAuthCode({
             mobile, // 手机号码
-            category: 'REGISTER' // CHANGEMOBILE=修改手机号码，REGISTER=注册
+            category: 'CHANGEMOBILE' // CHANGEMOBILE=修改手机号码，REGISTER=注册
           }, () => {
-            this.$util.countDown(10, (iCount) => {
-              this.countDownNum = iCount
-            }, () => {
-              this.countDownNum = 0
-            })
+            this.$util.countDown(10, (iCount) =>{this.countDownNum = iCount},()=>{ this.countDownNum = 0 })
             Toast({
               message: '短信验证码发送成功！',
               position: 'top'
@@ -377,6 +377,7 @@
             category: 'CHANGEMOBILE',
             imageAuthCode: this.dialogForm.imgCode
           }, () => {
+            this.$util.countDown(10, (iCount) =>{this.countDownNum = iCount},()=>{ this.countDownNum = 0 })
             Toast({
               message: '短信验证码发送成功！',
               position: 'top'
@@ -399,13 +400,8 @@
           productId: this.productId
         }, (res) => {
           this.resetDialogVisible()
-          this.$router.push('/')
-          Toast({
-            message: '申请成功！',
-            position: 'top'
-          })
           // 创建订单成功后跳转到具体银行的办卡页面
-          // window.location.href = 'www.guagnda-bank.com'
+          window.location.href = res.data.url
         })
       },
       toCancelModify() {
@@ -429,16 +425,17 @@
             this.isModifyState = true
             this.dialogForm.authCode = ''
           })
-        } else { // 确认谢盖
+        } else { // 确认信息
           userAPI.changeMobile({
             mobile: this.dialogForm.newMobile,
             authCode: this.dialogForm.authCode
           }, () => {
-            this.dialogForm.imgCode = ''
-            this.dialogForm.mobile = ''
-            this.dialogForm.newMobile = ''
-            this.dialogForm.authCode = ''
-            this.isVisibleConfirmDialog = false
+            console.log('修改成功')
+            this.dialogForm.newMobile = '' // 新手机号
+            this.dialogForm.imgCode = '' // 图片验证码
+            this.dialogForm.authCode = '' // 短信验证码
+            this.resetDialogVisible()
+            this.$store.dispatch('getUserDetails')
             Toast({
               message: '修改成功！',
               position: 'top'

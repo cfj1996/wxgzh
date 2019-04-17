@@ -6,8 +6,8 @@ module.exports = {
   build: {
     env: require('./prod.env'),
     // Template for index.html
-    index: path.resolve(__dirname, '../dist/index.html'),
-    assetsRoot: path.resolve(__dirname, '../dist'),
+    index: path.resolve(__dirname, '../clipboard/index.html'),
+    assetsRoot: path.resolve(__dirname, '../clipboard'),
     assetsSubDirectory: 'static',
     /**
      * You can set by youself according to actual condition

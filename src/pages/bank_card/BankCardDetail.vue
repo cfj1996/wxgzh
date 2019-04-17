@@ -12,10 +12,6 @@
     padding-bottom: 55px;
     margin-bottom: 0;
     background-color: #fff;
-
-    .bank-card-content{
-      width: 100%;
-    }
   }
   .card-group{
     display: flex;
@@ -70,9 +66,23 @@
   }
   .share-to-popup{
     width: 100%;
-
+    height: 100%;
+    position: fixed;
+    top: 0;
+    .fenxian{
+      position: relative;
+      left: 0;
+      top: 0;
+      height: calc(100% - 60px);
+      opacity: 0.8;
+      background: url("../../assets/img/fenxiang.png") right no-repeat;
+      background-size: contain;
+    }
     .share-ul{
+      position: relative;
+      height: 60px;
       display: flex;
+      bottom: 0;
       padding: 8px 0;
       >li {
         flex: 1;
@@ -127,6 +137,14 @@
 
     }
   }
+  .bank-card-content{
+    width: 100%;
+    img{
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+  }
 </style>
 <template>
   <div class="page">
@@ -137,7 +155,7 @@
       <ul class="card-group">
         <li>
 
-          <div class="menu" v-if="!isAgent">
+          <div class="menu" v-if="user.level > 1">
             <router-link :to="{ path: 'credit_promotion', query: { creditCardId: this.$route.query.creditCardId }}">
             <i class="iconfont iconzizhutuiguang"></i>
             <p>我要推广</p>
@@ -147,9 +165,9 @@
             <i class="iconfont iconzizhutuiguang"></i>
             <p>分享</p>
           </div>
-          <div class="menu">
+          <div @click="$router.push('/application_guide')" class="menu">
             <i class="iconfont iconbangzhuzhongxin"></i>
-            <p>申请指南</p>
+            <p style="color: #36464e">申请指南</p>
           </div>
         </li>
         <li>
@@ -159,6 +177,7 @@
     </section>
 
     <mt-popup v-model="isVisibleSharePopup" position="bottom" class="share-to-popup">
+      <div class="fenxian" @click="isVisibleSharePopup = false"></div>
       <ul class="share-ul">
         <li @click="share">
           <img src="../../assets/img/wechat.png" width="24" height="24">
@@ -194,17 +213,15 @@
         isToBeingAgent: false, // 控制是否显示代理人相关表单信息
         isVisibleSharePopup: false, // 分享
         bankCardContent: '',
-        detail: {}
+        detail: {},
+        productId: ''
       }
     },
     computed: {
       ...mapState({
         user: (state => state.security.user),
         initialized: (state => state.metadata.initialized)
-      }),
-      isAgent() {
-        return Number(this.user.level) > 1
-      }
+      })
     },
     methods: {
       share() {
@@ -230,8 +247,8 @@
               this.$router.push({
                 path: '/confirm_applicant_info',
                 query: {
-                  bankId: this.paramBankId,
-                  creditCardId: this.paramCreditCardId
+                  bankId: this.$route.query.bankId || '',
+                  creditCardId: this.creditCardId
                 }
               })
             } else {
@@ -239,8 +256,8 @@
               this.$router.push({
                 path: '/confirm_applicant_info',
                 query: {
-                  bankId: this.paramBankId,
-                  creditCardId: this.paramCreditCardId
+                  bankId: this.$route.query.bankId || '',
+                  creditCardId: this.creditCardId
                 }
               })
             }
@@ -253,6 +270,7 @@
           }
         } else {
           // 未登录授权
+          this.$router.push('/')
         }
       },
       getCardDetail() {
@@ -262,7 +280,7 @@
           this.detail = res.data
           this.$util.setWxTitle(res.data.name) // 银行信用卡
           this.bankCardContent = res.data.content || '暂无信用卡详情'
-          this.share()
+          // this.share()
         })
       }
     },
@@ -271,6 +289,7 @@
     },
     mounted() {
       // 银行信用卡详情
+      this.creditCardId = this.$route.query.creditCardId || ''
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
       }

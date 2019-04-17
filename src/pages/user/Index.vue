@@ -7,26 +7,27 @@
 
 <style lang="scss" scoped rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
-  .page-main.user-center{
+
+  .page-main.user-center {
     overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
 
-    >section{
+    > section {
       margin-top: 20px;
-      &:first-child{
+      &:first-child {
         margin-top: 0;
       }
     }
-    .user-info{
+    .user-info {
       background: #fff;
       padding: 0 10px 0;
       position: relative;
       min-height: 80px;
       display: flex;
-      background-image:linear-gradient(to right, $color2 -30%, $color3);
+      background-image: linear-gradient(to right, $color2 -30%, $color3);
       color: #fff;
 
-      .left-info{
+      .left-info {
         flex: 0 0 20%;
         position: relative;
         img {
@@ -41,77 +42,83 @@
           border-radius: 40px;
         }
       }
-      .center-info{
+      .center-info {
         flex: 0 0 40%;
-        p{
+        p {
           padding-left: 10px;
-          &:first-child{
+          &:first-child {
             margin-top: 18px;
           }
-          &:last-child{
+          &:last-child {
             margin-top: 12px;
           }
         }
       }
-      .right-info{
+      .right-info {
         flex: 0 0 40%;
 
-        p{
+        p {
           position: relative;
           padding: 10px 10px 10px 20px;
           top: 50%;
           transform: translateY(-50%);
           border-radius: 16px 4px 4px 16px;
-          background-image:linear-gradient(to right, $color2 -30%, $color3);
+          background-image: linear-gradient(to right, $color2 -30%, $color3);
         }
       }
     }
-    .vertical-group-nav{
+    .vertical-group-nav {
       position: relative;
       padding: 20px 0;
-      background-color: #fff;
-
-      .mint-tab-item-icon{
+      display: flex;
+      flex-wrap: wrap;
+      .item{
+        flex: 0 0 25%;
+        margin-bottom: 20px;
+        padding: 10px 0;
+        background-color: #fff;
+      }
+      .mint-tab-item-icon {
         width: px2rem(28);
         height: px2rem(28);
       }
     }
 
-    .my-integral{
+    .my-integral {
       margin-top: 20px;
       width: 100%;
       display: flex;
 
-      >section{
+      > section {
         flex: 1;
         min-height: 40px;
         text-align: center;
 
-        >div{
+        > div {
           background-color: #fff;
           height: 100%;
           padding: 10px 0;
-          .iconfont{
+          .iconfont {
             font-size: 12px;
           }
-          p{
+          p {
             margin-top: 6px;
             font-size: 16px;
             color: $color3;
           }
 
-          &.left-cell{
+          &.left-cell {
             margin-left: 10px;
             margin-right: 5px;
           }
-          &.right-cell{
+          &.right-cell {
             margin-left: 5px;
             margin-right: 10px;
           }
         }
       }
     }
-    .badge-label{
+    .badge-label {
       position: absolute;
       top: 0;
       left: 50%;
@@ -144,13 +151,13 @@
       </section>
 
       <div class="my-integral">
-        <section >
+        <section>
           <div class="left-cell">
             我的收入<i class="iconfont iconshouru" style="color: #e6a23c;"></i>
             <p>¥ {{integrantCount.exchangeableCount}}</p>
           </div>
         </section>
-        <section >
+        <section>
           <div class="right-cell">
             我的团队<i class="iconfont icontuandui_keshi" style="color: #535BFF;"></i>
             <p>¥ {{integrantCount.exchangeableCount}}</p>
@@ -163,39 +170,86 @@
       </div>
 
       <section class="my-order">
-        <a class="mint-cell">
+        <div class="mint-cell">
           <div class="mint-cell-wrapper">
             <div class="mint-cell-title">
               <mt-tabbar class="order-group-nav vertical-group-nav">
-                <mt-tab-item id="1" @click.native="$router.push({path: '/order'})">
-                  <img slot="icon" src="../../assets/img/icon_to_payment.png">
+                <mt-tab-item class="item" id="1" @click.native="$router.push({path: '/order'})">
+                  <img slot="icon" src="../../assets/img/icon_to_order.png">
                   <span>订单明细</span>
-                  <label v-if="orderStatisticData.statecount0" class="badge-label">{{orderStatisticData.statecount0}}</label>
+                  <label v-if="orderStatisticData.statecount0"
+                         class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-                <mt-tab-item id="2" @click.native="$router.push({path: '/order', query:{ orderState: 3}})">
-                  <img slot="icon" src="../../assets/img/icon_to_delivered.png">
-                  <span>专属客户</span>
-                  <label v-if="orderStatisticData.statecount3" class="badge-label">{{orderStatisticData.statecount3}}</label>
+                <mt-tab-item class="item" v-if="level" id="2" @click.native="">
+                  <img slot="icon" src="../../assets/img/shouzhi.png">
+                  <span>收支明细</span>
+                  <label v-if="orderStatisticData.statecount0"
+                         class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-                <mt-tab-item id="3" @click.native="$router.push({path: '/agentAuthorization'})">
-                  <img slot="icon" src="../../assets/img/icon_to_received.png">
-                  <span >代理授权</span>
-                  <label v-if="orderStatisticData.statecount9" class="badge-label">{{orderStatisticData.statecount9}}</label>
+                <mt-tab-item class="item" v-if="level" id="3" @click.native="">
+                  <img slot="icon" src="../../assets/img/khgl.png">
+                  <span>客户管理</span>
+                  <label v-if="orderStatisticData.statecount0"
+                         class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-                <mt-tab-item id="3" @click.native="$router.push({path: '/order', query:{ orderState: 9}})">
-                  <img slot="icon" src="../../assets/img/icon_to_received.png">
-                  <span >设置</span>
-                  <label v-if="orderStatisticData.statecount9" class="badge-label">{{orderStatisticData.statecount9}}</label>
+                <mt-tab-item class="item" v-if="level" id="4" @click.native="">
+                  <img slot="icon" src="../../assets/img/sjbb.png">
+                  <span>数据报表</span>
+                  <label v-if="orderStatisticData.statecount0"
+                         class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-                <mt-tab-item id="3" @click.native="$router.push({path: '/invitation'})">
-                  <img slot="icon" src="../../assets/img/icon_to_received.png">
-                  <span >邀请好友</span>
-                  <label v-if="orderStatisticData.statecount9" class="badge-label">{{orderStatisticData.statecount9}}</label>
+                <mt-tab-item class="item" v-if="level" id="5" @click.native="">
+                  <img slot="icon" src="../../assets/img/yqhy.png">
+                  <span>邀请好友</span>
+                  <label v-if="orderStatisticData.statecount3"
+                         class="badge-label">{{orderStatisticData.statecount3}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="6" @click.native="">
+                  <img slot="icon" src="../../assets/img/sqdl.png">
+                  <span>代理授权</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="7" @click.native="">
+                  <img slot="icon" src="../../assets/img/zshb.png">
+                  <span>专属海报</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" id="8" @click.native="">
+                  <img slot="icon" src="../../assets/img/xttz.png">
+                  <span>专属客服</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="9" @click.native="">
+                  <img slot="icon" src="../../assets/img/xttz.png">
+                  <span>系统通知</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="10" @click.native="">
+                  <img slot="icon" src="../../assets/img/pxxy.png">
+                  <span>培训学院</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="11" @click.native="">
+                  <img slot="icon" src="../../assets/img/bzzx.png">
+                  <span>帮助中心</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
+                </mt-tab-item>
+                <mt-tab-item class="item" id="12" @click.native="">
+                  <img slot="icon" src="../../assets/img/sz.png">
+                  <span>设置</span>
+                  <label v-if="orderStatisticData.statecount9"
+                         class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
               </mt-tabbar>
             </div>
           </div>
-        </a>
+        </div>
       </section>
 
       <div style="text-align: center; margin-top: 20px;">
@@ -209,8 +263,8 @@
 </template>
 
 <script>
-  import { MessageBox, Toast } from 'mint-ui'
-  import { mapState } from 'vuex'
+  import {MessageBox, Toast} from 'mint-ui'
+  import {mapState} from 'vuex'
   import BottomMenu from '@/pages/BottomMenu'
   import BzwDialog from '../../components/dialog/BzwDialog'
   import avater from '../../assets/img/wx-zone.png'
@@ -225,9 +279,13 @@
       ...mapState({
         user: state => state.security && state.security.user || {},
         identity: state => state.security && state.security.user && state.security.user.identity || {}
-      })
+      }),
+      level() {
+        console.log(this.user.level === 1)
+        return this.user.level !== 1
+      }
     },
-    data () {
+    data() {
       return {
         // avater: 'http://7xv6zz.com2.z0.glb.qiniucdn.com/20180104193451',
         avater: avater,
@@ -250,9 +308,7 @@
         userInfo: {}
       }
     },
-    methods: {
-
-    },
+    methods: {},
     mounted() {
     }
   }

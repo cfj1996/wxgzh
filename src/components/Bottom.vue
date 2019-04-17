@@ -32,7 +32,7 @@
     methods: {
       goToPage(path) {
         this.$router.push(path)
-      },
+      }
     },
     created() {
 

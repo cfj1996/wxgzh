@@ -11,6 +11,7 @@ import BankCardDetail from '@/pages/bank_card/BankCardDetail'
 import CreditPromotion from '@/pages/credit_card/CreditPromotion'
 import AgentAuthorization from '@/pages/credit_card/AgentAuthorization'
 import Invitation from '@/pages/credit_card/Invitation'
+import ApplicationGuide from '@/pages/credit_card/ApplicationGuide'
 
 export default[
   {
@@ -31,6 +32,16 @@ export default[
     component: CreditCardIndex,
     meta: {
       title: '信用卡',
+      page: 'homePage',
+      requireAuth: false
+    }
+  },
+  {
+    path: '/application_guide',
+    name: '申请指南',
+    component: ApplicationGuide,
+    meta: {
+      title: '信用卡-申请指南',
       page: 'homePage',
       requireAuth: false
     }

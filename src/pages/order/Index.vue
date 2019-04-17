@@ -74,7 +74,9 @@
           flex: 1;
           text-align: center;
           &.actived{
-            border-bottom: 1px solid #e6a23c;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(to left, #43B9FF , #525FFF) 3 3;
+            color: #525FFF;
           }
         }
       }
@@ -149,7 +151,6 @@
       }
     }
   }
-
 </style>
 <style lang="scss" rel="stylesheet/scss">
   #app .page.fixed{
@@ -158,6 +159,11 @@
     left: 0;
     right: 0;
     top: 0;
+  }
+  .bg-1{
+    background: linear-gradient(to left, #43B9FF , #525FFF);
+    padding: 0 30px;
+    color: white;
   }
 </style>
 <template>
@@ -174,28 +180,28 @@
         <div class="head">
           <p class="title">订单总数</p>
           <p class="amount">{{orderAmount}}</p>
-          <!--<ul>
-            <li>
-              <p>信用卡</p>
-              <p>{{amountObj.creditCard}}</p>
-            </li>
-            <li>
-              <p>借记卡</p>
-              <p>{{amountObj.debitCard}}</p>
-            </li>
-            <li>
-              <p>贷款</p>
-              <p>{{amountObj.loans}}</p>
-            </li>
-            <li>
-              <p>保险</p>
-              <p>{{amountObj.applyForReimbursement}}</p>
-            </li>
-            <li>
-              <p>理财</p>
-              <p>{{amountObj.financing}}</p>
-            </li>
-          </ul>-->
+          <!--<ul>-->
+            <!--<li>-->
+              <!--<p>信用卡</p>-->
+              <!--<p>{{amountObj.creditCard}}</p>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<p>借记卡</p>-->
+              <!--<p>{{amountObj.debitCard}}</p>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<p>贷款</p>-->
+              <!--<p>{{amountObj.loans}}</p>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<p>保险</p>-->
+              <!--<p>{{amountObj.applyForReimbursement}}</p>-->
+            <!--</li>-->
+            <!--<li>-->
+              <!--<p>理财</p>-->
+              <!--<p>{{amountObj.financing}}</p>-->
+            <!--</li>-->
+          <!--</ul>-->
         </div>
         <div class="search-section">
           <mt-field class="employee-no"
@@ -204,52 +210,51 @@
                     v-model="searchKey">
           </mt-field>
           <div class="search-btn">
-            <mt-button size="small" @click="search">查询</mt-button>
+            <mt-button size="small" class="bg-1" @click="search">查询</mt-button>
           </div>
         </div>
         <div class="nav">
           <mt-button size="small" @click.native.prevent="active = 'creditCard'">信用卡</mt-button>
-          <!--<mt-button size="small" @click.native.prevent="active = 'debitCard'">借记卡</mt-button>
-          <mt-button size="small" @click.native.prevent="active = 'loans'">贷款</mt-button>-->
+          <!--<mt-button size="small" @click.native.prevent="active = 'debitCard'">借记卡</mt-button>-->
+          <!--<mt-button size="small" @click.native.prevent="active = 'loans'">贷款</mt-button>-->
         </div>
         <mt-tab-container v-model="active" class="order-tab-container">
-        <mt-tab-container-item id="creditCard">
-          <ul class="order-tabbar">
-            <li v-for="item in creditOrderBars" :class="activeState == item.index && 'actived'" @click="filter(item)">{{item.text}}</li>
-          </ul>
-
-          <p class="notice">
-            说明：该明细为用户进行信用卡申请页面时的浏览记录，不能视为信用卡申请订单。
-          </p>
-          <section class="order-list">
-            <ul class="order-ul" v-if="creditOrderList.length">
-              <li v-for="(item , index) in creditOrderList">
-                <div class="title">{{item.productName}}</div>
-                <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己': '客户'}}</label>
-                <p>申请人：{{item.realName}} (工号：{{item.employeeNo}})</p>
-                <p>手机号：{{item.mobile}}</p>
-                <p>浏览时间：{{item.createdDate}}</p>
-                <section>
-                  <mt-button size="small" class="mini" @click="move(item, 2)">移至待再查</mt-button>
-                  <mt-button size="small" class="mini" @click="move(item, 6)">移至回收站</mt-button>
-                  <mt-button size="small" class="mini">查询进度</mt-button>
-                </section>
-              </li>
+          <mt-tab-container-item id="creditCard">
+            <ul class="order-tabbar">
+              <li v-for="item in creditOrderBars" :class="activeState == item.index && 'actived'" @click="filter(item)">{{item.text}}</li>
             </ul>
-            <div class="no-data-view" v-if="noData">
-              <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
-              <p>暂无数据</p>
-            </div>
-          </section>
-        </mt-tab-container-item>
-        <mt-tab-container-item id="debitCard">
-         借记卡内容 -- 待做
-        </mt-tab-container-item>
-        <mt-tab-container-item id="loans">
-          321
-        </mt-tab-container-item>
-      </mt-tab-container>
 
+            <p class="notice">
+              说明：该明细为用户进行信用卡申请页面时的浏览记录，不能视为信用卡申请订单。
+            </p>
+            <section class="order-list">
+              <ul class="order-ul" v-if="creditOrderList.length">
+                <li v-for="(item , index) in creditOrderList">
+                  <div class="title">{{item.productName}}</div>
+                  <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己': '客户'}}</label>
+                  <p>申请人：{{item.realName}} (工号：{{item.employeeNo}})</p>
+                  <p>手机号：{{item.mobile}}</p>
+                  <p>浏览时间：{{item.createdDate}}</p>
+                  <section v-if="activeState !== 6">
+                    <mt-button size="small" v-if="activeState !== 2" class="mini" @click="move(item, 2)">移至待再查</mt-button>
+                    <mt-button size="small" class="mini" @click="move(item, 6)">移至回收站</mt-button>
+                    <!--<mt-button size="small" class="mini">查询进度</mt-button>-->
+                  </section>
+                </li>
+              </ul>
+              <div class="no-data-view" v-if="noData">
+                <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
+                <p>暂无数据</p>
+              </div>
+            </section>
+          </mt-tab-container-item>
+          <mt-tab-container-item id="debitCard">
+           借记卡内容 -- 待做
+          </mt-tab-container-item>
+          <mt-tab-container-item id="loans">
+            321
+          </mt-tab-container-item>
+      </mt-tab-container>
         <div style="text-align: center; margin-top: 60px;">
           <p>全国统一客服热线：0755-********</p>
           <p>商务合作：marketing@***.com</p>
@@ -422,7 +427,7 @@
         }, (res) => {
           callback && callback(res)
         })
-        // this.$refs.scroll.forceUpdate(false) // 显示没有更多
+        this.$refs.scroll.forceUpdate(false) // 显示没有更多
       },
       filter(item) {
         this.status = this.activeState = item.index
@@ -437,6 +442,9 @@
       })
     },
     mounted() {
+      orderAPI.count((res) => {
+        this.orderAmount = res.data.totalCount
+      })
     }
   }
 </script>
