@@ -36,6 +36,9 @@
           margin-top: 10px;
           li {
             margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
             .mint-button {
               width: 100px;
               margin-right: 10px;
@@ -67,6 +70,10 @@
   li .mint-cell {
     display: inline-block;
   }
+  .generate-view li *{
+    border-width: 0;
+    border: none;
+  }
 </style>
 <template>
   <div class="page">
@@ -84,12 +91,14 @@
                 v-model="name"
                 :options="[{label: '真实姓名', value: 'realName'}, {label: '微信昵称', value: 'displayName'}]">
               </mt-radio>
+              <span>单选</span>
             </li>
             <li style="padding-bottom: 50px">
               <mt-checklist
                 v-model="inform"
                 :options="[{label: '手机号', value: 'mobile'}, {label:  '微信号', value: 'weixin'}]">
               </mt-checklist>
+              <span>多选</span>
             </li>
           </ul>
           <div class="bottom-single-btn">
@@ -121,7 +130,7 @@
 <script>
   import {mapState} from 'vuex'
   import creditCardApi from '@/api/creditCardAPI'
-  import {Toast} from 'mint-ui'
+  import {Toast, Indicator } from 'mint-ui'
   import mor from '../../assets/img/credit-1.png'
 
   export default {
@@ -148,22 +157,25 @@
     },
     methods: {
       generateBanner() {
+        Indicator.open();
         creditCardApi.generateCreditCardPoster({
           productId: this.$route.query.creditCardId,
           name: this.name,
           contact: this.inform.toString()
         }, (res) => {
+          Indicator.close();
           this.src = this.copy = res.data.url
           this.isVisibleGenerate = false
         })
       },
       baocun() {
-        wx.downloadImage({
-          serverId: this.src, // 需要下载的图片的服务器端ID，由uploadImage接口获得
-          isShowProgressTips: 1, // 默认为1，显示进度提示
+        wx.chooseImage({
+          count: 1, // 默认9
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
           success: function (res) {
-            var localId = res.localId;
-            console.log(localId)
+            localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            console.log(localIds)
           }
         });
       }
@@ -176,16 +188,15 @@
       })
     },
     mounted() {
-      window.onload = function () {
-        let clipboard = new ClipboardJS('.copy');
-        clipboard.on('success', function (e) {
-          Toast({
-            message: '复制成功',
-            position: 'top'
-          })
-          e.clearSelection();
-        });
-      }
+      let clipboard = new this.clipboard('.copy');
+      let _this = this
+      clipboard.on('success', function (e) {
+        Toast({
+          message: '复制成功' + _this.copy,
+          position: 'top'
+        })
+        e.clearSelection();
+      });
     }
   }
 </script>

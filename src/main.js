@@ -7,7 +7,7 @@ import routes from './router/index'
 import Router from 'vue-router'
 import store from './store/index'
 import App from './App'
-
+import clipboard from 'clipboard';
 // config 引入
 import config from './config'
 Vue.prototype.config = config
@@ -167,7 +167,7 @@ router.afterEach(function (transition) {
     Util.setWxTitle(window.WEIXIN_NAME)
   }
 })
-
+Vue.prototype.clipboard = clipboard
 new Vue({
   el: '#app',
   router,

@@ -284,7 +284,7 @@
             <div class="bank-icon" :style="{ 'background-image': `url(${item.galleryImg}`}"></div>
             <div class="bank-card-tags" >
               <template v-if="item.tags && item.tags.length">
-                <span v-for="tag in item.tags">{{tag}}</span>
+                <span v-for="tag in item.tags">{{tag | miashu}}</span>
               </template>
             </div>
             <p class="bank-card-name">{{item.name}}</p>
@@ -385,7 +385,7 @@
       ...mapState({
         user: state => state.security && state.security.user || {},
         identity: state => state.security && state.security.user && state.security.user.identity || {},
-        initialized: (state => state.metadata.initialized)
+        initialized: state => state.metadata.initialized
       }),
       isAgent() {
         return Number(this.user.level) > 1
@@ -502,7 +502,7 @@
         that.recommendBankCard.splice(0, that.recommendBankCard.length)
         // 1=普通卡(推荐卡)，2=高端卡，3=学生卡
         if (res.data && res.data.length) {
-          let highEndCard =  [] // 高端卡
+          let highEndCard = [] // 高端卡
           let studentCard = [] // 学生卡
           res.data.forEach(item => {
             item.tags = (item.tag && item.tag.length && item.tag.split(',')) || []
@@ -525,7 +525,17 @@
         }
       })
     },
-    mounted() {
+    filters: {
+      miashu: function (val) {
+        let data = JSON.parse(sessionStorage.metadata)
+        let name
+        data.productTag.forEach((i) => {
+          if (i.id == val) {
+            name = i.name
+          }
+        })
+        return name
+      }
     }
   }
 </script>

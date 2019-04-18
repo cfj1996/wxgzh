@@ -34,4 +34,4 @@ rm(path.join(config.build.assetsRoot, config.build.assetsSubDirectory), err => {
       ' Opening index.html over file:// won\'t work.\n'
     ))
   })
-})
+});

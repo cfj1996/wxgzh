@@ -204,7 +204,7 @@
                   <label v-if="orderStatisticData.statecount3"
                          class="badge-label">{{orderStatisticData.statecount3}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="6" @click.native="">
+                <mt-tab-item class="item" v-if="level" id="6" @click.native="$router.push({path: '/author_proxy'})">
                   <img slot="icon" src="../../assets/img/sqdl.png">
                   <span>代理授权</span>
                   <label v-if="orderStatisticData.statecount9"
