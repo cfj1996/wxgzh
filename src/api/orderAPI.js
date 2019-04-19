@@ -50,6 +50,33 @@ export default {
     http.request('/m/order/count', {
       success: successCallback
     })
+  },
+  /*
+   *  获取专属客服
+   * @param successCallback
+   */
+  getCustomerService(successCallback) {
+    http.request('/m/agent/getCustomerService', {
+      success: successCallback
+    })
+  },
+  /*
+   * 代理商海报
+   * @param successCallback
+   */
+  getAgent(successCallback) {
+    http.request('/m/campaign/getAgent', {
+      success: successCallback
+    })
+  },
+  /*
+  * 代理商海报生成
+  * @param successCallback
+  */
+  generateAgentPoster(successCallback) {
+    http.request('/m/campaign/generateAgentPoster', {
+      success: successCallback
+    })
   }
 }
 

@@ -210,13 +210,13 @@
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="7" @click.native="">
+                <mt-tab-item class="item" v-if="level" id="7" @click.native="$router.push('/posters')">
                   <img slot="icon" src="../../assets/img/zshb.png">
                   <span>专属海报</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" id="8" @click.native="">
+                <mt-tab-item class="item" id="8" @click.native="$router.push('/customer')">
                   <img slot="icon" src="../../assets/img/xttz.png">
                   <span>专属客服</span>
                   <label v-if="orderStatisticData.statecount9"
@@ -240,12 +240,12 @@
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" id="12" @click.native="">
+              <!--  <mt-tab-item class="item" id="12" @click.native="">
                   <img slot="icon" src="../../assets/img/sz.png">
                   <span>设置</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
+                </mt-tab-item>-->
               </mt-tabbar>
             </div>
           </div>

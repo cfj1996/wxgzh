@@ -70,7 +70,8 @@
   li .mint-cell {
     display: inline-block;
   }
-  .generate-view li *{
+
+  .generate-view li * {
     border-width: 0;
     border: none;
   }
@@ -79,7 +80,7 @@
   <div class="page">
     <section class="page-main">
       <div class="credit-card-view">
-        <img :src="src" alt="">
+        <img :src="src" alt="" ref="img">
       </div>
       <div class="bottom-section">
         <section v-if="isVisibleGenerate" class="generate-view">
@@ -117,9 +118,11 @@
             <mt-button type="primary" size="large" style="margin-bottom: 10px;" @click="isVisibleGenerate = true">
               自定义海报
             </mt-button>
-            <mt-button type="primary" size="large" @click="baocun">
-              保存图片
-            </mt-button>
+            <a :href="src" download="">
+              <mt-button type="primary" size="large">
+                保存图片
+              </mt-button>
+            </a>
           </div>
         </section>
       </div>
@@ -130,8 +133,8 @@
 <script>
   import {mapState} from 'vuex'
   import creditCardApi from '@/api/creditCardAPI'
-  import {Toast, Indicator } from 'mint-ui'
-  import mor from '../../assets/img/credit-1.png'
+  import {Toast, Indicator} from 'mint-ui'
+  import common from '../../common/weixin'
 
   export default {
     name: 'CreditPromotion',
@@ -143,7 +146,7 @@
         copy: '',
         name: '',
         inform: [],
-        src: mor
+        src: ''
       }
     },
     computed: {
@@ -163,28 +166,37 @@
           name: this.name,
           contact: this.inform.toString()
         }, (res) => {
-          Indicator.close();
-          this.src = this.copy = res.data.url
-          this.isVisibleGenerate = false
-        })
-      },
-      baocun() {
-        wx.chooseImage({
-          count: 1, // 默认9
-          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
-          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
-          success: function (res) {
-            localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
-            console.log(localIds)
+          let _this = this
+          _this.src = res.data.url
+          this.$refs.img.onload = function () {
+            Indicator.close();
+            _this.isVisibleGenerate = false
           }
-        });
+        })
       }
     },
     created() {
       creditCardApi.getCreditCardPosterDetail({
         productId: this.$route.query.creditCardId
       }, (res) => {
-        this.copy = res.data.link
+        if (res.data.posterURL) {
+          console.log('有')
+          this.copy = res.data.link
+          this.src = res.data.posterURL
+        } else {
+          Indicator.open();
+          console.log('没有')
+          creditCardApi.generateCreditCardPoster({ productId: this.$route.query.creditCardId,
+            name: 'displayName',
+            contact: 'weixin'
+          }, (res2) => {
+            this.$refs.img.onload = function () {
+              Indicator.close();
+            }
+            this.copy = res.data.link
+            this.src = res2.data.url
+          })
+        }
       })
     },
     mounted() {

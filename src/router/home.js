@@ -12,8 +12,10 @@ import CreditPromotion from '@/pages/credit_card/CreditPromotion'
 import AgentAuthorization from '@/pages/credit_card/AgentAuthorization'
 import Invitation from '@/pages/credit_card/Invitation'
 import ApplicationGuide from '@/pages/credit_card/ApplicationGuide'
+import customer from '@/pages/customer/index'
+import posters from '@/pages/posters/index'
 
-export default[
+export default [
   {
     // path: '/:userId/:age?/:storeId?',
     // path: '/:userId?/:age?/:storeId?',
@@ -79,6 +81,16 @@ export default[
     }
   },
   {
+    path: '/customer',
+    name: '专属客服',
+    component: customer,
+    meta: {
+      title: '专属客服',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
     path: '/bank_card_info',
     name: '银行信用卡详情',
     component: BankCardDetail,
@@ -94,6 +106,16 @@ export default[
     component: CreditPromotion,
     meta: {
       title: '我要推广',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/posters',
+    name: '专属海报',
+    component: posters,
+    meta: {
+      title: '专属海报',
       page: 'homePage',
       requireAuth: true
     }

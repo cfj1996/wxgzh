@@ -41,6 +41,7 @@ const mutations = {
       bank: [] // 银行
     }
     */
+    console.log('银行列表', data)
     sessionStorage.metadata = JSON.stringify(data)
     state.metadata = Object.assign({}, state.metadata, data) // 需要赋予一个新对象，才会触发具体组件中的compute中属性变化
     state.initialized = true

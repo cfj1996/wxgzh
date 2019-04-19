@@ -69,13 +69,15 @@
     height: 100%;
     position: fixed;
     top: 0;
+    .show{
+      background: url("../../assets/img/fenxiang.png") right no-repeat;
+    }
     .fenxian{
       position: relative;
       left: 0;
       top: 0;
       height: calc(100% - 60px);
       opacity: 0.8;
-      background: url("../../assets/img/fenxiang.png") right no-repeat;
       background-size: contain;
     }
     .share-ul{
@@ -177,7 +179,7 @@
     </section>
 
     <mt-popup v-model="isVisibleSharePopup" position="bottom" class="share-to-popup">
-      <div class="fenxian" @click="isVisibleSharePopup = false"></div>
+      <div :class="show?'show': ''" class="fenxian" @click="isVisibleSharePopup = false"></div>
       <ul class="share-ul">
         <li @click="share">
           <img src="../../assets/img/wechat.png" width="24" height="24">
@@ -210,6 +212,7 @@
     },
     data () {
       return {
+        show: false,
         isToBeingAgent: false, // 控制是否显示代理人相关表单信息
         isVisibleSharePopup: false, // 分享
         bankCardContent: '',
@@ -225,7 +228,7 @@
     },
     methods: {
       share() {
-        console.log('this.user -- ', this.user)
+        this.show = true
         Toast({
           message: `${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`,
           position: 'top'

@@ -122,7 +122,7 @@ export default {
    */
   wxConfig(res,params,callFn){
     Object.assign(res,{jsApiList:params})
-    console.log('wxConfig params',res)
+    console.log('wxConfigJS接口列表',res)
     wx.config({
       debug: true,
       appId: res.appID, // 必填，公众号的唯一标识
@@ -199,8 +199,8 @@ export default {
       wx.checkJsApi({
         jsApiList: [
           'checkJsApi',
-          'updateTimelineShareData',
-          'updateAppMessageShareData'
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage'
         ],
         success: function (res) {
           // 点击按钮扫描二维码
