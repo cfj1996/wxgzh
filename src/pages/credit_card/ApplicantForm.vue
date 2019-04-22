@@ -131,7 +131,7 @@
       <div class="form-section">
         <mt-field class="form-cell" label="工号" placeholder="" disabled readonly v-model="form.employeeNo" v-if="isToBeingAgent"></mt-field>
         <mt-field class="form-cell" label="用户名" placeholder="请输入您的真实姓名" v-model="form.realName"></mt-field>
-        <mt-field class="form-cell" label="身份证号" placeholder="请输入您的身份证号" v-model="form.IDCardNo"></mt-field>
+        <mt-field class="form-cell" label="身份证号" placeholder="请输入您的身份证号" :attr="{maxlength: 20}" v-model="form.IDCardNo"></mt-field>
         <mt-field class="form-cell" label="手机号" placeholder="请输入您的常用手机号" type="tel" :attr="{maxlength: 11}" v-model="form.mobile"></mt-field>
         <mt-field class="form-cell" label="验证码"  placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="form.authCode" >
           <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}</mt-button>

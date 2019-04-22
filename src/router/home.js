@@ -14,7 +14,10 @@ import Invitation from '@/pages/credit_card/Invitation'
 import ApplicationGuide from '@/pages/credit_card/ApplicationGuide'
 import customer from '@/pages/customer/index'
 import posters from '@/pages/posters/index'
-
+import friends from '@/pages/friends/index'
+import mylink from '@/pages/friends/myLink'
+import mypostrs from '@/pages/friends/posters'
+import newpage from '@/pages/luodi/index'
 export default [
   {
     // path: '/:userId/:age?/:storeId?',
@@ -131,12 +134,42 @@ export default [
     }
   },
   {
-    path: '/invitation',
+    path: '/friends',
     name: '邀请好友',
-    component: Invitation,
+    component: friends,
     meta: {
       title: '邀请好友',
       page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/mylink',
+    name: '邀请链接',
+    component: mylink,
+    meta: {
+      title: '邀请链接',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/mypostrs',
+    name: '邀请海报',
+    component: mypostrs,
+    meta: {
+      title: '邀请海报',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/newpage',
+    name: '加入众银家',
+    component: newpage,
+    meta: {
+      title: '加入众银家',
+      page: 'newpage',
       requireAuth: true
     }
   }

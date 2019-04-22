@@ -50,8 +50,10 @@ export default {
   getSignURL() {
     // 处理安卓兼容问题
     if (navigator.userAgent.indexOf('Android') > -1) {
+      console.log('1', location.href)
       return location.href
     }
+    console.log('2', window.WX_SIGN_URL)
     return window.WX_SIGN_URL
   },
   /**
@@ -210,7 +212,7 @@ export default {
           } else {
             wx.onMenuShareTimeline({
               title: params.title, // 分享标题
-              link: params.link, // 分享链接,将当前登录用户转为puid,以便于发展下线
+              link: params.link, // // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
               imgUrl: params.imgUrl, // 分享图标
               success: function () {
                 // 用户确认分享后执行的回调函数
@@ -441,5 +443,63 @@ export default {
     this.wxReady(jsApiList, ()=>this.checkJsApi(jsApiList, () => this.scanQRCode(need,(res) => {(callback && typeof callback === 'function') && callback(res)})))
   },
 //#endregion
-
+  mtShare(link) {
+    let jsApiList = [
+      'checkJsApi',
+      'updateAppMessageShareData', // 分享给朋友
+      'updateTimelineShareData ', // 分享朋友圈
+      'onMenuShareAppMessage', // 旧的接口，即将废弃
+      'onMenuShareTimeline' // 旧的接口，即将废弃
+    ]
+    wxAPI.signJS({
+      // 调试可用固定路径调试
+      url: this.getSignURL()
+    }, function (res) {
+      console.log(res.data)
+      wx.config({
+        debug: false,
+        appId: res.data.appID, // 必填，公众号的唯一标识
+        timestamp: res.data.timestamp, // 必填，生成签名的时间戳
+        nonceStr: res.data.nonceStr, // 必填，生成签名的随机串
+        signature: res.data.signature, // 必填，签名，见附录1
+        jsApiList: jsApiList // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+      })
+      wx.ready(() => {
+        wx.checkJsApi({
+          jsApiList, // 需要检测的JS接口列表，所有JS接口列表见附录2,
+          success: function (res) {
+            // wx.updateAppMessageShareData({
+            //   title: '自己的分享1.0', // 分享标题
+            //   link, // 分享链接,将当前登录用户转为puid,以便于发展下线
+            //   desc: '没有描述', // 分享描述
+            //   imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png', // 分享图标
+            //   success: function () {
+            //     // 用户确认分享后执行的回调函数
+            //     MessageBox.alert('分享成功  !')
+            //   }
+            // });
+            wx.onMenuShareAppMessage({
+              title: '自己的分享on', // 分享标题
+              link, // 分享链接,将当前登录用户转为puid,以便于发展下线
+              desc: '没有描述', // 分享描述
+              imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png', // 分享图标
+              success: function () {
+                // 用户确认分享后执行的回调函数
+                MessageBox.alert('分享成功  !')
+              },
+              cancel: function () {
+                // 用户取消分享后执行的回调函数
+              },
+              fail: function (res) {
+                alert("分享失败，请重新尝试");
+              }
+            });
+          }
+        });
+      })
+      wx.error(res => {
+        MessageBox.alert('share config error MSG: ' + res, 'alert');
+      });
+    })
+  }
 }

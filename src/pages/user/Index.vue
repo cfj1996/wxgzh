@@ -198,7 +198,7 @@
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="5" @click.native="">
+                <mt-tab-item class="item" v-if="level" id="5" @click.native="$router.push('/friends')">
                   <img slot="icon" src="../../assets/img/yqhy.png">
                   <span>邀请好友</span>
                   <label v-if="orderStatisticData.statecount3"

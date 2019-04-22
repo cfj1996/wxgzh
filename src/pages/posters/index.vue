@@ -123,7 +123,7 @@
     name: 'posters',
     data() {
       return {
-        selected: '2',
+        selected: '1',
         pageData: {
           link: '',
           posterURL: ''
@@ -157,9 +157,9 @@
     },
     mounted() {
       this.productList = JSON.parse(sessionStorage.metadata).bank
-      this.getPosters(this.productList[0].id)
-      this.getPosters(this.productList[1].id)
-      this.getPosters(this.productList[2].id)
+      // this.getPosters(this.productList[0].id)
+      // this.getPosters(this.productList[1].id)
+      // this.getPosters(this.productList[2].id)
       orderAPI.getAgent((res) => {
         if (res.data.posterURL) {
           this.pageData = res.data

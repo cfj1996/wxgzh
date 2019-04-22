@@ -4,68 +4,68 @@
 * @date    19.04.01
 */
 
-<style scoped  lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/px2rem.scss";
-  .page-main.home-page{
+
+  .page-main.home-page {
     background-image: url("../assets/img/background_img/bg-1.jpg");
-    background-size:100% 20%;
+    background-size: 100% 20%;
     background-repeat: no-repeat;
 
-
-    .slide-wrapper{
+    .slide-wrapper {
       position: relative;
       overflow-x: hidden;
       padding: 90px 10px 10px;
 
-      .credit-asset{
+      .credit-asset {
         padding: 10px;
         background-color: #fff;
         height: 180px;
         text-align: center;
 
-        h3{
+        h3 {
           font-weight: bold;
           margin-bottom: 20px;
         }
-        p{
-          &:first-child{
+        p {
+          &:first-child {
             margin-top: 80px;
           }
-          &:last-child{
+          &:last-child {
             margin-top: 40px;
           }
         }
       }
-      .banners{
+      .banners {
         width: 100%;
         background-color: #fff;
         height: 180px;
 
-        .slide-img{
+        .slide-img {
           width: 100%;
         }
       }
 
     }
 
-    .store-info{
+    .store-info {
       padding: px2rem(10);
       display: flex;
       justify-content: space-between;
       align-items: stretch;
 
-      .store-info-left{
+      .store-info-left {
         width: 100%;
-        p{
+        p {
           margin: 0;
-          &:first-child{
+          &:first-child {
             font-size: 18px;
             line-height: 26px;
             overflow: hidden;
-            text-overflow:ellipsis;
+            text-overflow: ellipsis;
             white-space: nowrap;
           }
-          &:last-child{
+          &:last-child {
             padding: px2rem(4) 0;
             font-size: 14px;
             color: #666;
@@ -77,18 +77,18 @@
         }
       }
     }
-    .proprietary-products{
+    .proprietary-products {
       width: 100%;
       border-top: 1px solid #efefef;
       padding: 0 20px;
       background-color: #fff;
 
-      .swiper-slide{
-        .item{
+      .swiper-slide {
+        .item {
           text-align: center;
           border-right: 1px solid #efefef;
 
-          img{
+          img {
             width: 100%;
             background-color: #000;
             margin-top: 10px;
@@ -96,19 +96,19 @@
           }
         }
 
-        &:last-child{
-          .item{
+        &:last-child {
+          .item {
             border-right: none;
           }
         }
       }
     }
-    .recommended-products{
+    .recommended-products {
       width: 100%;
       border-top: 1px solid #efefef;
       padding-top: px2rem(20);
 
-      li{
+      li {
         display: inline-block;
         float: left;
         width: 50%;
@@ -116,18 +116,18 @@
         background-color: transparent;
         margin-bottom: 12px;
 
-        &.row-left{
+        &.row-left {
           padding-right: 6px;
         }
-        &.row-right{
+        &.row-right {
           padding-left: 6px;
         }
 
-        >img{
+        > img {
           display: block;
         }
 
-        .prod-desc{
+        .prod-desc {
           height: px2rem(75);
           line-height: px2rem(90);
           padding: 0 px2rem(20);
@@ -140,7 +140,7 @@
           text-align: left;
           background-color: #fff;
 
-          .mark-proprietary{
+          .mark-proprietary {
             padding: px2rem(4) px2rem(6);
             color: #fff;
             text-align: center;
@@ -150,7 +150,7 @@
             font-size: 12px;
           }
         }
-        .prod-money{
+        .prod-money {
           display: block;
           padding: px2rem(20);
           font-size: 14px;
@@ -158,14 +158,14 @@
           text-align: left;
           background-color: #fff;
 
-          span{
+          span {
             font-size: 12px;
           }
         }
       }
     }
 
-    .card-ul{
+    .card-ul {
       background: #fff;
       display: flex;
       display: -webkit-flex; /* Safari */
@@ -174,7 +174,7 @@
       padding: px2rem(10);
       background-color: #fff;
 
-      li{
+      li {
         overflow: hidden;
         flex: 0 0 32%;
         margin-right: 2%;
@@ -184,7 +184,7 @@
         text-align: center;
         position: relative;
 
-        &:after{
+        &:after {
           content: " ";
           width: 1px;
           background-color: #7c868c;
@@ -196,14 +196,14 @@
 
         &:nth-child(3n) {
           margin-right: 0;
-          &:after{
+          &:after {
             display: none;
           }
         }
         &:nth-child(3n+1) {
           margin-left: 0;
         }
-        div{
+        div {
           display: inline-block;
           font-size: 30px;
         }
@@ -215,70 +215,71 @@
 <template>
   <div class="page">
     <section class="page-main home-page">
-        <div class="slide-wrapper">
-          <swiper :options="swiperOption" style="height: auto">
-            <swiper-slide class="credit-asset">
-              <h3>信用资产</h3>
-              <p>暂未激活信用资产</p>
-              <p>信用即财富，分值越高，用户信用评级越好</p>
-            </swiper-slide>
-            <swiper-slide v-for="(item, index) in basicInfo.banners" :key="'swiper_'+index" class="banners">
-              <a :href="item.forwardUrl || 'javascript:;'">
-                <img class="slide-img" :src="item.imageUrl">
-              </a>
-            </swiper-slide>
-            <div class="swiper-pagination" slot="pagination"></div>
-          </swiper>
+      <div class="slide-wrapper">
+        <swiper :options="swiperOption" style="height: auto">
+          <swiper-slide class="credit-asset">
+            <h3>信用资产</h3>
+            <p>暂未激活信用资产</p>
+            <p>信用即财富，分值越高，用户信用评级越好</p>
+          </swiper-slide>
+          <swiper-slide v-for="(item, index) in basicInfo.banners" :key="'swiper_'+index" class="banners">
+            <a :href="item.forwardUrl || 'javascript:;'">
+              <img class="slide-img" :src="item.imageUrl">
+            </a>
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </div>
+
+      <div class="store-info">
+        <div class="store-info-left">
+          <p>财富优选</p>
+          <p>
+            <span>尊享财富之选，开启梦想生活</span>
+          </p>
         </div>
+      </div>
 
-        <div class="store-info">
-          <div class="store-info-left">
-            <p>财富优选</p>
-            <p>
-              <span>尊享财富之选，开启梦想生活</span>
-            </p>
-          </div>
-        </div>
+      <ul class="card-ul">
+        <li @click="toRedirectPage(1)">
+          <div class="iconfont  iconxinyongqiahuankuan" style="color: #000;"></div>
+          <p>信用卡</p>
+        </li>
+        <li @click="toRedirectPage(2)">
+          <div class="iconfont  icongroup47"></div>
+          <p>进度中心</p>
+        </li>
+        <li @click="toRedirectPage(3)">
+          <div class="iconfont  iconyonghuzhongxin user-icon"></div>
+          <p>用户中心</p>
+        </li>
+      </ul>
 
-        <ul class="card-ul">
-          <li @click="toRedirectPage(1)">
-            <div class="iconfont  iconxinyongqiahuankuan" style="color: #000;"></div>
-            <p>信用卡</p>
-          </li>
-          <li @click="toRedirectPage(2)">
-            <div class="iconfont  icongroup47"></div>
-            <p>进度中心</p>
-          </li>
-          <li @click="toRedirectPage(3)">
-            <div class="iconfont  iconyonghuzhongxin user-icon"></div>
-            <p>用户中心</p>
-          </li>
-        </ul>
+      <section class="proprietary-products clearfix">
+        <swiper :options="swiperProperietaryOption">
+          <swiper-slide :key="'properietary_'+item.id" v-for="item in proprietaryProductsList">
+            <div class="item" @click="showGoodsPage(item)">
+              <img :src="item.imageUrl">
+            </div>
+          </swiper-slide>
+        </swiper>
+      </section>
 
-        <section class="proprietary-products clearfix">
-          <swiper :options="swiperProperietaryOption">
-            <swiper-slide :key="'properietary_'+item.id" v-for="item in proprietaryProductsList">
-              <div class="item"  @click="showGoodsPage(item)">
-                <img :src="item.imageUrl">
-              </div>
-            </swiper-slide>
-          </swiper>
-        </section>
-
-        <ul class="recommended-products clearfix">
-          <li v-for="(item, index) in recommendedProductList" :class="index%2 == 0? 'row-left': 'row-right'" @click="showGoodsPage(item)">
-            <img v-bind:style="recommendedProdStyleObject" :src="item.imageUrl">
-            <p class="prod-desc"><span class="mark-proprietary" v-if="item.isStoreAutotrophy">自营</span> {{item.name}}</p>
-            <p class="prod-money"><span>￥{{item.salesPrice | moneyInteger}}.</span>{{item.salesPrice | moneyPenny}}</p>
-          </li>
-        </ul>
+      <ul class="recommended-products clearfix">
+        <li v-for="(item, index) in recommendedProductList" :class="index%2 == 0? 'row-left': 'row-right'"
+            @click="showGoodsPage(item)">
+          <img v-bind:style="recommendedProdStyleObject" :src="item.imageUrl">
+          <p class="prod-desc"><span class="mark-proprietary" v-if="item.isStoreAutotrophy">自营</span> {{item.name}}</p>
+          <p class="prod-money"><span>￥{{item.salesPrice | moneyInteger}}.</span>{{item.salesPrice | moneyPenny}}</p>
+        </li>
+      </ul>
     </section>
     <bottom-menu></bottom-menu>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import BottomMenu from './BottomMenu'
   import ScrollWrapper from '../components/scrollWrapper/ScrollWrapper'
 
@@ -299,7 +300,7 @@
       BottomMenu,
       ScrollWrapper
     },
-    data () {
+    data() {
       return {
         swiperOption: Object.freeze({
           // autoHeight: true, //enable auto height
@@ -383,6 +384,7 @@
     },
     computed: {
       ...mapState({
+        user: (state => state.security.user),
         permissions: state => state.user.permissions
       }),
       /* propProdStyleObject(){
@@ -400,10 +402,10 @@
     },
     methods: {
       showGoodsPage(item) {
-        this.$router.push({ path: '/credit_card'})
+        this.$router.push({path: '/credit_card'})
       },
-      getRecommendedProducts(currentPage, callback){
-        if(this.storeId) {
+      getRecommendedProducts(currentPage, callback) {
+        if (this.storeId) {
           let data = {
             storeId: this.storeId,
             pageSize: 10,
@@ -417,7 +419,7 @@
               }
             }
           })*/
-        }else{
+        } else {
           callback && callback()
           this.$refs.scroll.forceUpdate(false) // 显示没有更多
         }
@@ -429,15 +431,14 @@
             // 跳转信用卡
             this.$router.push({
               path: '/credit_card',
-              query: {
-              }
+              query: {}
             })
             break;
           case 2:
             // 跳转到银行信用卡详情
             this.$router.push({
               path: '/bank_card_info',
-              query: { }
+              query: {}
             })
             break;
           case 3:
@@ -466,7 +467,7 @@
       // 获取门店基本信息
       let userId = (this.$route.params && this.$route.params.userId) || sessionStorage.getItem('BZW_USER_ID')
       if (userId) {
-        /*userApi.getStoreInfoByUserId({
+        /* userApi.getStoreInfoByUserId({
           data: {
             userId
           },
@@ -478,12 +479,16 @@
               this.onRefreshPage(true)
             }
           }
-        })*/
+        }) */
       } else {
         this.storeId = sessionStorage.getItem('BZW_STORE_ID')
       }
     },
     mounted() {
+      if (this.$route.query.operation * 1 === 2 && this.user.level * 1 == 1) {
+        this.$router.push('/newpage');
+      }
+      alert(this.$route.query.operation + '||' + this.user.level)
     }
   }
 </script>

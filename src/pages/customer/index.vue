@@ -53,7 +53,7 @@
 <template>
   <div class="page">
     <div class="title"><span><img v-if="pageData.headImgURLrue" :src="pageData.headImgURLrue" alt=""></span>
-    <p class="text">{{pageData.displayNamerue}} <br> {{pageData.employeeNorue}}</p>
+    <p class="text">{{pageData.displayNamerue}} <br> UID:{{pageData.employeeNorue}}</p>
     </div>
     <div class="icon">
       <div class="item">
@@ -109,7 +109,7 @@
       this.addWeixin()
       orderApi.getCustomerService((res) => {
         console.log(res)
-        this.pageData = res.data
+        // this.pageData = res.data
       })
     }
   }
