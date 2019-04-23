@@ -50,6 +50,17 @@ export default {
       data: params,
       success: successCallback
     })
+  },
+  /*
+   * 系统消息列表
+   * @param params
+   * @param successCallback
+   */
+  findPaged(page, successCallback) {
+    http.request('/m/notification/findPaged', {
+      page,
+      success: successCallback
+    })
   }
 }
 

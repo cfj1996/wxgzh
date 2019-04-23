@@ -66,6 +66,9 @@ export default {
     if (_options.page) {
       params.page = _options.page
     }
+    if (_options.filters) {
+      params.filters = _options.filters
+    }
     axios({
       url: config.HOST + _url,
       data: params,
@@ -76,7 +79,7 @@ export default {
         Indicator.close(); //关闭加载
       }
       if (response.data.success) {
-        typeof _options.success === 'function'  && _options.success(response.data);
+        typeof _options.success === 'function' && _options.success(response.data);
       } else {
         MessageBox('错误', response.data.error);
         typeof _options.error === 'function' && _options.error(response.status, response.data);

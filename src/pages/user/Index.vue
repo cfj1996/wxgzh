@@ -180,24 +180,24 @@
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="2" @click.native="">
+          <!--      <mt-tab-item class="item" v-if="level" id="2" @click.native="">
                   <img slot="icon" src="../../assets/img/shouzhi.png">
                   <span>收支明细</span>
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="3" @click.native="">
+                </mt-tab-item>-->
+              <!--  <mt-tab-item class="item" v-if="level" id="3" @click.native="">
                   <img slot="icon" src="../../assets/img/khgl.png">
                   <span>客户管理</span>
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="4" @click.native="">
+                </mt-tab-item>-->
+                <!--<mt-tab-item class="item" v-if="level" id="4" @click.native="">
                   <img slot="icon" src="../../assets/img/sjbb.png">
                   <span>数据报表</span>
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
+                </mt-tab-item>-->
                 <mt-tab-item class="item" v-if="level" id="5" @click.native="$router.push('/friends')">
                   <img slot="icon" src="../../assets/img/yqhy.png">
                   <span>邀请好友</span>
@@ -217,18 +217,18 @@
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
                 <mt-tab-item class="item" id="8" @click.native="$router.push('/customer')">
-                  <img slot="icon" src="../../assets/img/xttz.png">
+                  <img slot="icon" src="../../assets/img/zskf.png">
                   <span>专属客服</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="9" @click.native="">
+                <mt-tab-item class="item" v-if="level" id="9" @click.native="$router.push('/notice')">
                   <img slot="icon" src="../../assets/img/xttz.png">
                   <span>系统通知</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="10" @click.native="">
+                <!--<mt-tab-item class="item" v-if="level" id="10" @click.native="">
                   <img slot="icon" src="../../assets/img/pxxy.png">
                   <span>培训学院</span>
                   <label v-if="orderStatisticData.statecount9"
@@ -239,7 +239,7 @@
                   <span>帮助中心</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
+                </mt-tab-item>-->
               <!--  <mt-tab-item class="item" id="12" @click.native="">
                   <img slot="icon" src="../../assets/img/sz.png">
                   <span>设置</span>

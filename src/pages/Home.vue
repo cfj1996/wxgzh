@@ -485,10 +485,13 @@
       }
     },
     mounted() {
-      if (this.$route.query.operation * 1 === 2 && this.user.level * 1 == 1) {
-        this.$router.push('/newpage');
+      if (this.$route.query.operation * 1 === 2) {
+        if (this.user.level * 1 == 1) {
+          this.$router.push('/newpage');
+        } else {
+          this.$router.push('/mylink');
+        }
       }
-      alert(this.$route.query.operation + '||' + this.user.level)
     }
   }
 </script>

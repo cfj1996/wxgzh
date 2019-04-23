@@ -5,14 +5,6 @@
       transform: translateY(0%) !important;
     }
     .foot {
-      transform: translateY(100%);
-      transition: all .5s;
-      position: fixed;
-      z-index: 99999;
-      width: 100%;
-      height: 100%;
-      left: 0;
-      top: 0;
       hr {
         border: 0;
         height: 1px;
@@ -30,6 +22,8 @@
         opacity: .5;
       }
       .diji {
+        transform: translateY(100%);
+        transition: all .5s;
         transform-origin: bottom;
         position: fixed;
         z-index: 9999;
@@ -55,18 +49,18 @@
           .f-cont-item2 {
             flex: 1 0 auto;
             border-bottom: 1px solid #7c868c;
-            padding: 10px 0;
+            padding: 10px;
           }
           .img-bo {
             width: 60px;
             height: 60px;
-            border-radius: 25px;
             overflow: hidden;
             display: flex;
             align-items: center;
             img {
               max-width: 100%;
               height: auto;
+              border-radius: 50%;
               display: block;
             }
           }
@@ -88,7 +82,8 @@
         .f-btn {
           position: absolute;
           left: 0;
-          bottom: 0;
+          padding: 0 10px;
+          bottom: 10px;
           width: 100%;
           display: flex;
           text-align: center;
@@ -183,7 +178,7 @@
     <div class="title">带授权的订单 <p style="text-align: center">{{ order }}</p></div>
     <div class="retrieve">
       <mt-field placeholder="请输入工号检索" v-model="retrieve"></mt-field>
-      <mt-button class="bg-1">搜索</mt-button>
+      <mt-button class="bg-1" @click="search">搜索</mt-button>
     </div>
     <scroll-wrapper ref="scroll"
                     :scrollbar="scrollbarObj"
@@ -193,21 +188,21 @@
                     @pullingDown="onRefreshPage"
                     @pullingUp="onPullingUp">
       <ul class="item">
-        <li v-for="val in dataList" @click="editor(val.id)">
+        <li v-for="val in dataList" @click="editor(val.id, val.status)">
           <div class="bhao"><p>{{ val.approvalNo }}</p> <span
             :class="'status'+val.status">{{ val.status | isStatus }}</span></div>
           <p>用户昵称: {{ val.displayName }}</p>
           <p>UID: {{ val.employeeNo }}</p>
-          <p>申请时间：{{ val.submitDate }}</p>
+          <p>申请时间：{{ val.submitDate | timeAuto }}</p>
           <p>授权限状态：{{ val.status | isStatus }}</p>
         </li>
       </ul>
     </scroll-wrapper>
-    <div :class="open ? 'open': '' " class="foot">
-      <div class="zhezao" @click="open= false"></div>
-      <div class="diji">
+    <div class="foot">
+      <div class="zhezao" v-if="open" @click="open= false"></div>
+      <div class="diji" :class="open ? 'open': '' ">
         <div class="f-title">
-          <img src="../../assets/img/gingao.png" width="35" height="35" alt="">
+          <img src="../../assets/img/gingao.png" width="36" height="36" alt="">
           <p>你的客户 <b>{{listItem.displayName}}</b> 正在实习中！</p>
         </div>
         <hr>
@@ -228,7 +223,7 @@
         </div>
         <div class="f-btn">
           <div class="btn-out" @click="open = false">关闭</div>
-          <div class="btn-shq">授权</div>
+          <div class="btn-shq" @click="shouquan()">授权</div>
         </div>
       </div>
     </div>
@@ -238,41 +233,21 @@
 <script>
   import proxyApi from '../../api/proxy'
   import ScrollWrapper from '../../components/scrollWrapper/ScrollWrapper'
-  import img from '@/assets/img/userImg.png'
+  import moment from 'moment'
+  import {Toast} from 'mint-ui';
 
   export default {
     name: 'proxy',
     components: {
-      ScrollWrapper,
-      img
+      ScrollWrapper
     },
     data() {
       return {
+        shouquanId: null,
         open: false,
         jiazai: true,
         order: null,
-        dataList: [
-          {
-            id: 1,
-            approvalNo: 'a56286ar456365',
-            submitterId: 55,
-            submitDate: 12589654,
-            approveId: 33,
-            approveDate: 365985654,
-            status: 2,
-            displayName: '张飞',
-            employeeNo: 3689
-          }, {
-            id: 6,
-            approvalNo: 'a56286ar456365',
-            submitterId: 36,
-            submitDate: 1258989,
-            approveId: 36,
-            approveDate: 365985789,
-            status: 1,
-            displayName: '刘备',
-            employeeNo: 3649
-          }],
+        dataList: [],
         listItem: {
           id: '',
           approvalNo: '',
@@ -303,24 +278,25 @@
         }),
         pullUpLoadObj: Object.freeze({
           threshold: 0,
-          txt: { more: '加载更多', noMore: `没有更多` }
+          txt: {more: '加载更多', noMore: `没有更多`}
         })
       }
     },
     methods: {
-      getData(fn) {
+      getData(fn, search) {
         proxyApi.findAgentPaged(this.page, (res) => {
           this.dataList.push(...res.data.items)
           if (typeof fn === 'function') {
             fn(res.data.items)
           }
-        })
+        }, search)
       },
       onRefreshPage(timeNum) {
         // 模拟更新数据
         this.page.pageNum = 1
+        this.dataList = []
         this.getData(() => {
-          this.$refs.scroll.forceUpdate()
+          this.$refs.scroll.forceUpdate(true)
         })
       },
       onPullingUp() {
@@ -346,13 +322,38 @@
           })
         }
       },
-      editor(id) {
+      editor(id, stret) {
+        if (stret === 2) {
+          return
+        }
         proxyApi.getAgentDetail({
           id
         }, (res) => {
+          this.shouquanId = id
           this.open = true
           this.listItem = res.data
         })
+      },
+      shouquan() {
+        proxyApi.aprvAgent({id: this.shouquanId, status: 2}, () => {
+          Toast({
+            message: '操作成功'
+          });
+          this.open = false
+          this.onRefreshPage()
+        })
+      },
+      search() {
+        this.page.pageNum = 1
+        this.dataList = []
+        let a = [{ property: '_member.employeeNo', value: this.retrieve }]
+        this.getData((list) => {
+          if(list.length === 0){
+            Toast({
+              message: '未找到相关数据'
+            })
+          }
+        }, a)
       }
     },
     filters: {
@@ -363,6 +364,9 @@
           return '通过'
         }
         return '拒绝'
+      },
+      timeAuto: function (val) {
+        return moment(Number(val)).format('YYYY-MM-DD h:mm')
       }
     },
     created() {

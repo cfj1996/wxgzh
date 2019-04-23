@@ -18,6 +18,8 @@ import friends from '@/pages/friends/index'
 import mylink from '@/pages/friends/myLink'
 import mypostrs from '@/pages/friends/posters'
 import newpage from '@/pages/luodi/index'
+import notice from '@/pages/notice/index'
+
 export default [
   {
     // path: '/:userId/:age?/:storeId?',
@@ -169,6 +171,16 @@ export default [
     component: newpage,
     meta: {
       title: '加入众银家',
+      page: 'newpage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/notice',
+    name: '系统通知',
+    component: notice,
+    meta: {
+      title: '系统通知',
       page: 'newpage',
       requireAuth: true
     }

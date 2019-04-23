@@ -20,9 +20,10 @@ export default {
    * @param params
    * @param successCallback
    */
-  findAgentPaged(page, successCallback) {
+  findAgentPaged(page, successCallback, filters) {
     http.request('/m/aprv/findAgentPaged', {
       page,
+      filters,
       success: successCallback
     })
   },
@@ -39,7 +40,7 @@ export default {
    * 审批同意
    */
   aprvAgent(params, successCallback) {
-    http.request(' /m/aprv/aprvAgent', {
+    http.request('/m/aprv/aprvAgent', {
       data: params,
       success: successCallback
     })

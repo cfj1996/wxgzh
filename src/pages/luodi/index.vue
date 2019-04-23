@@ -24,6 +24,7 @@
       <div class="jiaru" @click='$router.push("/be_agent_form")'>立即加入众银家</div>
     </div>
   </div>
+  <fenx :show=""></fenx>
 </template>
 
 <script>
@@ -31,11 +32,16 @@
   import orderAPI from '../../api/orderAPI'
   import {Toast} from 'mint-ui'
   import weixin from '../../common/weixin'
+  import fenx from '../../components/fenxing'
 
   export default {
     name: 'myLink',
+    components: {
+      fenx
+    },
     data() {
       return {
+        fenx: false,
         pageData: {
           id: '',
           employeeNo: '', // 工号
@@ -70,11 +76,14 @@
     },
     methods: {
       fenxi() {
+        this.fenx = true
         weixin.wxShare({
           title: `${this.user.displayName}邀请您加入众银家.`,
           desc: '代理最高补贴140.....',
           link: this.link,
           imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
+        }, () => {
+          this.fenx = true
         })
       }
     },
