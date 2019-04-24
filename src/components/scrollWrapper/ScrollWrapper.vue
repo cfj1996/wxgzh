@@ -238,11 +238,11 @@
         }
       },
       _initPullDownRefresh() {
-        this.scroll.on('pullingDown', () => {
-          this.beforePullDown = false
-          this.isPullingDown = true
-          this.$emit('pullingDown')
-        })
+        // this.scroll.on('pullingDown', () => {
+        //   this.beforePullDown = false
+        //   this.isPullingDown = true
+        //   this.$emit('pullingDown')
+        // })
         this.scroll.on('scroll', (pos) => {
           if (!this.pullDownRefresh) {
             return

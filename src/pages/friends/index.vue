@@ -106,6 +106,7 @@
         取消分享
       </div>
     </div>
+    <FenXiang :show="fex"></FenXiang>
   </div>
 </template>
 
@@ -113,14 +114,19 @@
   import { mapState } from 'vuex'
   import { Toast } from 'mint-ui'
   import config from '@/config'
+  import FenXiang from '../../components/fenxing'
   import weixin from '../../common/weixin'
 
   export default {
     name: 'index',
+    components: {
+      FenXiang
+    },
     data() {
       return {
         open: false,
-        detail: {}
+        detail: {},
+        fex: false
       }
     },
     computed: {
@@ -131,6 +137,7 @@
     },
     methods: {
       share() {
+        this.fex = true
         Toast({
           message: `${config.HOST}/m/invitation/agent?inviterId=${this.$store.state.security.user.id}`,
           position: 'top'
@@ -142,6 +149,7 @@
           imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {
           this.open = false
+          this.fex = false
         })
       }
     }

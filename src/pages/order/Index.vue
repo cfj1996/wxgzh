@@ -284,7 +284,7 @@
     },
     data () {
       return {
-        orderAmount: 10,
+        orderAmount: null,
         limit: 10,
         searchKey: '',
         active: 'creditCard',

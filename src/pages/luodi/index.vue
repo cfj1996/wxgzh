@@ -14,8 +14,8 @@
         </div>
       </div>
       <div class="lt">
-        <div class="tiem copy" :data-clipboard-text="pageData.weixinAccountNo"><img src="../../assets/img/weixin.png"
-                                                                                    alt=""> <span>微信聊</span></div>
+        <button type="button" class="tiem copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo"><img src="../../assets/img/weixin.png"
+                                                                                    alt=""> <span>微信聊</span></button>
         <a class="tiem" :href="`tel:${ pageData.mobile }`"><img src="../../assets/img/shouji.png"
                                                                 alt=""><span>电话聊</span></a>
       </div>
@@ -23,8 +23,8 @@
     <div class="foot-bt">
       <div class="jiaru" @click='$router.push("/be_agent_form")'>立即加入众银家</div>
     </div>
+    <fen-xiang :show="fenx"></fen-xiang>
   </div>
-  <fenx :show=""></fenx>
 </template>
 
 <script>
@@ -32,12 +32,12 @@
   import orderAPI from '../../api/orderAPI'
   import {Toast} from 'mint-ui'
   import weixin from '../../common/weixin'
-  import fenx from '../../components/fenxing'
+  import FenXiang from '../../components/fenxing'
 
   export default {
     name: 'myLink',
     components: {
-      fenx
+      FenXiang
     },
     data() {
       return {
@@ -77,13 +77,17 @@
     methods: {
       fenxi() {
         this.fenx = true
+        Toast({
+          message: this.link,
+          position: 'top'
+        })
         weixin.wxShare({
           title: `${this.user.displayName}邀请您加入众银家.`,
           desc: '代理最高补贴140.....',
           link: this.link,
           imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {
-          this.fenx = true
+          this.fenx = false
         })
       }
     },

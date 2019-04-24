@@ -64,7 +64,7 @@
         padding: 10px;
 
         .bank-img{
-          width: 30%;
+          flex: 0 0 25%;
           height: 60px;
         }
         .bank-info{
@@ -80,14 +80,14 @@
           }
         }
         .bank-apply-btn{
-          flex: 0 0 20%;
+          flex: 0 0 25%;
           min-height: 30px;
 
           >p{
             font-size: 12px;
             line-height: 16px;
             margin-bottom: 6px;
-            color: $color5;
+            color: #ff2521;
             font-size: 12px;
           }
           .mint-button{
@@ -154,6 +154,8 @@
           width: 100%;
           height: 100%;
           background-color: #fff;
+          display: flex;
+          flex-wrap: wrap;
 
           .bank-icon{
             width: 100%;
@@ -166,39 +168,21 @@
           .bank-card-tags{
             position: relative;
             height: 20px;
+            width: 100%;
             text-align: center;
-
-            /*
-            css3 实现背景line  methods 1：
-            background-image:
-              linear-gradient( to left,  #ff0000 0px,  #ff0000 250px,  #000000 100px),
-              linear-gradient( to right,   red 0px,  #ff0000 250px,  #000000 100px);
-            background-size: 80% 1px;
-            background-position: center; // 位置居中
-            background-repeat: no-repeat;*/
-
-            /*css3 实现背景line  methods 2*/
-            background: linear-gradient(180deg,
-              #fff calc(57% - 1px),
-              #999 calc(40% - 4px),
-              #fff calc(50% + 50px)
-            );
-            background-position: 50% 49.6%;
-            background-size: 80% 1px;
-            background-repeat: no-repeat;
-
-            span{
+           span{
               margin: 0 2px;
-              padding: 2px 4px;
-              border-radius: 3px;
+              padding: 2px 6px;
+              border-radius: 10px;
               color: #fff;
-              background-color: #ff782e;
+              background: linear-gradient(to right, #ff4f42, #ff2521);
               font-size: 12px;
               transform: scale(0.4);
               transform-origin: center;
             }
           }
           .bank-card-name{
+            width: 100%;
             text-align: center;
             font-weight: bold;
           }
@@ -208,7 +192,7 @@
             padding: 4px 6px;
           }
           .bank-card-bonus{
-            color: #ff4f0b;
+            color: #ff2521;
             font-size: 12px;
             padding: 0 6px;
           }
@@ -240,6 +224,16 @@
       }
     }
   }
+  .mf-btn{
+    margin-top: 30px;
+    color: #ff2521;
+    background: none;
+    font-size: 14px!important;
+    padding: 5px 10px!important;
+    line-height: 0.8;
+    border-radius: 10px;
+    border: 1px solid #ff2521!important;
+  }
 </style>
 
 <template>
@@ -270,7 +264,7 @@
               </div>
               <div class="bank-apply-btn">
                 <p v-if="isAgent">奖金: {{item.amount | money(true)}}元</p>
-                <mt-button size="small" @click="freeApply(item)">免费申请</mt-button>
+                <mt-button class="mf-btn" size="small" @click="freeApply(item)">免费申请</mt-button>
               </div>
             </section>
           </swiper-slide>
@@ -280,7 +274,7 @@
       <p style="padding: 0 10px; font-weight: bold;">推荐银行</p>
       <ul class="recommend-card-ul">
         <li class="card-li" v-for="item in recommendBankCard" :key="item.id" @click="toBankCardDetail(item)">
-          <section>
+          <section class="content">
             <div class="bank-icon" :style="{ 'background-image': `url(${item.galleryImg}`}"></div>
             <div class="bank-card-tags" >
               <template v-if="item.tags && item.tags.length">
@@ -398,13 +392,12 @@
       freeApply(item) {
         this.paramBankId = item.bankId
         this.paramCreditCardId = item.id
-        console.log(this.paramBankId, this.paramCreditCardId)
         if (this.user.identity && this.user.identity.IDCardNo) {
           // 如果该用户已经实名认证过了，则跳转确认申请信息页面
           this.$router.push({
             path: '/confirm_applicant_info',
             query: {
-              bankId: this.paramBankId,
+              // bankId: this.paramBankId,
               creditCardId: this.paramCreditCardId
             }
           })
@@ -417,7 +410,7 @@
         this.$router.push({
           path: '/apply_credit_card_form',
           query: {
-            bankId: this.paramBankId,
+            // bankId: this.paramBankId,
             creditCardId: this.paramCreditCardId
           }
         })
@@ -484,8 +477,8 @@
             path: '/bank_card_info',
             query: {
               creditCardId: data.id,
-              bankId: data.bankId,
-              title: data.title
+              // bankId: data.bankId,
+              // title: data.title
             }
           })
         } else {
@@ -511,6 +504,7 @@
             console.log('item.descn ', item.descn)
             if (category === 1) {
               that.recommendBankCard.push(item)
+              console.log(that.recommendBankCard)
             } else if (category === 2) {
               highEndCard.push(item)
             } else {

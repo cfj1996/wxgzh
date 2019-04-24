@@ -16,9 +16,11 @@ import customer from '@/pages/customer/index'
 import posters from '@/pages/posters/index'
 import friends from '@/pages/friends/index'
 import mylink from '@/pages/friends/myLink'
+import waitFor from '@/pages/friends/waitFor'
 import mypostrs from '@/pages/friends/posters'
 import newpage from '@/pages/luodi/index'
 import notice from '@/pages/notice/index'
+import applicantUaer from '@/pages/applicant_contact/index'
 
 export default [
   {
@@ -65,6 +67,16 @@ export default [
     }
   },
   {
+    path: '/applicant_uaer',
+    name: '申请成功，等待授权',
+    component: applicantUaer,
+    meta: {
+      title: '申请成功，等待授权',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
     // 申请成为代理商（填写个人资料）
     path: '/be_agent_form',
     name: '填写申请代理人信息',
@@ -75,7 +87,7 @@ export default [
       requireAuth: true
     }
   },
-  {
+  {// 银行卡申请
     path: '/confirm_applicant_info',
     name: '确认申请人信息',
     component: ConfirmApplicantInfo,
@@ -181,6 +193,16 @@ export default [
     component: notice,
     meta: {
       title: '系统通知',
+      page: 'newpage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/waitFor',
+    name: '通知',
+    component: waitFor,
+    meta: {
+      title: '通知',
       page: 'newpage',
       requireAuth: true
     }

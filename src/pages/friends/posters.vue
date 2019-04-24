@@ -105,10 +105,12 @@
         取消分享
       </div>
     </div>
+    <fen-xiang :show="fenx"></fen-xiang>
   </div>
 </template>
 
 <script>
+  import FenXiang from '../../components/fenxing'
   import { mapState } from 'vuex'
   import { Toast } from 'mint-ui'
   import config from '@/config'
@@ -124,8 +126,12 @@
           posterURL: '',
           link: ''
         },
-        detail: {}
+        detail: {},
+        fenx: false
       }
+    },
+    components: {
+      FenXiang
     },
     computed: {
       ...mapState({
@@ -135,6 +141,7 @@
     },
     methods: {
       share() {
+        this.fenx = true
         Toast({
           message: this.pageData.link,
           position: 'top'
@@ -146,6 +153,7 @@
           imgUrl: encodeURI(this.pageData.posterURL)
         }, () => {
           this.open = false
+          this.fenx = false
         })
       }
     },

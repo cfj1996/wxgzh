@@ -229,7 +229,7 @@
           this.experienceBadge.forEach(item => { if (item.checked) {experience.push(item.id) }})
           var ownBankCard = []
           this.banksBadge.forEach(item => { if (item.checked) { ownBankCard.push(item.id) }})
-          if (this.isToBeingAgent) {
+          if (this.isToBeingAgent) { // 代理
             userAPI.agentRegiste({
               realName: this.form.realName,
               mobile: this.form.mobile,
@@ -244,11 +244,11 @@
               })
               this.refreshBaseData()
               this.$router.replace({
-                path: 'bank_card_info',
+                path: '/applicant_uaer',
                 query: this.$route.query
               })
             })
-          } else {
+          } else { // 银行卡
             userAPI.memberRegiste({
               realName: this.form.realName,
               mobile: this.form.mobile,
@@ -263,7 +263,7 @@
               })
               this.refreshBaseData()
               this.$router.replace({
-                path: 'confirm_applicant_info',
+                path: '/confirm_applicant_info',
                 query: this.$route.query
               })
             })
@@ -351,7 +351,7 @@
       }
     },
     created() {
-      const bankId = this.$route.query.bankId || ''
+      // const bankId = this.$route.query.bankId || ''
       const user = sessionStorage.getItem('user')
       if (user) {
         this.user = JSON.parse(user)

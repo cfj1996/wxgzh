@@ -52,8 +52,8 @@
 </style>
 <template>
   <div class="page">
-    <div class="title"><span><img v-if="pageData.headImgURLrue" :src="pageData.headImgURLrue" alt=""></span>
-    <p class="text">{{pageData.displayNamerue}} <br> UID:{{pageData.employeeNorue}}</p>
+    <div class="title"><span><img v-if="pageData.headImgURL" :src="pageData.headImgURL" alt=""></span>
+    <p class="text">{{pageData.displayName}} <br> UID:{{pageData.employeeNo}}</p>
     </div>
     <div class="icon">
       <div class="item">
@@ -62,10 +62,10 @@
           <p>给我打电话</p>
         </a>
       </div>
-      <div class="item" v-if="pageData.weixinAccountNorue">
+      <div class="item" v-if="pageData.weixinAccountNo">
         <a href="javascript: void(0) ">
           <div><img src="../../assets/img/weixin.png" alt=""></div>
-          <p class="copy" :data-clipboard-text="pageData.weixinAccountNorue">加我微信</p>
+          <button type="button" class="copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo">加我微信</button>
         </a>
       </div>
     </div>
@@ -83,10 +83,10 @@
       return {
         pageData: {
           id: '1',
-          employeeNorue: '1756',	// 工号
-          displayNamerue: '张飞',	// 微信昵称
-          headImgURLrue: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132',	// 微信头像
-          weixinAccountNorue: 'ai youxi ',	// 微信号
+          employeeNo: '1756',	// 工号
+          displayName: '张飞',	// 微信昵称
+          headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132',	// 微信头像
+          weixinAccountNo: 'ai youxi ',	// 微信号
           mobile: '15115634774'
         }
       }
@@ -109,7 +109,7 @@
       this.addWeixin()
       orderApi.getCustomerService((res) => {
         console.log(res)
-        // this.pageData = res.data
+        this.pageData = res.data
       })
     }
   }

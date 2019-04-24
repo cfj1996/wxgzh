@@ -7,6 +7,7 @@
 
 <style lang="scss" scoped rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
+  @import "~@/assets/css/level.scss";
 
   .page-main.user-center {
     overflow-y: scroll;
@@ -20,11 +21,11 @@
     }
     .user-info {
       background: #fff;
-      padding: 0 10px 0;
+      padding: 20px 10px;
       position: relative;
-      min-height: 80px;
       display: flex;
-      background-image: linear-gradient(to right, $color2 -30%, $color3);
+      flex-wrap: wrap;
+      background-color: #ff3f36;
       color: #fff;
 
       .left-info {
@@ -33,13 +34,13 @@
         img {
           position: relative;
           display: block;
-          width: 40px;
-          height: 40px;
+          width: 80px;
+          height: 80px;
           margin: 0 auto;
           top: 50%;
           transform: translateY(-50%);
           background-color: #fff;
-          border-radius: 40px;
+          border-radius: 80px;
         }
       }
       .center-info {
@@ -55,15 +56,60 @@
         }
       }
       .right-info {
-        flex: 0 0 40%;
-
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         p {
           position: relative;
-          padding: 10px 10px 10px 20px;
-          top: 50%;
-          transform: translateY(-50%);
-          border-radius: 16px 4px 4px 16px;
-          background-image: linear-gradient(to right, $color2 -30%, $color3);
+          padding: 6px 6px 6px 30px;
+          display: inline-block;
+          text-align: center;
+          border: 1px solid #e3f5ff;
+          border-radius: 16px;
+          span {
+            position: absolute;
+            display: block;
+            width: 40px;
+            height: 40px;
+            left: -10px;
+            top: -7px;
+          }
+        }
+      }
+      .tidu {
+        width: 100%;
+        margin-top: 20px;
+        position: relative;
+        height: 40px;
+        .xian {
+          position: absolute;
+          width: 90%;
+          left: 5%;
+          height: 1px;
+          background-color: white;
+          top: 27px;
+          z-index: 888;
+        }
+        ul {
+          z-index: 999;
+          position: absolute;
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          text-align: center;
+          li {
+            flex: 1;
+            p {
+              font-size: 12px;
+            }
+            span {
+              margin: 0 auto;
+              width: 30px;
+              height: 30px;
+              display: block;
+            }
+          }
         }
       }
     }
@@ -72,7 +118,7 @@
       padding: 20px 0;
       display: flex;
       flex-wrap: wrap;
-      .item{
+      .item {
         flex: 0 0 25%;
         margin-bottom: 20px;
         padding: 10px 0;
@@ -131,6 +177,39 @@
       background-color: #c30911;
       color: #fff;
     }
+    .my-shru{
+      .title{
+        padding: 15px;
+        font-size: 18px;
+      }
+    }
+    .list{
+      padding: 20px 15px;
+      background: white;
+      display: flex;
+      flex-wrap: wrap;
+      .ku{
+        flex: 0 25%;
+        img{
+          width: 42px;
+          height: 42px;
+          display: block;
+          margin: auto;
+        }
+        p{
+          margin-top: 5px;
+          font-size: 14px;
+          text-align: center;
+        }
+        span{
+          display: block;
+          color: #ff3f36;
+          font-size: 16px;
+          text-align: center;
+        }
+      }
+
+    }
   }
 </style>
 
@@ -139,17 +218,27 @@
     <div class="page-main user-center">
       <section class="user-info">
         <div class="left-info">
-          <img :src="avater"/>
+          <img :src="user.headImgURL"/>
         </div>
         <div class="center-info">
           <p>{{identity.realName || ''}}</p>
           <p>UID {{user.employeeNo || ''}}</p>
         </div>
         <div class="right-info">
-          <p>普通会员</p>
+          <p><span :class="`level${user.level}`"></span>{{ userLevel}}</p>
+        </div>
+        <div class="tidu">
+          <ul>
+            <li v-for="val in grade" v-if="val.value !== 1">
+              <p>{{ val.label }}</p>
+              <span :class="levelIcon(val.value)"></span>
+              <div></div>
+            </li>
+          </ul>
+          <div class="xian"></div>
         </div>
       </section>
-
+<!--
       <div class="my-integral">
         <section>
           <div class="left-cell">
@@ -180,24 +269,24 @@
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
                 </mt-tab-item>
-          <!--      <mt-tab-item class="item" v-if="level" id="2" @click.native="">
+                <mt-tab-item class="item" v-if="level" id="2" @click.native="">
                   <img slot="icon" src="../../assets/img/shouzhi.png">
                   <span>收支明细</span>
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>-->
-              <!--  <mt-tab-item class="item" v-if="level" id="3" @click.native="">
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="3" @click.native="">
                   <img slot="icon" src="../../assets/img/khgl.png">
                   <span>客户管理</span>
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>-->
-                <!--<mt-tab-item class="item" v-if="level" id="4" @click.native="">
+                </mt-tab-item>
+                <mt-tab-item class="item" v-if="level" id="4" @click.native="">
                   <img slot="icon" src="../../assets/img/sjbb.png">
                   <span>数据报表</span>
                   <label v-if="orderStatisticData.statecount0"
                          class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>-->
+                </mt-tab-item>
                 <mt-tab-item class="item" v-if="level" id="5" @click.native="$router.push('/friends')">
                   <img slot="icon" src="../../assets/img/yqhy.png">
                   <span>邀请好友</span>
@@ -228,7 +317,7 @@
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
                 </mt-tab-item>
-                <!--<mt-tab-item class="item" v-if="level" id="10" @click.native="">
+                <mt-tab-item class="item" v-if="level" id="10" @click.native="">
                   <img slot="icon" src="../../assets/img/pxxy.png">
                   <span>培训学院</span>
                   <label v-if="orderStatisticData.statecount9"
@@ -239,19 +328,80 @@
                   <span>帮助中心</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>-->
-              <!--  <mt-tab-item class="item" id="12" @click.native="">
+                </mt-tab-item>
+                <mt-tab-item class="item" id="12" @click.native="">
                   <img slot="icon" src="../../assets/img/sz.png">
                   <span>设置</span>
                   <label v-if="orderStatisticData.statecount9"
                          class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>-->
+                </mt-tab-item>
               </mt-tabbar>
             </div>
           </div>
         </div>
-      </section>
-
+      </section>-->
+      <div class="my-shru">
+        <p class="title">我的收入</p>
+        <div class="list">
+          <div class="ku" v-if="level">
+            <img src="../../assets/img/new_img/user/iocn/mysq.png" alt="">
+            <p>我的收入</p>
+            <span>￥{{integrantCount.exchangeableCount}}</span>
+          </div>
+          <div class="ku" @click="$router.push('/order')">
+            <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
+            <p>订单明细</p>
+          </div>
+          <div class="ku" v-if="level">
+            <img src="../../assets/img/new_img/user/iocn/szmx.png" alt="">
+            <p>收支明细</p>
+          </div>
+          <div class="ku" v-if="level" @click="$router.push('/notice')">
+            <img src="../../assets/img/new_img/user/iocn/xttz.png" alt="">
+            <p>系统通知</p>
+          </div>
+        </div>
+      </div>
+      <div class="my-shru">
+        <p class="title">我的团队</p>
+        <div class="list">
+          <div class="ku" v-if="level">
+            <img src="../../assets/img/new_img/user/iocn/khgl.png" alt="">
+            <p>客户管理</p>
+            <span>0人</span>
+          </div>
+          <div class="ku" v-if="level" @click="$router.push('/author_proxy')">
+            <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
+            <p>代理授权</p>
+          </div>
+        </div>
+      </div>
+      <div class="my-shru">
+        <p class="title">推广</p>
+        <div class="list">
+          <div class="ku" v-if="level" @click="$router.push('/friends')">
+            <img src="../../assets/img/new_img/user/iocn/yqhy.png" alt="">
+            <p>邀请好友</p>
+          </div>
+          <div class="ku" v-if="level" @click="$router.push('/posters')">
+            <img src="../../assets/img/new_img/user/iocn/zshb.png" alt="">
+            <p>专属海报</p>
+          </div>
+          <div class="ku" @click="$router.push('/customer')">
+            <img src="../../assets/img/new_img/user/iocn/zskf.png" alt="">
+            <p>专属客服</p>
+          </div>
+        </div>
+      </div>
+      <div class="my-shru">
+        <p class="title">会员必读</p>
+        <div class="list">
+          <div class="ku" v-if="level">
+            <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
+            <p>会员必读</p>
+          </div>
+        </div>
+      </div>
       <div style="text-align: center; margin-top: 20px;">
         <p>全国统一客服热线：0755-********</p>
         <p>商务合作：marketing@***.com</p>
@@ -281,14 +431,23 @@
         identity: state => state.security && state.security.user && state.security.user.identity || {}
       }),
       level() {
-        console.log(this.user.level === 1)
+        console.log(this.user.level)
         return this.user.level !== 1
+      },
+      userLevel() {
+        let label = null
+        this.grade.forEach((val) => {
+          if (val.value === this.user.level) {
+            label = val.label
+          }
+        })
+        return label
       }
     },
     data() {
       return {
+        grade: JSON.parse(sessionStorage.level),
         // avater: 'http://7xv6zz.com2.z0.glb.qiniucdn.com/20180104193451',
-        avater: avater,
         integrantCount: {
           exchangeCount: 0, // 申请兑换的次数(累计申请兑换的总次数)
           exchangeableCount: '0.00', // 该店铺可兑换商品总数
@@ -308,7 +467,15 @@
         userInfo: {}
       }
     },
-    methods: {},
+    methods: {
+      levelIcon(level) {
+        if (level !== this.user.level) {
+          return `level${level}-nh`
+        } else {
+          return `level${level}`
+        }
+      }
+    },
     mounted() {
     }
   }

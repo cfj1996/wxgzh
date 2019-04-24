@@ -103,7 +103,7 @@ const actions = {
             IDCardHandPicture: "http://xxx.jpg" // 手持身份证照
           }
         }*/
-        // res.data.level = 2  // 自己设置的等级
+        // res.data.level = 1  // 自己设置的等级
         sessionStorage.setItem("user", JSON.stringify(res.data||[]))
         commit('SET_USER_DETAILS', res.data)
         resolve(res)

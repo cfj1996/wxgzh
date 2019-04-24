@@ -7,9 +7,6 @@
         background-image: linear-gradient(to right, $color2 -30%, $color3);
       }
     }
-    .mint-tab-container {
-      height: calc(100% - 50px) !important;
-    }
   }
 </style>
 <style scoped lang="scss">
@@ -129,8 +126,8 @@
           </div>
           <div class="item" @click="dailiFenXiang"><img src="../../assets/img/fenxian.png" alt="">
             <p>推广分享</p></div>
-          <div class="item dai-cope" :data-clipboard-text="pageDailiData.link"><img src="../../assets/img/fzhi.png" alt="">
-            <p>复制链接</p></div>
+          <button type="button" class="item dai-cope" :data-clipboard-text="pageDailiData.link"><img src="../../assets/img/fzhi.png" alt="">
+            <p>复制链接</p></button>
         </div>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
@@ -156,19 +153,19 @@
           </div>
           <div class="item" @click="haibaoFenXiang"><img src="../../assets/img/fenxian.png" alt="">
             <p>推广分享</p></div>
-          <div class="item hai-cope" :data-clipboard-text="pageHaibaoData.link"><img src="../../assets/img/fzhi.png" alt="">
-            <p>复制链接</p></div>
+          <button type="button" class="item hai-cope btn-copy" :data-clipboard-text="pageHaibaoData.link"><img src="../../assets/img/fzhi.png" alt="">
+            <p>复制链接</p></button>
         </div>
       </mt-tab-container-item>
     </mt-tab-container>
-    <fenxin :show="frnx"></fenxin>
+    <fen-xiang :show="frnx"></fen-xiang>
   </div>
 </template>
 
 <script>
   import {Toast} from 'mint-ui'
   import orderAPI from '../../api/orderAPI'
-  import fenxin from '../../components/fenxing'
+  import FenXiang from '../../components/fenxing'
   import creditCardAPI from '../../api/creditCardAPI'
   import {Indicator} from 'mint-ui';
   import weixin from '../../common/weixin'
@@ -176,7 +173,7 @@
   export default {
     name: 'posters',
     components: {
-      fenxin
+      FenXiang
     },
     data() {
       return {
@@ -258,6 +255,10 @@
       },
       dailiFenXiang() {
         this.frnx = true
+        Toast({
+          message: this.pageDailiData.link,
+          position: 'top'
+        })
         weixin.wxShare({
           title: '代理分享',
           desc: '没有描述',
@@ -267,6 +268,10 @@
       },
       haibaoFenXiang() {
         this.frnx = true
+        Toast({
+          message: this.pageHaibaoData.link,
+          position: 'top'
+        })
         weixin.wxShare({
           title: '代理分享',
           desc: '没有描述',

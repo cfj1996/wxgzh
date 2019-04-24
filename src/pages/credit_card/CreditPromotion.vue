@@ -112,7 +112,7 @@
           <p class="promotion-desc">你可以选择长按推广海报发送至客户，或是复制以下推广链接给客户申请信用卡。</p>
           <div class="promotion-url-section">
             <input v-model="copy" type="text" readonly>
-            <mt-button type="primary" size="small" class="copy" :data-clipboard-text="copy">复制链接</mt-button>
+            <mt-button type="primary" size="small" class="copy btn-copy" :data-clipboard-text="copy">复制链接</mt-button>
           </div>
           <div class="bottom-single-btn" style="height: 114px;">
             <mt-button type="primary" size="large" style="margin-bottom: 10px;" @click="isVisibleGenerate = true">

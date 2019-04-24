@@ -1,6 +1,19 @@
 <style scoped lang="scss">
   .page {
-    overflow: hidden;
+    .load{
+      text-align: center;
+      padding-bottom: 10px;
+      p{
+        font-size: 12px;
+        display: inline-block;
+        background: #cacaca;
+        height: 20px;
+        line-height: 16px;
+        border-radius: 10px;
+        padding: 3px 10px;
+      }
+    }
+    /*overflow: hidden;*/
     .open {
       transform: translateY(0%) !important;
     }
@@ -180,24 +193,19 @@
       <mt-field placeholder="请输入工号检索" v-model="retrieve"></mt-field>
       <mt-button class="bg-1" @click="search">搜索</mt-button>
     </div>
-    <scroll-wrapper ref="scroll"
-                    :scrollbar="scrollbarObj"
-                    :pullDownRefresh="pullDownRefreshObj"
-                    :pullUpLoad="pullUpLoadObj"
-                    :startY="0"
-                    @pullingDown="onRefreshPage"
-                    @pullingUp="onPullingUp">
-      <ul class="item">
-        <li v-for="val in dataList" @click="editor(val.id, val.status)">
-          <div class="bhao"><p>{{ val.approvalNo }}</p> <span
-            :class="'status'+val.status">{{ val.status | isStatus }}</span></div>
-          <p>用户昵称: {{ val.displayName }}</p>
-          <p>UID: {{ val.employeeNo }}</p>
-          <p>申请时间：{{ val.submitDate | timeAuto }}</p>
-          <p>授权限状态：{{ val.status | isStatus }}</p>
-        </li>
-      </ul>
-    </scroll-wrapper>
+    <ul class="item">
+      <li v-for="val in dataList" @click="editor(val.id, val.status)">
+        <div class="bhao"><p>{{ val.approvalNo }}</p> <span
+          :class="'status'+val.status">{{ val.status | isStatus }}</span></div>
+        <p>用户昵称: {{ val.displayName }}</p>
+        <p>UID: {{ val.employeeNo }}</p>
+        <p>申请时间：{{ val.submitDate | timeAuto }}</p>
+        <p>授权限状态：{{ val.status | isStatus }}</p>
+      </li>
+    </ul>
+    <div class="load">
+      <p v-if="loadList" @click="load" >加载更多</p>
+    </div>
     <div class="foot">
       <div class="zhezao" v-if="open" @click="open= false"></div>
       <div class="diji" :class="open ? 'open': '' ">
@@ -243,6 +251,7 @@
     },
     data() {
       return {
+        loadList: true,
         shouquanId: null,
         open: false,
         jiazai: true,
@@ -266,61 +275,28 @@
         fandou: false,
         page: {
           pageNum: 1,
-          limit: 10,
-          end: false
-        },
-        scrollbarObj: Object.freeze({
-          fade: true
-        }),
-        pullDownRefreshObj: Object.freeze({
-          threshold: 90,
-          stop: 40
-        }),
-        pullUpLoadObj: Object.freeze({
-          threshold: 0,
-          txt: {more: '加载更多', noMore: `没有更多`}
-        })
+          limit: 10
+        }
       }
     },
     methods: {
       getData(fn, search) {
         proxyApi.findAgentPaged(this.page, (res) => {
           this.dataList.push(...res.data.items)
+          if (res.data.items.length === this.page.limit) {
+            this.loadList = true
+          } else if (res.data.items.length < this.page.limit) {
+            this.loadList = false
+          }
           if (typeof fn === 'function') {
             fn(res.data.items)
           }
         }, search)
       },
-      onRefreshPage(timeNum) {
-        // 模拟更新数据
-        this.page.pageNum = 1
-        this.dataList = []
-        this.getData(() => {
-          this.$refs.scroll.forceUpdate(true)
-        })
-      },
-      onPullingUp() {
+      load() {
         // 下一页数据
-        if (this.page.end || this.fandou) {
-          this.$refs.scroll.forceUpdate(false)
-          return
-        }
-        if (this.jiazai) {
-          this.jiazai = false
-          this.page.pageNum++
-          this.getData((list) => {
-            console.log('list', list)
-            if (list.length < this.page.limit) {
-              this.$refs.scroll.forceUpdate(false) // 显示没有更多
-              this.page.end = true
-              this.fandou = true
-              return
-            }
-            this.$refs.scroll.forceUpdate(true)
-            this.$refs.scroll.forceUpdate()
-            this.jiazai = true
-          })
-        }
+        this.page.pageNum ++
+        this.getData()
       },
       editor(id, stret) {
         if (stret === 2) {

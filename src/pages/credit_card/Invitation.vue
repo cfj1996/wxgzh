@@ -111,6 +111,7 @@
         <mt-button size="large">取消分享</mt-button>
       </div>
     </mt-popup>
+    <FenXiang :show="fex"></FenXiang>
   </div>
 </template>
 
@@ -119,6 +120,7 @@
   import { Toast } from 'mint-ui'
   import config from '@/config'
   import weixin from '../../common/weixin'
+  import FenXiang from '../../components/fenxing'
 
   export default {
     name: 'Invitation',
@@ -128,13 +130,18 @@
         identity: state => state.security && state.security.user && state.security.user.identity || {}
       })
     },
+    components: {
+      FenXiang
+    },
     data () {
       return {
-        isVisiblePopup: false
+        isVisiblePopup: false,
+        fenx: false
       }
     },
     methods: {
       wxShare() {
+        this.fenx = true
         console.log(this.user)
         Toast({
           message: `${this.identity}/m/invitation/agent?inviterId=${this.user.id}`,
@@ -144,7 +151,9 @@
           title: this.user.displayName + '邀请您加入小猪办卡，开启轻松创业挣钱之旅',
           desc: '代理最高补贴140，办卡轻松拿佣金。',
           link: encodeURI(`${config.HOST}/m/invitation/agent?inviterId=${this.user.id}`),
-          imgUrl: ''
+          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
+        }, () => {
+          this.fenx = false
         })
       }
     }

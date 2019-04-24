@@ -2,13 +2,6 @@
   @import "~@/assets/css/variable.scss";
 
   .page {
-    .mint-tab-container{
-      height: 100%;
-      .mint-tab-container-wrap{
-        position: relative;
-        height: 100%;
-      }
-    }
     .mint-tab-item-label {
       &:after {
         background-image: linear-gradient(to right, $color2 -30%, $color3);
@@ -19,8 +12,8 @@
 <style lang="scss" scoped>
   .page {
     ul{
+      padding: 30px 0;
       li{
-        margin-top: 30px;
         padding: 0 10px;
         .time{
           border-radius: 10px;
@@ -48,7 +41,19 @@
         }
       }
     }
-
+    .load{
+      text-align: center;
+      padding-bottom: 10px;
+      p{
+        font-size: 12px;
+        display: inline-block;
+        background: #cacaca;
+        height: 20px;
+        line-height: 16px;
+        border-radius: 10px;
+        padding: 3px 10px;
+      }
+    }
   }
 </style>
 <template>
@@ -59,39 +64,34 @@
     </mt-navbar>
     <mt-tab-container v-model="selected">
       <mt-tab-container-item id="1">
-        <scroll-wrapper ref="scroll"
-                          :scrollbar="scrollbarObj"
-                          :pullDownRefresh="pullDownRefreshObj"
-                          :pullUpLoad="pullUpLoadObj"
-                          :startY="0"
-                          @pullingDown="onRefreshPage"
-                          @pullingUp="onPullingUp">
-            <ul>
-              <li v-for="val in pageData">
-                <div v-if="val.category === 1">
-                  <p class="time">{{ val.createdDate | timeAuto }}</p>
-                  <div class="content">
-                    <p>亲爱的{{ val.receiverName }}代理商:</p>
-                    <p class="lr" v-html="val.content"></p>
-                    <hr>
-                    <span @click="$router.push('/author_proxy')">查看详情 ></span>
+        <ul>
+          <li v-for="val in pageData">
+            <div v-if="val.category === 1">
+              <p class="time">{{ val.createdDate | timeAuto }}</p>
+              <div class="content">
+                <p>亲爱的{{ val.receiverName }}代理商:</p>
+                <p class="lr" v-html="val.content"></p>
+                <hr>
+                <span @click="$router.push('/author_proxy')">查看详情 ></span>
 
-                  </div>
-                </div>
-                <div v-else>
-                  <p class="time">{{ val.createdDate | timeAuto }}</p>
-                  <div class="content">
-                    <p>   您的朋友 [{{ val.senderName }}]光顾了您的微银行，请注意 维护好客户关系，
-                      做好服务工作，如有不明白可 咨询系统客服，
-                      联系电话：0755-********，或是 在公众号中留言。<br>
-                      会员编号：{{ val.senderName }} <br>
-                      加入时间：{{ val.createdDate | timeAuto }}
-                    </p>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </scroll-wrapper>
+              </div>
+            </div>
+            <div v-else>
+              <p class="time">{{ val.createdDate | timeAuto }}</p>
+              <div class="content">
+                <p>   您的朋友 [{{ val.senderName }}]光顾了您的微银行，请注意 维护好客户关系，
+                  做好服务工作，如有不明白可 咨询系统客服，
+                  联系电话：0755-********，或是 在公众号中留言。<br>
+                  会员编号：{{ val.senderName }} <br>
+                  加入时间：{{ val.createdDate | timeAuto }}
+                </p>
+              </div>
+            </div>
+          </li>
+        </ul>
+        <div class="load">
+          <p v-if="loadList" @click="load" >加载更多</p>
+        </div>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         无消息
@@ -118,62 +118,29 @@
         jiazai: true,
         page: {
           limit: 5,
-          pageNum: 1,
-          end: false
+          pageNum: 1
         },
-        scrollbarObj: Object.freeze({
-          fade: true
-        }),
-        pullDownRefreshObj: Object.freeze({
-          threshold: 90,
-          stop: 40
-        }),
-        pullUpLoadObj: Object.freeze({
-          threshold: 0,
-          txt: {more: '加载更多', noMore: `没有更多`}
-        })
+        loadList: false
       }
     },
     methods: {
       getData(fn) {
         creditCardAPI.findPaged(this.page, (res) => {
           this.pageData.push(...res.data.items)
+          if (res.data.items.length === this.page.limit){
+            this.loadList = true
+          } else if (res.data.items.length < this.page.limit){
+            this.loadList = false
+          }
           if (typeof fn === 'function') {
             fn(res.data.items)
           }
         })
       },
-      onRefreshPage(timeNum) {
-        // 模拟更新数据
-        this.pageData = []
-        this.getData(() => {
-          this.$refs.scroll.forceUpdate(true)
-        })
-      },
-      onPullingUp() {
+      load() {
         // 下一页数据
-        this.$refs.scroll.forceUpdate(false)
-        if (this.page.end || this.fandou) {
-          this.$refs.scroll.forceUpdate(false)
-          console.log(1)
-          return
-        }
-        if (this.jiazai) {
-          console.log(2)
-          this.jiazai = false
-          this.page.pageNum++
-          this.getData((list) => {
-            if (list.length < this.page.limit) {
-              this.$refs.scroll.forceUpdate(false) // 显示没有更多
-              this.page.end = true
-              this.fandou = true
-              return
-            }
-            this.$refs.scroll.forceUpdate(true)
-            this.$refs.scroll.forceUpdate()
-            this.jiazai = true
-          })
-        }
+        this.page.pageNum++
+        this.getData()
       }
     },
     mounted() {

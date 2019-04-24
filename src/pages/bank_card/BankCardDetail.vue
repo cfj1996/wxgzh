@@ -191,7 +191,7 @@
         </li>
       </ul>
     </mt-popup>
-    <fenxin :show="fenxin"></fenxin>
+    <fen-xiang :show="fenxin"></fen-xiang>
   </div>
 </template>
 
@@ -199,7 +199,7 @@
   import { mapState } from 'vuex'
   import { Toast } from 'mint-ui'
   import config from '@/config'
-  import fenxin from '@/components/fenxing'
+  import FenXiang from '@/components/fenxing'
   import BzwDialog from '@/components/dialog/BzwDialog'
   import banner1 from '@/assets/img/banks_banner/guangda-1.jpg'
   import banner2 from '@/assets/img/banks_banner/guangda-2.jpg'
@@ -211,7 +211,7 @@
     name: 'BankCardDetail',
     components: {
       BzwDialog,
-      fenxin
+      FenXiang
     },
     data () {
       return {
@@ -255,7 +255,7 @@
               this.$router.push({
                 path: '/confirm_applicant_info',
                 query: {
-                  bankId: this.$route.query.bankId || '',
+                  // bankId: this.$route.query.bankId || '',
                   creditCardId: this.creditCardId
                 }
               })
@@ -264,7 +264,7 @@
               this.$router.push({
                 path: '/confirm_applicant_info',
                 query: {
-                  bankId: this.$route.query.bankId || '',
+                  // bankId: this.$route.query.bankId || '',
                   creditCardId: this.creditCardId
                 }
               })

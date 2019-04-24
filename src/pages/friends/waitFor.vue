@@ -22,8 +22,7 @@
       </div>
     </div>
     <div class="foot-bt">
-      <button type="button" class="item cope-link btn-copy" :data-clipboard-text="link">复制邀请链接</button>
-      <div class="item" @click="fenxi">分享给好友</div>
+      <div class="item">等待专属客服审核</div>
     </div>
     <fen-xiang :show="fenx"></fen-xiang>
   </div>
@@ -37,7 +36,7 @@
   import FenXiang from '../../components/fenxing'
 
   export default {
-    name: 'myLink',
+    name: 'waitFor',
     data() {
       return {
         pageData: {

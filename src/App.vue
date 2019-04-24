@@ -19,6 +19,11 @@
 </template>
 
 <style lang="scss" rel="stylesheet/scss">
+  .btn-copy{
+    display: block;
+    background: none;
+    border: none;
+  }
   @import "./assets/css/common.scss";
 
   .child-view {

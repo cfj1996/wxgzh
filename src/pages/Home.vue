@@ -180,7 +180,7 @@
         margin-right: 2%;
         box-sizing: border-box;
         min-height: 60px;
-        margin-top: 10px;
+        /*margin-top: 10px;*/
         text-align: center;
         position: relative;
 
@@ -211,7 +211,17 @@
     }
   }
 </style>
-
+<style scoped lang="scss">
+  .page-icon {
+    width: 40px;
+    height: 40px;
+    img {
+      display: block;
+      max-width: 100%;
+      height: auto;
+    }
+  }
+</style>
 <template>
   <div class="page">
     <section class="page-main home-page">
@@ -242,15 +252,18 @@
 
       <ul class="card-ul">
         <li @click="toRedirectPage(1)">
-          <div class="iconfont  iconxinyongqiahuankuan" style="color: #000;"></div>
+          <!--<div class="iconfont iconxinyongqiahuankuan" style="color: #000;"></div>-->
+          <div class="page-icon"><img src="../assets/img/new_img/home/xyka.png" alt=""></div>
           <p>信用卡</p>
         </li>
         <li @click="toRedirectPage(2)">
-          <div class="iconfont  icongroup47"></div>
+          <!--<div class="iconfont icongroup47"></div>-->
+          <div class="page-icon"><img src="../assets/img/new_img/home/jdcx.png" alt=""></div>
           <p>进度中心</p>
         </li>
         <li @click="toRedirectPage(3)">
-          <div class="iconfont  iconyonghuzhongxin user-icon"></div>
+          <!--<div class="iconfont iconyonghuzhongxin user-icon"></div>-->
+          <div class="page-icon"><img src="../assets/img/new_img/home/user.png" alt=""></div>
           <p>用户中心</p>
         </li>
       </ul>
@@ -436,13 +449,13 @@
             break;
           case 2:
             // 跳转到银行信用卡详情
-            this.$router.push({
-              path: '/bank_card_info',
-              query: {}
-            })
+            // this.$router.push({
+            //   path: '/bank_card_info',
+            //   query: {}
+            // })
             break;
           case 3:
-            // 代金券
+            // 我的页面
             this.$router.push({
               path: '/userCenter'
             })
@@ -485,12 +498,24 @@
       }
     },
     mounted() {
-      if (this.$route.query.operation * 1 === 2) {
+      alert(JSON.stringify(this.$route.query))
+      if (this.$route.query.operation === '2') {
         if (this.user.level * 1 == 1) {
-          this.$router.push('/newpage');
+          if (this.user.agentApproveStatus && this.user.agentApproveStatus == 1) {
+            this.$router.push('/waitFor'); // 等待审核
+          } else {
+            this.$router.push('/newpage?'); // 申请审核
+          }
         } else {
           this.$router.push('/mylink');
         }
+      } else if (this.$route.query.operation === '1' && this.$route.query.biz !== '0') { // 信用卡分享过来的
+        this.$router.push({
+          path: '/bank_card_info',
+          query: {
+            creditCardId: this.$route.query.biz
+          }
+        })
       }
     }
   }
