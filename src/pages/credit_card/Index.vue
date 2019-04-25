@@ -4,93 +4,93 @@
 * @date    19.04.01
 */
 
-<style scoped  lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
 
-  .page-main{
+  .page-main {
     .card-desc {
       padding: 40px 10px 10px;
       background: -webkit-gradient(linear, 0 0, 0 100%, from($color5), to($color1));
-      img{
+      img {
         width: 100%;
       }
     }
-    .card-group{
+    .card-group {
       display: flex;
       display: -webkit-flex; /* Safari */
       flex-wrap: wrap;
       justify-content: left;
       padding: px2rem(10);
 
-      li{
+      li {
         flex: 49.8%;
         box-sizing: border-box;
         height: 26px;
         text-align: center;
 
-        &:first-child{
+        &:first-child {
           margin-right: 0;
         }
         &:last-child {
           margin-left: 0;
         }
-        &.line{
+        &.line {
           flex: 0.4%;
           height: 12px;
           background: #37322e;
           margin-top: 8px;
         }
-        &.active{
-          div{
+        &.active {
+          div {
             border-bottom: 1px solid $color5;
           }
         }
-        div{
+        div {
           display: inline-block;
           line-height: 26px;
           font-size: 14px;
         }
       }
     }
-    .slide-wrapper{
+    .slide-wrapper {
       position: relative;
       overflow-x: hidden;
       padding: 0 10px 10px;
 
-      .card-section{
+      .card-section {
         display: flex;
         margin-bottom: 6px;
         background: #fff;
         padding: 10px;
 
-        .bank-img{
+        .bank-img {
           flex: 0 0 25%;
           height: 60px;
         }
-        .bank-info{
+        .bank-info {
           flex: 0 0 50%;
           padding: 0 6px;
           min-height: 30px;
-          .title{
+          .title {
             font-weight: bold;
             padding-bottom: 4px;
           }
-          .text{
+          .text {
             font-size: 12px;
           }
         }
-        .bank-apply-btn{
+        .bank-apply-btn {
           flex: 0 0 25%;
           min-height: 30px;
 
-          >p{
+          > p {
             font-size: 12px;
             line-height: 16px;
             margin-bottom: 6px;
             color: #ff2521;
             font-size: 12px;
           }
-          .mint-button{
+          .mint-button {
             font-size: 12px;
             min-height: 22px;
             height: 22px;
@@ -98,13 +98,13 @@
           }
         }
       }
-      .swiper-slide{
+      .swiper-slide {
 
-        .item{
+        .item {
           text-align: center;
           border-right: 1px solid #efefef;
 
-          .goods-desc{
+          .goods-desc {
             padding: 10px;
             font-size: 12px;
             color: #666;
@@ -115,7 +115,7 @@
             display: block;
           }
 
-          img{
+          img {
             width: 100%;
             height: 80px;
             margin-top: 10px;
@@ -123,15 +123,15 @@
           }
         }
 
-        &:last-child{
-          .item{
+        &:last-child {
+          .item {
             border-right: none;
           }
         }
       }
     }
 
-    .recommend-card-ul{
+    .recommend-card-ul {
       display: flex;
       display: -webkit-flex; /* Safari */
       flex-wrap: wrap;
@@ -139,7 +139,7 @@
       padding: 10px;
       align-items: normal;
 
-      .card-li{
+      .card-li {
         overflow: hidden;
         flex: 0 0 33.3333%;
         padding-right: 5px;
@@ -148,7 +148,7 @@
         margin-bottom: 10px;
         vertical-align: top;
 
-        section{
+        section {
           position: relative;
           padding-bottom: 6px;
           width: 100%;
@@ -157,7 +157,7 @@
           display: flex;
           flex-wrap: wrap;
 
-          .bank-icon{
+          .bank-icon {
             width: 100%;
             height: 60px;
             background-repeat: no-repeat;
@@ -165,12 +165,12 @@
             background-size: 30%;
             background-position: center center;
           }
-          .bank-card-tags{
+          .bank-card-tags {
             position: relative;
             height: 20px;
             width: 100%;
             text-align: center;
-           span{
+            span {
               margin: 0 2px;
               padding: 2px 6px;
               border-radius: 10px;
@@ -181,17 +181,17 @@
               transform-origin: center;
             }
           }
-          .bank-card-name{
+          .bank-card-name {
             width: 100%;
             text-align: center;
             font-weight: bold;
           }
-          .bank-card-desc{
+          .bank-card-desc {
             font-size: 12px;
             color: gray;
             padding: 4px 6px;
           }
-          .bank-card-bonus{
+          .bank-card-bonus {
             color: #ff2521;
             font-size: 12px;
             padding: 0 6px;
@@ -210,29 +210,30 @@
   }
 </style>
 <style lang="scss" rel="stylesheet/scss">
-  .credit-card-authorise-dialog{
-    .dialog-content{
+  .credit-card-authorise-dialog {
+    .dialog-content {
       padding: 0;
       position: relative;
       min-height: 140px;
 
-      .tip-content{
+      .tip-content {
         padding: 30px 20px 20px;
-        p{
+        p {
           line-height: 18px;
         }
       }
     }
   }
-  .mf-btn{
+
+  .mf-btn {
     margin-top: 30px;
     color: #ff2521;
     background: none;
-    font-size: 14px!important;
-    padding: 5px 10px!important;
+    font-size: 14px !important;
+    padding: 5px 10px !important;
     line-height: 0.8;
     border-radius: 10px;
-    border: 1px solid #ff2521!important;
+    border: 1px solid #ff2521 !important;
   }
 </style>
 
@@ -240,7 +241,7 @@
   <div class="page">
     <section class="page-main">
       <div class="card-desc">
-        <img src="../../assets/img/background_img/bg-2.jpg" >
+        <img src="../../assets/img/background_img/bg-2.jpg">
       </div>
 
       <ul class="card-group">
@@ -276,14 +277,14 @@
         <li class="card-li" v-for="item in recommendBankCard" :key="item.id" @click="toBankCardDetail(item)">
           <section class="content">
             <div class="bank-icon" :style="{ 'background-image': `url(${item.galleryImg}`}"></div>
-            <div class="bank-card-tags" >
+            <div class="bank-card-tags">
               <template v-if="item.tags && item.tags.length">
                 <span v-for="tag in item.tags">{{tag | miashu}}</span>
               </template>
             </div>
             <p class="bank-card-name">{{item.name}}</p>
             <p class="bank-card-desc" v-html="item.descn"></p>
-            <p class="bank-card-bonus"  v-if="isAgent">奖金: {{item.bonus | money(true)}} 元</p>
+            <p class="bank-card-bonus" v-if="isAgent">奖金: {{item.bonus | money(true)}} 元</p>
           </section>
         </li>
       </ul>
@@ -309,7 +310,7 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import BottomMenu from '@/pages/BottomMenu'
   import ScrollWrapper from '@/components/scrollWrapper/ScrollWrapper'
   import creditCardApi from '@/api/creditCardAPI'
@@ -333,7 +334,7 @@
       ScrollWrapper,
       BzwDialog
     },
-    data () {
+    data() {
       let self = this
       return {
         isVisibleDialog: false,
@@ -424,7 +425,7 @@
         }
       },
       showGoodsPage(item) {
-        this.$router.push({ path: '/credit_card' })
+        this.$router.push({path: '/credit_card'})
       },
       getRecommendedProducts(currentPage, callback) {
         if (this.storeId) {
@@ -452,8 +453,7 @@
             // 跳转信用卡
             this.$router.push({
               path: '/credit_card',
-              query: {
-              }
+              query: {}
             })
             break;
           case 2:
@@ -476,7 +476,7 @@
           this.$router.push({
             path: '/bank_card_info',
             query: {
-              creditCardId: data.id,
+              creditCardId: data.id
               // bankId: data.bankId,
               // title: data.title
             }
@@ -488,9 +488,11 @@
     },
     created() {
       let that = this
-      creditCardApi.getCreditCards({
-        catalog: 1
-      }, (res) => {
+      alert(window.location.href)
+      if (this.$route.query.creditCardId) {
+        this.paramCreditCardId = this.$route.query.creditCardId
+      }
+      creditCardApi.getCreditCards({catalog: 1}, (res) => {
         console.log(res)
         that.recommendBankCard.splice(0, that.recommendBankCard.length)
         // 1=普通卡(推荐卡)，2=高端卡，3=学生卡
@@ -518,6 +520,13 @@
           }]
         }
       })
+      console.log('biz', this.$route.query.biz)
+      if (this.$route.query.creditCardId) {
+        this.toBankCardDetail({
+          id: this.$route.query.creditCardId
+        })
+      }
+
     },
     filters: {
       miashu: function (val) {

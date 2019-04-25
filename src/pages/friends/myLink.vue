@@ -126,6 +126,7 @@
 </script>
 
 <style lang="scss" scoped>
+  @import "~@/assets/css/variable.scss";
   .page {
     position: relative;
     height: 100%;
@@ -163,7 +164,8 @@
             height: 16px;
             line-height: 16px;
             border-radius: 8px;
-            background-color: yellow;
+            background-color: $color3;
+            color: $color1;
             margin-left: 10px;
             text-align: center;
           }
@@ -209,12 +211,12 @@
       .item {
         border-radius: 16px;
         &:nth-child(1) {
-          color: #ddb883;
-          border: 1px solid #ddb883;
+          color: $color3;
+          border: 1px solid $color3;
         }
         &:nth-child(2) {
           color: white;
-          background: #ddb883;
+          background-image: linear-gradient(to right, $color2 -30%, $color3);
         }
         padding: 6px 15px;
         line-height: 1.2;

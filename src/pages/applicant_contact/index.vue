@@ -32,12 +32,12 @@
     data() {
       return {
         pageData: {
-          id: '1',
-          employeeNo: '1756',	// 工号
-          displayName: '张飞',	// 微信昵称
-          headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132',	// 微信头像
-          weixinAccountNo: 'ai youxi ',	// 微信号
-          mobile: '15115634774',
+          id: '',
+          employeeNo: '',	// 工号
+          displayName: '',	// 微信昵称
+          headImgURL: '',	// 微信头像
+          weixinAccountNo: ' ',	// 微信号
+          mobile: '',
           realName: '',
           level: null
         }

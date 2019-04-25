@@ -1,5 +1,5 @@
 <template>
-  <div class="zijia" v-if="show" @click="show = false">
+  <div class="zijia" v-if="show">
     <div class="zhezao"></div>
     <div class="img-ku"><img src="../assets/img/fenxiang.png" alt=""></div>
   </div>

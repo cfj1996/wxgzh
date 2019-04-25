@@ -10,11 +10,12 @@
   }
 </style>
 <style lang="scss" scoped>
+  @import "~@/assets/css/variable.scss";
   .page {
     ul{
-      padding: 30px 0;
+      padding: 10px 0;
       li{
-        padding: 0 10px;
+        padding: 10px;
         .time{
           border-radius: 10px;
           background-color: #e4e4e4;
@@ -69,10 +70,12 @@
             <div v-if="val.category === 1">
               <p class="time">{{ val.createdDate | timeAuto }}</p>
               <div class="content">
-                <p>亲爱的{{ val.receiverName }}代理商:</p>
                 <p class="lr" v-html="val.content"></p>
-                <hr>
-                <span @click="$router.push('/author_proxy')">查看详情 ></span>
+                <div v-if="val.receiverId == user.id">
+                  <hr>
+                  <span @click="$router.push('/author_proxy')">查看详情 ></span>
+                </div>
+
 
               </div>
             </div>
@@ -104,6 +107,8 @@
   import ScrollWrapper from '../../components/scrollWrapper/ScrollWrapper'
   import creditCardAPI from '@/api/creditCardAPI.js'
   import moment from 'moment'
+  import {mapState} from 'vuex'
+
 
   export default {
     name: 'index',
@@ -122,6 +127,12 @@
         },
         loadList: false
       }
+    },
+    computed: {
+      ...mapState({
+        user: (state => state.security.user),
+        permissions: state => state.user.permissions
+      })
     },
     methods: {
       getData(fn) {

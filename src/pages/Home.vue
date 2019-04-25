@@ -498,7 +498,7 @@
       }
     },
     mounted() {
-      alert(JSON.stringify(this.$route.query))
+      alert(window.location.href)
       if (this.$route.query.operation === '2') {
         if (this.user.level * 1 == 1) {
           if (this.user.agentApproveStatus && this.user.agentApproveStatus == 1) {
@@ -511,7 +511,7 @@
         }
       } else if (this.$route.query.operation === '1' && this.$route.query.biz !== '0') { // 信用卡分享过来的
         this.$router.push({
-          path: '/bank_card_info',
+          path: '/credit_card',
           query: {
             creditCardId: this.$route.query.biz
           }

@@ -31,21 +31,7 @@
       padding: 0 10px;
       background-color: #fff;
 
-      .generate-view {
-        ul {
-          margin-top: 10px;
-          li {
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            .mint-button {
-              width: 100px;
-              margin-right: 10px;
-            }
-          }
-        }
-      }
+
       .promotion-desc {
         line-height: 16px;
         padding: 10px;
@@ -66,15 +52,42 @@
     }
   }
 </style>
-<style>
+<style lang="scss">
   li .mint-cell {
     display: inline-block;
   }
+  .page-main{
+    .mint-popup{
+      position: fixed;
+      bottom: 0;
+      top: auto;
+      left: 0;
+      transform: none;
+      .generate-view {
+        h3{
+          padding: 0 10px;
+        }
+        p{
+          padding: 0 10px;
+        };
+        width: 375px;
+        ul {
+          margin-top: 10px;
+          li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            .mint-button {
+              width: 100px;
+              margin-right: 10px;
+            }
+          }
+        }
+      }
+    }
+     }
 
-  .generate-view li * {
-    border-width: 0;
-    border: none;
-  }
 </style>
 <template>
   <div class="page">
@@ -82,8 +95,8 @@
       <div class="credit-card-view">
         <img :src="src" alt="" ref="img">
       </div>
-      <div class="bottom-section">
-        <section v-if="isVisibleGenerate" class="generate-view">
+      <mt-popup v-model="isVisibleGenerate">
+        <section class="generate-view">
           <h3>自定义海报内容</h3>
           <p>请选择想要在海报上生成的内容</p>
           <ul>
@@ -108,7 +121,9 @@
             </mt-button>
           </div>
         </section>
-        <section v-else>
+      </mt-popup>
+      <div class="bottom-section">
+        <section>
           <p class="promotion-desc">你可以选择长按推广海报发送至客户，或是复制以下推广链接给客户申请信用卡。</p>
           <div class="promotion-url-section">
             <input v-model="copy" type="text" readonly>
@@ -118,11 +133,9 @@
             <mt-button type="primary" size="large" style="margin-bottom: 10px;" @click="isVisibleGenerate = true">
               自定义海报
             </mt-button>
-            <a :href="src" download="">
-              <mt-button type="primary" size="large">
-                保存图片
-              </mt-button>
-            </a>
+            <mt-button type="primary" @click="seve" size="large">
+              保存图片
+            </mt-button>
           </div>
         </section>
       </div>
@@ -160,6 +173,7 @@
     },
     methods: {
       generateBanner() {
+        this.isVisibleGenerate = false
         Indicator.open();
         creditCardApi.generateCreditCardPoster({
           productId: this.$route.query.creditCardId,
@@ -170,8 +184,14 @@
           _this.src = res.data.url
           this.$refs.img.onload = function () {
             Indicator.close();
-            _this.isVisibleGenerate = false
+
           }
+        })
+      },
+      seve(){
+        Toast({
+          message: '长按图片保存',
+          position: 'top'
         })
       }
     },
@@ -180,12 +200,10 @@
         productId: this.$route.query.creditCardId
       }, (res) => {
         if (res.data.posterURL) {
-          console.log('有')
           this.copy = res.data.link
           this.src = res.data.posterURL
         } else {
           Indicator.open();
-          console.log('没有')
           creditCardApi.generateCreditCardPoster({ productId: this.$route.query.creditCardId,
             name: 'displayName',
             contact: 'weixin'

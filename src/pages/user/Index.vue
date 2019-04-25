@@ -59,7 +59,7 @@
         flex: 1;
         display: flex;
         align-items: center;
-        justify-content: center;
+        justify-content: flex-end;
         p {
           position: relative;
           padding: 6px 6px 6px 30px;
@@ -84,11 +84,11 @@
         height: 40px;
         .xian {
           position: absolute;
-          width: 90%;
-          left: 5%;
+          width: 86%;
+          left: 7%;
           height: 1px;
           background-color: white;
-          top: 27px;
+          top: 23px;
           z-index: 888;
         }
         ul {
@@ -102,11 +102,12 @@
             flex: 1;
             p {
               font-size: 12px;
+              color: #e5e5e5;
             }
             span {
               margin: 0 auto;
-              width: 30px;
-              height: 30px;
+              width: 22px;
+              height: 22px;
               display: block;
             }
           }
@@ -218,20 +219,21 @@
     <div class="page-main user-center">
       <section class="user-info">
         <div class="left-info">
-          <img :src="user.headImgURL"/>
+          <img v-if="user.headImgURL" :src="user.headImgURL"/>
+          <img v-else src="../../assets/img/new_img/user/iocn/user.png" alt="">
         </div>
         <div class="center-info">
-          <p>{{identity.realName || ''}}</p>
+          <p>{{ user.displayName || ''}}</p>
           <p>UID {{user.employeeNo || ''}}</p>
         </div>
         <div class="right-info">
-          <p><span :class="`level${user.level}`"></span>{{ userLevel}}</p>
+          <p><span :class="`level${user.level-1}`"></span>{{ userLevel}}</p>
         </div>
         <div class="tidu">
           <ul>
             <li v-for="val in grade" v-if="val.value !== 1">
-              <p>{{ val.label }}</p>
-              <span :class="levelIcon(val.value)"></span>
+              <p :style="textLevel(val.value)">{{ val.label }}</p>
+              <span :class="levelIcon(val.value-1)"></span>
               <div></div>
             </li>
           </ul>
@@ -356,13 +358,13 @@
             <img src="../../assets/img/new_img/user/iocn/szmx.png" alt="">
             <p>收支明细</p>
           </div>
-          <div class="ku" v-if="level" @click="$router.push('/notice')">
+          <div class="ku" @click="$router.push('/notice')">
             <img src="../../assets/img/new_img/user/iocn/xttz.png" alt="">
             <p>系统通知</p>
           </div>
         </div>
       </div>
-      <div class="my-shru">
+      <div class="my-shru" v-if="level">
         <p class="title">我的团队</p>
         <div class="list">
           <div class="ku" v-if="level">
@@ -393,7 +395,7 @@
           </div>
         </div>
       </div>
-      <div class="my-shru">
+      <div class="my-shru" v-if="level">
         <p class="title">会员必读</p>
         <div class="list">
           <div class="ku" v-if="level">
@@ -469,14 +471,20 @@
     },
     methods: {
       levelIcon(level) {
-        if (level !== this.user.level) {
+        if (level !== this.user.level-1) {
           return `level${level}-nh`
         } else {
           return `level${level}`
         }
+      },
+      textLevel(level) {
+        if (level === this.user.level) {
+          return {color: '#fff'}
+        }
       }
     },
     mounted() {
+      console.log(this.user)
     }
   }
 </script>

@@ -1,4 +1,6 @@
 <style scoped lang="scss">
+  @import "~@/assets/css/variable.scss";
+
   .page {
     .load{
       text-align: center;
@@ -100,22 +102,21 @@
           width: 100%;
           display: flex;
           text-align: center;
+          justify-content: space-around;
           font-size: 16px;
           line-height: 40px;
           height: 40px;
           div {
-            flex: 1;
-            border-radius: 5px;
+            border-radius: 20px;
+            padding:0 40px;
           }
           .btn-out {
-            color: #506cff;
-            border: 1px solid #506cff;
-            border-radius: 5px;
-
+            color: $color3;
+            border: 1px solid $color3;
           }
           .btn-shq {
             color: #fff;
-            background: linear-gradient(to left, #43B9FF, #525FFF);
+            background: linear-gradient(to left, $color2, $color3);
           }
         }
       }
@@ -125,7 +126,7 @@
       font-size: 16px;
       color: white;
       text-align: center;
-      background: linear-gradient(to left, #43B9FF, #525FFF);
+      background: linear-gradient(to left, $color2, $color3);
     }
     .item {
       li {
@@ -170,8 +171,10 @@
   }
 </style>
 <style lang="scss">
+  @import "~@/assets/css/variable.scss";
+
   .bg-1 {
-    background: linear-gradient(to left, #43B9FF, #525FFF);
+    background: linear-gradient(to left, $color2, $color3);
     padding: 4px 30px;
     color: white;
   }
@@ -188,7 +191,7 @@
 </style>
 <template>
   <div class="page">
-    <div class="title">带授权的订单 <p style="text-align: center">{{ order }}</p></div>
+    <div class="title">待授权的订单 <p style="text-align: center">{{ order }}</p></div>
     <div class="retrieve">
       <mt-field placeholder="请输入工号检索" v-model="retrieve"></mt-field>
       <mt-button class="bg-1" @click="search">搜索</mt-button>
@@ -240,15 +243,11 @@
 
 <script>
   import proxyApi from '../../api/proxy'
-  import ScrollWrapper from '../../components/scrollWrapper/ScrollWrapper'
   import moment from 'moment'
   import {Toast} from 'mint-ui';
 
   export default {
     name: 'proxy',
-    components: {
-      ScrollWrapper
-    },
     data() {
       return {
         loadList: true,

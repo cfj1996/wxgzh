@@ -75,8 +75,8 @@
           text-align: center;
           &.actived{
             border-bottom: 3px solid;
-            border-image: linear-gradient(to left, #43B9FF , #525FFF) 3 3;
-            color: #525FFF;
+            border-image: linear-gradient(to left, $color2 , $color3) 3 3;
+            color: $color3;
           }
         }
       }
@@ -153,6 +153,7 @@
   }
 </style>
 <style lang="scss" rel="stylesheet/scss">
+  @import "~@/assets/css/variable.scss";
   #app .page.fixed{
     position: fixed;
     bottom: 55px;
@@ -161,7 +162,7 @@
     top: 0;
   }
   .bg-1{
-    background: linear-gradient(to left, #43B9FF , #525FFF);
+    background: linear-gradient(to left, $color2 , $color3);
     padding: 0 30px;
     color: white;
   }

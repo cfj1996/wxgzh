@@ -4,31 +4,32 @@
 * @date    19.04.15
 */
 
-<style scoped  lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
-  .page-main{
+
+  .page-main {
     height: 100%;
     overflow: auto;
     margin-bottom: 0;
 
-    .head{
+    .head {
       width: 100%;
       min-height: 60px;
       padding-top: 10px;
 
       /*background: -webkit-gradient(linear, 0 0, 0 100%, from(#535BFF), to(#41C2FF));*/
-      background-image:linear-gradient(to right, $color2 -30%, $color3);
+      background-image: linear-gradient(to right, $color2 -30%, $color3);
       color: #fff;
 
-      .title{
+      .title {
         text-align: center;
         font-size: 20px;
         font-weight: bold;
       }
-      .amount{
+      .amount {
         text-align: center;
       }
-      >ul{
+      > ul {
         margin: 10px 40px 0;
         display: flex;
         min-height: 60px;
@@ -38,7 +39,7 @@
         }
       }
     }
-    .search-section{
+    .search-section {
       position: relative;
       display: flex;
       margin: 10px;
@@ -50,17 +51,17 @@
         border: none;
         border-radius: 4px;
       }
-      .search-btn{
+      .search-btn {
         flex: 30%;
         font-size: 12px;
         padding-left: 10px;
       }
     }
-    .order-list{
+    .order-list {
       position: relative;
       margin-top: 20px;
     }
-    .order-ul{
+    .order-ul {
       padding: 10px;
       background-color: #fff;
       li {
@@ -69,116 +70,117 @@
         padding-bottom: 10px;
         border-bottom: 1px solid $color4;
 
-        &:last-child{
+        &:last-child {
           border-bottom: none;
         }
-        .title{
+        .title {
           font-size: 18px;
           margin-bottom: 8px;
           padding-right: 50px;
         }
-        label{
+        label {
           position: absolute;
           right: 0;
           top: 2px;
 
-          .mint-button{
+          .mint-button {
             font-size: 12px;
             height: 20px;
             line-height: 20px;
 
             color: #fff;
             &.is-authorizing {
-              background-image:linear-gradient(to right bottom, $color7 -30%, $color5);
+              background-image: linear-gradient(to right bottom, $color7 -30%, $color5);
             }
             &.is-authorized {
-              background-image:linear-gradient(to right, $color2 -30%, $color3);
+              background-image: linear-gradient(to right, $color2 -30%, $color3);
             }
             &.is-refused {
-              background-image:linear-gradient(to right, $color2 -30%, $color3);
+              background-image: linear-gradient(to right, $color2 -30%, $color3);
             }
           }
         }
-        p{
+        p {
           color: $color4;
           line-height: 20px;
         }
       }
     }
-    .no-data-view{
+    .no-data-view {
       position: relative;
       min-height: 200px;
       text-align: center;
-      img{
+      img {
         width: 200px;
       }
-      p{
+      p {
         padding-top: 10px;
       }
     }
   }
-  .authorization-popup{
+
+  .authorization-popup {
     width: 100%;
     padding: 10px 10px;
-    .head{
+    .head {
       font-size: 18px;
       font-weight: bold;
       color: $color7;
     }
-    .base-info{
+    .base-info {
       margin-top: 20px;
       padding-bottom: 10px;
       display: flex;
       border-bottom: 1px solid $color6;
 
-      li{
-        &:first-child{
+      li {
+        &:first-child {
           flex: 0 0 20%;
           text-align: center;
-          img{
+          img {
             width: 80%;
           }
         }
-        &:last-child{
+        &:last-child {
           flex: 0 0 80%;
-          .title{
+          .title {
             color: #000;
             margin-bottom: 10px;
             margin-top: 4px;
           }
-          p{
+          p {
             color: $color4;
             line-height: 20px;
           }
         }
       }
     }
-    .contact-info{
+    .contact-info {
       display: flex;
-      li{
+      li {
         flex: 0 0 50%;
         text-align: center;
         line-height: 40px;
         height: 40px;
 
-        .iconfont{
+        .iconfont {
           font-size: 16px;
         }
       }
     }
-    .bottom-button{
+    .bottom-button {
       display: flex;
       .mint-button {
-        &:first-child{
+        &:first-child {
           border: 1px solid $color2;
           border-radius: 4px 0 0 4px;
           color: $color2;
         }
-        &:last-child{
+        &:last-child {
           border: none;
           border-radius: 0 4px 4px 0;
           color: #fff;
-          background-image:linear-gradient(to right, $color2 -30%, $color3);
+          background-image: linear-gradient(to right, $color2 -30%, $color3);
         }
         flex: 0 0 50%;
       }
@@ -187,7 +189,7 @@
 
 </style>
 <style lang="scss" rel="stylesheet/scss">
-  #app .page.fixed{
+  #app .page.fixed {
     position: fixed;
     bottom: 55px;
     left: 0;
@@ -198,51 +200,41 @@
 <template>
   <div class="page fixed">
     <div class="page-main">
-      <scroll-wrapper ref="scroll"
-                      :scrollbar="scrollbarObj"
-                      :pullDownRefresh="pullDownRefreshObj"
-                      :pullUpLoad="pullUpLoadObj"
-                      :startY="0"
-                      @pullingDown="onRefreshPage"
-                      @pullingUp="onPullingUp"
-      >
-        <div class="head">
-          <p class="title">待授权订单</p>
-          <p class="amount">{{orderAmount}}</p>
+      <div class="head">
+        <p class="title">待授权订单</p>
+        <p class="amount">{{orderAmount}}</p>
+      </div>
+      <div class="search-section">
+        <mt-field class="employee-no"
+                  placeholder="请输入工号搜索"
+                  :attr="{maxlength: 12}"
+                  v-model="searchKey">
+        </mt-field>
+        <div class="search-btn">
+          <mt-button size="small" @click="search">查询</mt-button>
         </div>
-        <div class="search-section">
-          <mt-field class="employee-no"
-                    placeholder="请输入工号搜索"
-                    :attr="{maxlength: 12}"
-                    v-model="searchKey">
-          </mt-field>
-          <div class="search-btn">
-            <mt-button size="small" @click="search">查询</mt-button>
-          </div>
+      </div>
+      <section class="order-list">
+        <ul class="order-ul" v-if="authorizationList.length">
+          <li v-for="(item , index) in authorizationList">
+            <div class="title">{{item.approvalNo}}</div>
+            <label>
+              <div class="mint-button" @click="btnClick(item)" :disabled="item.status == 3"
+                   :class="item.status > 2 ? 'is-refused' : item.status > 1 ? 'is-authorized' : 'is-authorizing'">
+                {{item.status > 2 ? '已拒绝' : item.status > 1 ? '已授权' : '待授权'}}
+              </div>
+            </label>
+            <p>用户昵称：{{item.displayName}}</p>
+            <p>UID：{{item.employeeNo}}</p>
+            <p>申请时间：{{item.submitDate}}</p>
+            <p>授权状态：{{stateMateData[item.status]}}</p>
+          </li>
+        </ul>
+        <div class="no-data-view" v-if="noData">
+          <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
+          <p>暂无数据</p>
         </div>
-
-        <section class="order-list">
-          <ul class="order-ul" v-if="authorizationList.length">
-            <li v-for="(item , index) in authorizationList">
-              <div class="title">{{item.approvalNo}}</div>
-              <label>
-                <div class="mint-button" @click="btnClick(item)" :disabled="item.status == 3"
-                           :class="item.status > 2 ? 'is-refused' : item.status > 1 ? 'is-authorized' : 'is-authorizing'">
-                  {{item.status > 2 ? '已拒绝' : item.status > 1 ? '已授权' : '待授权'}}
-                </div>
-              </label>
-              <p>用户昵称：{{item.displayName}}</p>
-              <p>UID：{{item.employeeNo}}</p>
-              <p>申请时间：{{item.submitDate}}</p>
-              <p>授权状态：{{stateMateData[item.status]}}</p>
-            </li>
-          </ul>
-          <div class="no-data-view" v-if="noData">
-            <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
-            <p>暂无数据</p>
-          </div>
-        </section>
-      </scroll-wrapper>
+      </section>
     </div>
     <mt-popup v-model="isVisiblePopup" position="bottom" class="authorization-popup">
       <p class="head">您的客户 真爱永恒 正在实习中</p>
@@ -281,8 +273,8 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { Toast } from 'mint-ui'
+  import {mapState} from 'vuex'
+  import {Toast} from 'mint-ui'
   import userAPI from '@/api/userAPI'
   import ScrollWrapper from '../../components/scrollWrapper/ScrollWrapper'
 
@@ -297,7 +289,7 @@
         identity: state => state.security && state.security.user && state.security.user.identity || {}
       })
     },
-    data () {
+    data() {
       return {
         orderAmount: 10,
         limit: 10,
@@ -319,7 +311,7 @@
         }),
         pullUpLoadObj: Object.freeze({
           threshold: 0,
-          txt: { more: '加载更多', noMore: `没有更多` }
+          txt: {more: '加载更多', noMore: `没有更多`}
         }),
         // 信用卡订单的翻页参数
         status: 1, // 状态值：1=待确认，2=待再查，3=待审核，4=已完成，5=未通过，6=回收站

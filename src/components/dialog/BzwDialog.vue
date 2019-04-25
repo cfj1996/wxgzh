@@ -9,7 +9,7 @@
   .dialog-leave-to>.dialog-box{transition:all .3s;}
 
   .dialog-cover{display:flex;justify-content:center;align-items:center;position:fixed;left:0;top:0;z-index:900;width:100%;height:100%;background:rgba(0,0,0,.4);}
-  .dialog-box{position:relative;width:30%;min-width:300px;margin:0 auto;background:#FFF;}
+  .dialog-box{position:relative;width:30%;min-width:300px;margin:0 auto;background:#FFF;border-radius: 10px}
   .dialog-close-btn{position:absolute;top:0;right:0;width:2em;height:2em;opacity:.7;background:url(data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEtZmxhdC0yMDAzMDExNC5kdGQiPgo8c3ZnIHdpZHRoPSIzMCIgaGVpZ2h0PSIzMCIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZyBzdHJva2U9IiMwMDAiIHN0cm9rZS13aWR0aD0iMiI+CjxsaW5lIHgxPSI1IiB5MT0iNSIgeDI9IjI1IiB5Mj0iMjUiIC8+CjxsaW5lIHgxPSIyNSIgeTE9IjUiIHgyPSI1IiB5Mj0iMjUiIC8+CjwvZz4KPC9zdmc+) no-repeat 50% 50%;background-size:50%;cursor:pointer;}
   .dialog-close-btn:hover{opacity:1;}
   .dialog-body{min-height:40px;}

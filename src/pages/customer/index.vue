@@ -64,7 +64,7 @@
       </div>
       <div class="item" v-if="pageData.weixinAccountNo">
         <a href="javascript: void(0) ">
-          <div><img src="../../assets/img/weixin.png" alt=""></div>
+          <div style="margin-bottom: 13px"><img src="../../assets/img/weixin.png" alt=""></div>
           <button type="button" class="copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo">加我微信</button>
         </a>
       </div>

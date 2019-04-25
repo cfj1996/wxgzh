@@ -2,6 +2,9 @@
   @import "~@/assets/css/variable.scss";
 
   .page {
+    .mint-navbar .mint-tab-item.is-selected{
+      color: $color2;
+    }
     .mint-tab-item-label {
       &:after {
         background-image: linear-gradient(to right, $color2 -30%, $color3);
@@ -33,7 +36,7 @@
           border: none;
         }
         flex: 1;
-        padding: 0 8px;
+        padding: 0 15px;
         border-right: 1px solid #b8b8b8;
         img {
           display: block;
@@ -50,8 +53,16 @@
     }
     .yh-list {
       display: flex;
+      position: fixed;
+      left: 0;
+      padding: 0 5px;
+      top: 50px;
+      width: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      height: calc(100% - 120px);
       flex-wrap: wrap;
-      justify-content: space-between;
+      /*justify-content: space-between;*/
       .img-list {
         transition: all .5s;
         display: flex;
@@ -84,14 +95,14 @@
       .active {
         span {
           color: white;
-          background-image: linear-gradient(to right, #535BFF -30%, #41C2FF);
+          background-image: linear-gradient(to right, #ff7777 -30%, #ff2222);
           border: none;
         }
       }
       p {
         margin-top: 10px;
         text-align: center;
-        padding: 5px 0;
+        padding: 5px 3px;
         /*flex: 0 0 25%;*/
         span {
           border-radius: 10px;
@@ -119,14 +130,13 @@
             <p>更新海报</p>
           </div>
           <div class="item">
-            <a :href="pageDailiData.posterURL" download="">
-              <img src="../../assets/img/baocun.png" alt="">
-              <p>保存海报</p>
-            </a>
+            <img src="../../assets/img/baocun.png" @click="seve" alt="">
+            <p>保存海报</p>
           </div>
           <div class="item" @click="dailiFenXiang"><img src="../../assets/img/fenxian.png" alt="">
             <p>推广分享</p></div>
-          <button type="button" class="item dai-cope" :data-clipboard-text="pageDailiData.link"><img src="../../assets/img/fzhi.png" alt="">
+          <button type="button" class="item dai-cope btn-copy" :data-clipboard-text="pageDailiData.link"><img
+            src="../../assets/img/fzhi.png" alt="">
             <p>复制链接</p></button>
         </div>
       </mt-tab-container-item>
@@ -146,14 +156,13 @@
             <p>更新海报</p>
           </div>
           <div class="item">
-            <a :href="pageHaibaoData.posterURL" download="">
-              <img src="../../assets/img/baocun.png" alt="">
-              <p>保存海报</p>
-            </a>
+            <img src="../../assets/img/baocun.png" @click="seve"  alt="">
+            <p>保存海报</p>
           </div>
           <div class="item" @click="haibaoFenXiang"><img src="../../assets/img/fenxian.png" alt="">
             <p>推广分享</p></div>
-          <button type="button" class="item hai-cope btn-copy" :data-clipboard-text="pageHaibaoData.link"><img src="../../assets/img/fzhi.png" alt="">
+          <button type="button" class="item hai-cope btn-copy" :data-clipboard-text="pageHaibaoData.link"><img
+            src="../../assets/img/fzhi.png" alt="">
             <p>复制链接</p></button>
         </div>
       </mt-tab-container-item>
@@ -163,6 +172,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   import {Toast} from 'mint-ui'
   import orderAPI from '../../api/orderAPI'
   import FenXiang from '../../components/fenxing'
@@ -190,6 +200,12 @@
       };
     },
     methods: {
+      seve(){
+        Toast({
+          message: '长按图片保存海报',
+          position: 'top'
+        })
+      },
       getPosters(id, key) {
         Indicator.open({
           text: '图片加载中...',
@@ -255,29 +271,27 @@
       },
       dailiFenXiang() {
         this.frnx = true
+        setTimeout(() =>{
+          this.frnx = false
+        }, 3000)
         Toast({
           message: this.pageDailiData.link,
           position: 'top'
         })
         weixin.wxShare({
-          title: '代理分享',
-          desc: '没有描述',
+          title: this.user.displayName + '邀请您加入办个卡，开启轻创业之旅',
+          desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: this.pageDailiData.link,
           imgUrl: this.pageDailiData.posterURL
-        }, () => {this.frnx = false})
+        }, () => {
+          this.frnx = false
+        })
       },
       haibaoFenXiang() {
-        this.frnx = true
         Toast({
-          message: this.pageHaibaoData.link,
+          message: '长按图片分享给好友',
           position: 'top'
         })
-        weixin.wxShare({
-          title: '代理分享',
-          desc: '没有描述',
-          link: this.pageHaibaoData.link,
-          imgUrl: this.pageHaibaoData.posterURL
-        }, () => {this.frnx = false})
       }
     },
     computed: {
@@ -296,7 +310,11 @@
           width: `${this.imgList.length * 150}+px`,
           transform: `translateX(${70 - 230 * a}px)`
         }
-      }
+      },
+      ...mapState({
+        user: (state => state.security.user),
+        initialized: (state => state.metadata.initialized)
+      })
     },
     mounted() {
       creditCardAPI.getCreditCards({catalog: 1}, (res) => {

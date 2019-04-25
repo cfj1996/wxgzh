@@ -106,6 +106,7 @@ const actions = {
         // res.data.level = 1  // 自己设置的等级
         sessionStorage.setItem("user", JSON.stringify(res.data||[]))
         commit('SET_USER_DETAILS', res.data)
+        console.log('获取用户基本信息')
         resolve(res)
       })
     })

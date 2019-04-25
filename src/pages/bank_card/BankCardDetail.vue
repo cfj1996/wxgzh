@@ -52,6 +52,9 @@
               color: #3ecd0f;
             }
           }
+          p{
+            color: $color3;
+          }
           span{
             font-size: 12px;
             line-height: 18px;
@@ -98,7 +101,11 @@
     }
   }
 </style>
-<style lang="scss" rel="stylesheet/scss">
+<style lang="scss">
+  @import "~@/assets/css/variable.scss";
+  .mint-button--primary{
+    background-color: $color3!important;
+  }
   .bank-card-promotion-dialog {
     .dialog-box{
       position: relative;
@@ -239,7 +246,7 @@
           position: 'top'
         })
         weixin.wxShare({
-          title: encodeURI(this.detail.name),
+          title: this.detail.name,
           desc: this.detail.descn,
           link: encodeURI(`${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`),
           imgUrl: encodeURI(this.detail.galleryImg || '')

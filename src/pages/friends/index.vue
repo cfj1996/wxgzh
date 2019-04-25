@@ -1,4 +1,6 @@
 <style lang="scss" scoped>
+  @import "~@/assets/css/variable.scss";
+
   .page {
     background-color: white;
     height: 100%;
@@ -24,19 +26,21 @@
       justify-content: space-around;
       align-items: center;
       left: 0;
-      .bg-1 {
-        background-image: linear-gradient(to right, #ff512f -30%, #e02771);
+      .bg-letf {
+        border: 1px solid $color3;
+        color: $color3;
+        border-radius: 20px;
       }
-      .bg-2 {
-        background-image: linear-gradient(to right, #535BFF -30%, #41C2FF);
+      .bg-rigth {
+        background-image: linear-gradient(to right, $color2 -30%, $color3);
+        color: $color1;
+        border-radius: 20px;
       }
       .item {
-        border-radius: 5px;
         font-size: 16px;
         line-height: 1.2;
         width: 110px;
         text-align: center;
-        color: white;
         padding: 6px 0;
       }
     }
@@ -90,8 +94,8 @@
   <div class="page">
     <div class="main-img" @click="open = false"><img src="../../assets/img/friends/yaoqin.png" alt=""></div>
     <div class="btn">
-      <div class="item bg-1" @click="open = true">邀请链接</div>
-      <div class="item bg-2" @click="$router.push({path: '/mypostrs'})">邀请海报</div>
+      <div class="item bg-letf" @click="open = true">邀请链接</div>
+      <div class="item bg-rigth" @click="$router.push({path: '/mypostrs'})">邀请海报</div>
     </div>
     <div :class="open?'open':''" class="model">
       <p>选择要分享的平台</p>

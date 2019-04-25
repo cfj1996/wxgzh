@@ -9,7 +9,6 @@ import ApplicantForm from '@/pages/credit_card/ApplicantForm'
 import ConfirmApplicantInfo from '@/pages/credit_card/ConfirmApplicantInfo'
 import BankCardDetail from '@/pages/bank_card/BankCardDetail'
 import CreditPromotion from '@/pages/credit_card/CreditPromotion'
-import AgentAuthorization from '@/pages/credit_card/AgentAuthorization'
 import Invitation from '@/pages/credit_card/Invitation'
 import ApplicationGuide from '@/pages/credit_card/ApplicationGuide'
 import customer from '@/pages/customer/index'
@@ -58,10 +57,10 @@ export default [
   {
     // 普通用户申请办理信用卡（填写个人资料）
     path: '/apply_credit_card_form',
-    name: '填写申请信息',
+    name: '填写申请人信息',
     component: ApplicantForm,
     meta: {
-      title: '填写申请信息',
+      title: '填写申请人信息',
       page: 'homePage',
       requireAuth: true
     }
@@ -79,10 +78,10 @@ export default [
   {
     // 申请成为代理商（填写个人资料）
     path: '/be_agent_form',
-    name: '填写申请代理人信息',
+    name: '填写代理信息',
     component: ApplicantForm,
     meta: {
-      title: '填写申请代理人信息',
+      title: '填写代理信息',
       page: 'homePage',
       requireAuth: true
     }
@@ -133,16 +132,6 @@ export default [
     component: posters,
     meta: {
       title: '专属海报',
-      page: 'homePage',
-      requireAuth: true
-    }
-  },
-  {
-    path: '/agentAuthorization',
-    name: '代理授权',
-    component: AgentAuthorization,
-    meta: {
-      title: '代理授权',
       page: 'homePage',
       requireAuth: true
     }

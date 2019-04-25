@@ -4,9 +4,10 @@
 * @date    19.04.03
 */
 
-<style scoped  lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
-  .page-main{
+
+  .page-main {
     min-height: 100%;
     padding-bottom: 62px;
     margin-bottom: 0;
@@ -15,14 +16,14 @@
     .apply-desc {
       padding: 30px 10px 10px;
       /*background: -webkit-gradient(linear, 0 0, 0 100%, from(#535BFF), to(#41C2FF));*/
-      background-image:linear-gradient(to bottom, $color2 -30%, $color3);
+      background-image: linear-gradient(to bottom, $color2 -30%, $color3);
       color: #fff;
       padding-bottom: 10px;
-      h3{
+      h3 {
         margin: 10px 0;
       }
     }
-    .form-section{
+    .form-section {
       background-color: #fff;
 
       @mixin line {
@@ -34,62 +35,63 @@
         background-color: #eee;
       }
 
-      .form-cell{
-        &:after{
+      .form-cell {
+        &:after {
           bottom: 0;
           @include line
         }
       }
-      .mint-cell-text{
+      .mint-cell-text {
         min-height: 48px;
         line-height: 48px;
         position: relative;
         padding: 0 10px;
 
-        &:after{
+        &:after {
           bottom: 0;
           @include line
         }
 
-        &.credit-card-badge-label:after{
+        &.credit-card-badge-label:after {
           display: none;
         }
-        span{
+        span {
           color: $color4;
         }
       }
-      .badge-section{
+      .badge-section {
         padding-bottom: 10px;
       }
-      .mint-badge.is-primary{
+      .mint-badge.is-primary {
         border: 1px solid #7c868c;
         color: $mainFontColor;
         margin: 10px 0 0 10px;
         background-color: #fff;
-        &.checked{
+        &.checked {
           background-color: $color3;
           color: #fff;
+          border: none;
         }
       }
 
-      .credit-card-section{
+      .credit-card-section {
         padding: 0 10px 10px;
-        span{
+        span {
           color: $color4;
         }
       }
-      .credit-card-badge-section{
+      .credit-card-badge-section {
 
       }
     }
 
-    .notice{
+    .notice {
       padding: 10px 10px 0;
-      h4{
+      h4 {
         margin: 6px 0;
         font-size: 14px;
       }
-      p{
+      p {
         line-height: 18px;
         color: $color4;
       }
@@ -97,27 +99,38 @@
   }
 </style>
 <style lang="scss" rel="stylesheet/scss">
-  .agree-checkbox{
-    .mint-checklist-title{
+  .agree-checkbox {
+    .mint-checklist-title {
       display: none;
     }
-    .mint-checklist-label{
+    .mint-checklist-label {
       padding: 0;
     }
-    .mint-checkbox-core{
+    .mint-checkbox-core {
       border-radius: 4px;
       width: 18px;
       height: 18px;
       position: absolute;
-      &::after{
+      &::after {
         top: 2px;
         left: 5px;
       }
     }
-    .mint-checkbox-label{
+    .mint-checkbox-label {
       display: block;
       margin-left: 24px;
     }
+  }
+
+  .xieyi {
+    color: #3eb7f3;
+    padding-left: 20px;
+  }
+
+  .out {
+    display: inline-block;
+    padding: 8px 20px;
+    text-align: center;
   }
 </style>
 <template>
@@ -129,27 +142,36 @@
         <p>请如实填写您的相关信息，一旦提交，不予以修改。</p>
       </div>
       <div class="form-section">
-        <mt-field class="form-cell" label="工号" placeholder="" disabled readonly v-model="form.employeeNo" v-if="isToBeingAgent"></mt-field>
-        <mt-field class="form-cell" label="用户名" placeholder="请输入您的真实姓名" v-model="form.realName"></mt-field>
-        <mt-field class="form-cell" label="身份证号" placeholder="请输入您的身份证号" :attr="{maxlength: 20}" v-model="form.IDCardNo"></mt-field>
-        <mt-field class="form-cell" label="手机号" placeholder="请输入您的常用手机号" type="tel" :attr="{maxlength: 11}" v-model="form.mobile"></mt-field>
-        <mt-field class="form-cell" label="验证码"  placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="form.authCode" >
-          <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}</mt-button>
+        <mt-field class="form-cell" @blur="onBlur" label="工号" placeholder="" disabled readonly v-model="form.employeeNo"
+                  v-if="isToBeingAgent"></mt-field>
+        <mt-field class="form-cell" @blur="onBlur" label="用户名" placeholder="请输入您的真实姓名"
+                  v-model="form.realName"></mt-field>
+        <mt-field class="form-cell" @blur="onBlur" label="身份证号" placeholder="请输入您的身份证号" :attr="{maxlength: 20}"
+                  v-model="form.IDCardNo"></mt-field>
+        <mt-field class="form-cell" @blur="onBlur" label="手机号" placeholder="请输入您的常用手机号" type="tel"
+                  :attr="{maxlength: 11}" v-model="form.mobile"></mt-field>
+        <mt-field class="form-cell" @blur="onBlur" label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}"
+                  v-model="form.authCode">
+          <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum"
+                     @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
+          </mt-button>
         </mt-field>
-        <mt-field class="form-cell" label="微信号" placeholder="请输入微信号" v-model="form.weixinAccountNo"
+        <mt-field class="form-cell" @blur="onBlur" label="微信号" placeholder="请输入微信号" v-model="form.weixinAccountNo"
                   v-if="isToBeingAgent"></mt-field>
 
         <p class="mint-cell-text">您是否有过以下推广经验<span>(请选择标签)</span></p>
         <div class="badge-section">
-          <mt-badge size="small" @click.native="checkExperienceBadgeEv(item, experienceBadge)"  :class="item.checked ? 'checked': ''"
+          <mt-badge size="small" @click.native="checkExperienceBadgeEv(item, experienceBadge)"
+                    :class="item.checked ? 'checked': ''"
                     v-for="item in experienceBadge" :key="item.id">
             {{item.name}}
           </mt-badge>
         </div>
 
-        <p class="mint-cell-text credit-card-badge-label">您持有以下哪家银行信用卡？<span>(请选择标签)</span></p>
+        <p v-if="!isToBeingAgent" class="mint-cell-text credit-card-badge-label">您持有以下哪家银行信用卡？<span>(请选择标签)</span></p>
         <div class="credit-card-badge-section" v-if="!isToBeingAgent">
-          <mt-badge size="small" @click.native="checkExperienceBadgeEv(item, banksBadge)"  :class="item.checked ? 'checked': ''"
+          <mt-badge size="small" @click.native="checkExperienceBadgeEv(item, banksBadge)"
+                    :class="item.checked ? 'checked': ''"
                     v-for="item in banksBadge" :key="item.id">
             {{item.shortName}}
           </mt-badge>
@@ -157,11 +179,17 @@
       </div>
 
       <mt-checklist class="agree-checkbox"
-        @change="agreeChange"
-        :value.sync="agreeState"
-        :options="agreeOption">
+                    @change="agreeChange"
+                    :value.sync="agreeState"
+                    :options="agreeOption">
       </mt-checklist>
-
+      <p class="xieyi" @click="popupVisible = true">平台协议>></p>
+      <mt-popup v-model="popupVisible" position="right">
+        <xie-yi :isDaili="!isToBeingAgent"/>
+        <div style="text-align: center">
+          <div class="out" @click="popupVisible = false" size="small">关闭</div>
+        </div>
+      </mt-popup>
       <div class="notice">
         <h4>注意事项：</h4>
         <p>1.必须填写真实个人信息，否则无法在平台办理业务。</p>
@@ -180,16 +208,21 @@
 </template>
 
 <script>
-  import { mapState } from 'vuex'
-  import { Toast } from 'mint-ui'
+  import {mapState} from 'vuex'
+  import {Toast} from 'mint-ui'
   import creditCardApi from '@/api/creditCardAPI'
   import userAPI from '@/api/userAPI'
+  import XieYi from '../../components/agreement'
+  import orderAPI from "../../api/orderAPI";
 
   export default {
     name: 'ApplicantForm',
-    data () {
+    components: {
+      XieYi,
+    },
+    data() {
       return {
-        user: {},
+        popupVisible: false,
         isToBeingAgent: false, // 控制是否显示代理人相关表单信息
         form: {
           employeeNo: '', // 工号，用户同意授权后台即给该微信用户分配工号
@@ -202,7 +235,7 @@
         agreeState: ['1'],
         agreeOption: [
           {
-            label: '我已认真阅读并完全同意：《XX平台服务协议》的所有条款',
+            label: '我已认真阅读并完全同意淘个卡平台协议。',
             value: '1',
             checked: true
           }
@@ -214,9 +247,15 @@
             checked: false
           }*/
         ],
-        banksBadge:[], // 银行列表
+        banksBadge: [], // 银行列表
         countDownNum: 0 // 倒计时
       }
+    },
+    computed: {
+      ...mapState({
+        user: (state => state.security.user),
+        permissions: state => state.user.permissions
+      }),
     },
     methods: {
       agreeChange(data) {
@@ -226,9 +265,17 @@
         if (this.validate()) {
           // TODO 请求后台
           var experience = []
-          this.experienceBadge.forEach(item => { if (item.checked) {experience.push(item.id) }})
+          this.experienceBadge.forEach(item => {
+            if (item.checked) {
+              experience.push(item.id)
+            }
+          })
           var ownBankCard = []
-          this.banksBadge.forEach(item => { if (item.checked) { ownBankCard.push(item.id) }})
+          this.banksBadge.forEach(item => {
+            if (item.checked) {
+              ownBankCard.push(item.id)
+            }
+          })
           if (this.isToBeingAgent) { // 代理
             userAPI.agentRegiste({
               realName: this.form.realName,
@@ -239,13 +286,14 @@
               authCode: this.form.authCode
             }, (res) => {
               Toast({
-                message: '信息提交成功',
+                message: '代理申请信息提交成功',
                 position: 'top'
               })
-              this.refreshBaseData()
-              this.$router.replace({
-                path: '/applicant_uaer',
-                query: this.$route.query
+              this.refreshBaseData(() => {
+                this.$router.replace({
+                  path: '/applicant_uaer',
+                  query: this.$route.query
+                })
               })
             })
           } else { // 银行卡
@@ -258,13 +306,16 @@
               authCode: this.form.authCode
             }, (res) => {
               Toast({
-                message: '信息提交成功',
+                message: '银行卡实名认证信息提交成功',
                 position: 'top'
               })
-              this.refreshBaseData()
-              this.$router.replace({
-                path: '/confirm_applicant_info',
-                query: this.$route.query
+              this.refreshBaseData(() => {
+                this.$router.replace({
+                  path: '/bank_card_info',
+                  query: {
+                    creditCardId: this.$route.query.creditCardId
+                  }
+                })
               })
             })
           }
@@ -293,7 +344,7 @@
         }
         return null
       },
-      validateIDCardNo(){
+      validateIDCardNo() {
         if (!this.form.IDCardNo) {
           return '请填写身份证'
         } else if (!this.$util.checkID(this.form.IDCardNo)) {
@@ -304,12 +355,13 @@
       validateMobile() {
         if (!this.form.mobile) {
           return '请填写手机号'
-        } else if (this.$util.checkMobile(this.form.mobile, () => {})) {
+        } else if (this.$util.checkMobile(this.form.mobile, () => {
+        })) {
           return '请填写正确的手机号'
         }
         return null
       },
-      validateAuthCode () {
+      validateAuthCode() {
         if (!this.form.authCode) {
           return '请填写短信验证码'
         } else if (this.form.authCode.length < 6) {
@@ -324,8 +376,11 @@
           result.checked = !result.checked
         }
       },
-      refreshBaseData() {
+      refreshBaseData(fn) {
         this.$store.dispatch('getUserDetails').then((data) => {
+          if (fn && fn()) {
+            fn()
+          }
         })
       },
       sendAuthCode() {
@@ -338,7 +393,11 @@
           })
           return
         }
-        this.$util.countDown(10, (iCount) =>{this.countDownNum = iCount},()=>{ this.countDownNum = 0 })
+        this.$util.countDown(10, (iCount) => {
+          this.countDownNum = iCount
+        }, () => {
+          this.countDownNum = 0
+        })
         userAPI.sendPhoneAuthCode({
           mobile: this.form.mobile, // 手机号码
           category: 'REGISTER' // CHANGEMOBILE=修改手机号码，REGISTER=注册
@@ -348,14 +407,19 @@
             position: 'top'
           })
         })
+      },
+      isBrower(name) {
+        let UA = window.navigator.userAgent.toLowerCase()
+        return UA.indexOf(name) > -1
+      },
+      onBlur() {
+        if (this.isBrower('iphone')) {
+          window.scrollTo(0, 0)
+        }
+        window.scrollTo(0, 0)
       }
     },
     created() {
-      // const bankId = this.$route.query.bankId || ''
-      const user = sessionStorage.getItem('user')
-      if (user) {
-        this.user = JSON.parse(user)
-      }
       this.form.employeeNo = this.user.employeeNo || ''
       let metadata = sessionStorage.getItem('metadata')
       if (metadata) {
@@ -380,10 +444,18 @@
       })
     },
     mounted() {
+      alert(window.location.href)
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
       }
-      console.log(this.$route)
+      // 已经实名后成为代理商的接口
+      if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
+        orderAPI.enroll(() => {})
+        this.$router.replace({
+          path: '/applicant_uaer',
+          query: this.$route.query
+        })
+      }
     }
   }
 </script>

@@ -77,6 +77,15 @@ export default {
     http.request('/m/campaign/generateAgentPoster', {
       success: successCallback
     })
+  },
+  /*
+   * 已经实名后成为代理商的接口
+   * @param successCallback
+   */
+  enroll(successCallback){
+    http.request('/m/agent/enroll',  {
+      success: successCallback
+    })
   }
 }
 

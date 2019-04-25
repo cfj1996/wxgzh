@@ -14,7 +14,7 @@
         </div>
       </div>
       <div class="lt">
-        <button type="button" class="tiem copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo">
+        <button v-if="pageData.weixinAccountNo" type="button" class="tiem copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo">
           <img src="../../assets/img/weixin.png" alt=""> <span>微信聊</span>
         </button>
         <a class="tiem" :href="`tel:${ pageData.mobile }`"><img src="../../assets/img/shouji.png"
