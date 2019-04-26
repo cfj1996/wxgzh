@@ -1,6 +1,5 @@
 <style lang="scss" scoped>
   @import "~@/assets/css/variable.scss";
-
   .page {
     background-color: white;
     height: 100%;
@@ -18,11 +17,13 @@
       }
     }
     .btn {
+      background-color: white;
       position: fixed;
+      padding: 10px 0;
       display: flex;
       z-index: 998;
       width: 100%;
-      bottom: 10px;
+      bottom: 0;
       justify-content: space-around;
       align-items: center;
       left: 0;
@@ -44,9 +45,16 @@
         padding: 6px 0;
       }
     }
-    .model {
-      transform: translateY(100%);
-      transition: all .5s;
+    .mint-popup{
+      width: 100%;
+      bottom: 0;
+      transform: none;
+      left: 0;
+    }
+    .fenx-model {
+      width: 100%;
+      position: absolute;
+      bottom: 0;
       .btn-fool {
         font-size: 16px;
         color: #3eb7f3;
@@ -56,9 +64,6 @@
         bottom: 0;
         width: 100%;
         padding: 10px 0;
-      }
-      &.open {
-        transform: translateY(0);
       }
       background-color: #f2f2f2;
       padding: 10px 0;
@@ -81,34 +86,22 @@
           flex: 0 0 33.333%;
         }
       }
-      position: fixed;
       z-index: 999;
       height: 300px;
-      width: 100%;
-      bottom: 0;
     }
   }
 </style>
 
 <template>
   <div class="page">
-    <div class="main-img" @click="open = false"><img :src="pageData.posterURL" alt=""></div>
+    <div class="main-img"><img :src="pageData.posterURL" alt=""></div>
     <div class="btn">
       <div class="item bg-letf" @click="$router.push({path: '/friends'})">邀请链接</div>
-      <div class="item bg-rigth" @click="open = true">邀请海报</div>
+      <div class="item bg-rigth" @click="saveOpen = true">保存邀请海报</div>
     </div>
-    <div :class="open?'open':''" class="model">
-      <p>选择要分享的平台</p>
-      <div class="list">
-        <span @click="share"><img src="../../assets/img/weixin.png" alt="">微信</span>
-        <span @click="share"><img src="../../assets/img/wx-zone.png" alt="">朋友圈</span>
-        <!--<span><img src="../../assets/img/xinlang.png" alt="">新浪</span>-->
-        <!--<span><img src="../../assets/img/qq.png" alt="">QQ</span>-->
-        <!--<span><img src="../../assets/img/konjian.png" alt="">QQ空间</span>-->
-      </div>
-      <div class="btn-fool" @click="open = false">
-        取消分享
-      </div>
+    <div class="s1" v-if="saveOpen" @click="saveOpen=false">
+      <div class="s2"></div>
+      <div class="s3"><img src="../../assets/img/seve.png" alt=""></div>
     </div>
     <fen-xiang :show="fenx"></fen-xiang>
   </div>
@@ -126,7 +119,7 @@
     name: 'posters',
     data() {
       return {
-        open: false,
+        saveOpen: false,
         pageData: {
           posterURL: '',
           link: ''
@@ -145,21 +138,8 @@
       })
     },
     methods: {
-      share() {
-        this.fenx = true
-        Toast({
-          message: this.pageData.link,
-          position: 'top'
-        })
-        weixin.wxShare({
-          title: `${this.user.displayName}邀请您加入众银家.`,
-          desc: '代理最高补贴140.....',
-          link: encodeURI(this.pageData.link),
-          imgUrl: encodeURI(this.pageData.posterURL)
-        }, () => {
-          this.open = false
-          this.fenx = false
-        })
+      seve() {
+        alert(1)
       }
     },
     mounted() {
@@ -172,8 +152,6 @@
             this.pageData.link = res.data.link
           })
         }
-        console.log(this.pageData)
-
       })
     }
   }

@@ -25,7 +25,7 @@ export default[
     name: '授权代理',
     component: authorProxy,
     meta: {
-      title: '填写申请代理人信息',
+      title: '授权代理',
       page: 'homePage',
       requireAuth: true
     }

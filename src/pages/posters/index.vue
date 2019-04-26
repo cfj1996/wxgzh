@@ -130,7 +130,7 @@
             <p>更新海报</p>
           </div>
           <div class="item">
-            <img src="../../assets/img/baocun.png" @click="seve" alt="">
+            <img src="../../assets/img/baocun.png" @click="saveOpen = true" alt="">
             <p>保存海报</p>
           </div>
           <div class="item" @click="dailiFenXiang"><img src="../../assets/img/fenxian.png" alt="">
@@ -156,7 +156,7 @@
             <p>更新海报</p>
           </div>
           <div class="item">
-            <img src="../../assets/img/baocun.png" @click="seve"  alt="">
+            <img src="../../assets/img/baocun.png" @click="saveOpen = true"  alt="">
             <p>保存海报</p>
           </div>
           <div class="item" @click="haibaoFenXiang"><img src="../../assets/img/fenxian.png" alt="">
@@ -167,6 +167,10 @@
         </div>
       </mt-tab-container-item>
     </mt-tab-container>
+    <div class="s1" v-if="saveOpen" @click="saveOpen=false">
+      <div class="s2"></div>
+      <div class="s3"><img src="../../assets/img/seve.png" alt=""></div>
+    </div>
     <fen-xiang :show="frnx"></fen-xiang>
   </div>
 </template>
@@ -187,6 +191,7 @@
     },
     data() {
       return {
+        saveOpen: false,
         frnx: false,
         selected: '1',
         pageDailiData: {
@@ -200,12 +205,6 @@
       };
     },
     methods: {
-      seve(){
-        Toast({
-          message: '长按图片保存海报',
-          position: 'top'
-        })
-      },
       getPosters(id, key) {
         Indicator.open({
           text: '图片加载中...',
@@ -279,10 +278,10 @@
           position: 'top'
         })
         weixin.wxShare({
-          title: this.user.displayName + '邀请您加入办个卡，开启轻创业之旅',
+          title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
-          link: this.pageDailiData.link,
-          imgUrl: this.pageDailiData.posterURL
+          link: encodeURI(this.pageDailiData.link),
+          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {
           this.frnx = false
         })

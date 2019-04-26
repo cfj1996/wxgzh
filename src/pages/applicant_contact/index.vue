@@ -4,20 +4,20 @@
       <div class="img-ku"><img src="../../assets/img/sqok.png" alt=""></div>
       <p>申请成功等待审核</p>
     </div>
-    <p class="text">请联系您的专属客服授权，尽快完成实习任务（直接推荐客户或是自己成功办理两笔业务，或是招募的实习专员有3名成为正式专员）成为XXX正式代理商。</p>
+    <p class="text">请联系您的专属客服授权，尽快完成实习任务（直接推荐客户或是自己成功办理一笔业务）成为淘个卡正式代理商。</p>
     <div class="content">
       <div class="img-ku"><img v-if="pageData.headImgURL" :src="pageData.headImgURL" alt=""></div>
       <div>
-        <div class="name">{{ pageData.displayName }}(昵称： {{pageData.weixinAccountNo}})</div>
+        <div class="name">{{ pageData.realName }}(昵称： {{pageData.weixinAccountNo}}) <span :class="'level' + (pageData.level - 1)" class="level"></span></div>
         <div class="gonh">工号：{{ pageData.employeeNo }}</div>
         <div class="zhiw">职务：{{ pageData.level | setLevel }}</div>
       </div>
     </div>
     <div class="lt">
-      <button type="button" class="tiem copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo">
+      <button type="button" v-if="pageData.weixinAccountNo" class="tiem copy btn-copy liao bo-wei" :data-clipboard-text="pageData.weixinAccountNo">
         <img src="../../assets/img/weixin.png" alt=""> <span>微信聊</span>
       </button>
-      <a class="tiem" :href="`tel:${ pageData.mobile }`"><img src="../../assets/img/shouji.png"
+      <a class="tiem liao bo-dha" :href="`tel:${ pageData.mobile }`"><img src="../../assets/img/shouji.png"
                                                               alt=""><span>电话聊</span></a>
     </div>
   </div>
@@ -38,7 +38,7 @@
           headImgURL: '',	// 微信头像
           weixinAccountNo: ' ',	// 微信号
           mobile: '',
-          realName: '',
+          realName: '', // 真实姓名
           level: null
         }
       }
@@ -72,6 +72,7 @@
 </script>
 
 <style scoped lang="scss">
+  @import "~@/assets/css/level.scss";
   .applicant {
     .head {
       text-align: center;
@@ -121,7 +122,9 @@
       }
     }
     .lt {
-      margin-top: 30px;
+      margin-top: 15px;
+      border-top: 1px solid #e2e2e2;
+      padding: 10px 0;
       display: flex;
       align-items: center;
       justify-content: space-around;

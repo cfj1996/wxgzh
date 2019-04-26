@@ -241,15 +241,16 @@
       share() {
         this.fenxin = true
         this.show = true
+        setTimeout(() => {this.fenxin = false}, 3000)
         Toast({
           message: `${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`,
           position: 'top'
         })
         weixin.wxShare({
-          title: this.detail.name,
-          desc: this.detail.descn,
+          title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
+          desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(`${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`),
-          imgUrl: encodeURI(this.detail.galleryImg || '')
+          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {this.fenxin = false})
       },
       toApply() {

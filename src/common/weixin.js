@@ -213,6 +213,7 @@ export default {
             wx.onMenuShareTimeline({
               title: params.title, // 分享标题
               link: params.link, // // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+              desc: params.desc,
               imgUrl: params.imgUrl, // 分享图标
               success: function () {
                 // 用户确认分享后执行的回调函数
@@ -226,6 +227,7 @@ export default {
             wx.onMenuShareAppMessage({
               title: params.title, // 分享标题
               link: params.link, // 分享链接,将当前登录用户转为puid,以便于发展下线
+              desc: params.desc,
               imgUrl: params.imgUrl, // 分享图标
               success: function () {
                 // 用户确认分享后执行的回调函数
@@ -491,7 +493,7 @@ export default {
                 // 用户取消分享后执行的回调函数
               },
               fail: function (res) {
-                alert("分享失败，请重新尝试");
+                // alert("分享失败，请重新尝试");
               }
             });
           }

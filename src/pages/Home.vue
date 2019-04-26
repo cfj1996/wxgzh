@@ -4,18 +4,24 @@
 * @date    19.04.01
 */
 
-<style scoped lang="scss" rel="stylesheet/scss">
+<style  lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/px2rem.scss";
+  @import "~@/assets/css/variable.scss";
 
+  .swiper-pagination-bullet{
+    background: #000;
+  }
+  .wrapper1 .swiper-container {
+    padding-bottom: 30px!important;
+  }
+  .swiper-pagination-bullet{
+    background: $color2!important;
+  }
   .page-main.home-page {
-    background-image: url("../assets/img/background_img/bg-1.jpg");
-    background-size: 100% 20%;
-    background-repeat: no-repeat;
 
     .slide-wrapper {
       position: relative;
       overflow-x: hidden;
-      padding: 90px 10px 10px;
 
       .credit-asset {
         padding: 10px;
@@ -40,6 +46,7 @@
         width: 100%;
         background-color: #fff;
         height: 180px;
+        overflow: hidden;
 
         .slide-img {
           width: 100%;
@@ -81,7 +88,6 @@
       width: 100%;
       border-top: 1px solid #efefef;
       padding: 0 20px;
-      background-color: #fff;
 
       .swiper-slide {
         .item {
@@ -91,8 +97,7 @@
           img {
             width: 100%;
             background-color: #000;
-            margin-top: 10px;
-            margin-bottom: 10px;
+            margin: 20px 0;
           }
         }
 
@@ -166,13 +171,11 @@
     }
 
     .card-ul {
-      background: #fff;
       display: flex;
       display: -webkit-flex; /* Safari */
       flex-wrap: wrap;
       justify-content: left;
-      padding: px2rem(10);
-      background-color: #fff;
+      padding: 20px 0;
 
       li {
         overflow: hidden;
@@ -225,14 +228,14 @@
 <template>
   <div class="page">
     <section class="page-main home-page">
-      <div class="slide-wrapper">
+      <div class="slide-wrapper wrapper1">
         <swiper :options="swiperOption" style="height: auto">
           <swiper-slide class="credit-asset">
             <h3>信用资产</h3>
             <p>暂未激活信用资产</p>
             <p>信用即财富，分值越高，用户信用评级越好</p>
           </swiper-slide>
-          <swiper-slide v-for="(item, index) in basicInfo.banners" :key="'swiper_'+index" class="banners">
+          <swiper-slide v-for="(item, index) in basicInfo.banners" :key="index" class="banners">
             <a :href="item.forwardUrl || 'javascript:;'">
               <img class="slide-img" :src="item.imageUrl">
             </a>
@@ -270,7 +273,7 @@
 
       <section class="proprietary-products clearfix">
         <swiper :options="swiperProperietaryOption">
-          <swiper-slide :key="'properietary_'+item.id" v-for="item in proprietaryProductsList">
+          <swiper-slide :key="key" v-for="(item, key) in proprietaryProductsList">
             <div class="item" @click="showGoodsPage(item)">
               <img :src="item.imageUrl">
             </div>
@@ -278,7 +281,7 @@
         </swiper>
       </section>
 
-      <ul class="recommended-products clearfix">
+      <ul v-if="recommendedProductList.length" class="recommended-products clearfix">
         <li v-for="(item, index) in recommendedProductList" :class="index%2 == 0? 'row-left': 'row-right'"
             @click="showGoodsPage(item)">
           <img v-bind:style="recommendedProdStyleObject" :src="item.imageUrl">
@@ -297,15 +300,14 @@
   import ScrollWrapper from '../components/scrollWrapper/ScrollWrapper'
 
   import userApi from '../api/userAPI'
-  import banner1 from '../assets/img/index_banner/banner-1.jpg'
-  import banner2 from '../assets/img/index_banner/banner-2.jpg'
-  import banner3 from '../assets/img/index_banner/banner-3.jpg'
-  import banner4 from '../assets/img/index_banner/banner-4.jpg'
+  import banner1 from '../assets/img/index_banner/new-bg-1.png'
+  import banner2 from '../assets/img/index_banner/new-bg-2.png'
+  import banner3 from '../assets/img/index_banner/new-bg-3.png'
 
-  import banner6 from '../assets/img/index_banner/banner-6.png'
-  import banner7 from '../assets/img/index_banner/banner-7.png'
-  import banner8 from '../assets/img/index_banner/banner-8.png'
-  import banner9 from '../assets/img/index_banner/banner-9.png'
+  import banner6 from '../assets/img/index_banner/new-bg-4.png'
+  import banner7 from '../assets/img/index_banner/new-bg-4.png'
+  import banner8 from '../assets/img/index_banner/new-bg-4.png'
+  import banner9 from '../assets/img/index_banner/new-bg-4.png'
 
   export default {
     name: 'Home',
@@ -359,10 +361,6 @@
             {
               forwardUrl: 'www.baidu.com',
               imageUrl: banner3
-            },
-            {
-              forwardUrl: 'www.baidu.com',
-              imageUrl: banner4
             }
           ],
           storeLogoUrl: 'http://7xv6zz.com2.z0.glb.qiniucdn.com/20171122201942390.jpg'
@@ -498,7 +496,7 @@
       }
     },
     mounted() {
-      alert(window.location.href)
+      // alert(window.location.href)
       if (this.$route.query.operation === '2') {
         if (this.user.level * 1 == 1) {
           if (this.user.agentApproveStatus && this.user.agentApproveStatus == 1) {

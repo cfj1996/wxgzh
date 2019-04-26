@@ -230,7 +230,7 @@
           <p>{{listItem.approvalNo}}</p>
           <p>代理类型:{{listItem.category}}</p>
           <p>授权限状态：{{listItem.status | isStatus}}</p>
-          <p>申请时间：{{listItem.submitDate}}</p>
+          <p>申请时间：{{listItem.submitDate | timeAuto}}</p>
         </div>
         <div class="f-btn">
           <div class="btn-out" @click="open = false">关闭</div>
@@ -315,7 +315,7 @@
             message: '操作成功'
           });
           this.open = false
-          this.onRefreshPage()
+          window.location.reload()
         })
       },
       search() {

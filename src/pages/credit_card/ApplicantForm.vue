@@ -152,7 +152,7 @@
                   :attr="{maxlength: 11}" v-model="form.mobile"></mt-field>
         <mt-field class="form-cell" @blur="onBlur" label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}"
                   v-model="form.authCode">
-          <mt-button style="font-size: 12px;" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum"
+          <mt-button style="font-size: 12px;border: 1px solid #ff2521; background: none; color: #ff2521" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum"
                      @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
           </mt-button>
         </mt-field>
@@ -183,27 +183,26 @@
                     :value.sync="agreeState"
                     :options="agreeOption">
       </mt-checklist>
-      <p class="xieyi" @click="popupVisible = true">平台协议>></p>
+      <span class="xieyi" @click="popupVisible = true;xieyi = true">《淘个卡平台服务协议》</span>
+      <span v-if="isToBeingAgent" class="xieyi" @click="popupVisible = true; xieyi = false">《淘个卡平台信用卡推广规范守则》</span>
       <mt-popup v-model="popupVisible" position="right">
-        <xie-yi :isDaili="!isToBeingAgent"/>
+        <xie-yi :isDaili="xieyi"/>
         <div style="text-align: center">
           <div class="out" @click="popupVisible = false" size="small">关闭</div>
         </div>
       </mt-popup>
+
       <div class="notice">
         <h4>注意事项：</h4>
         <p>1.必须填写真实个人信息，否则无法在平台办理业务。</p>
-        <p>2.收到办卡审核通知短信， 第2个工作日查到</p>
-        <p>进度并提示“等待工作人员审核”，将有机会拆红包。</p>
+        <p>2.收到办卡审核通知短信，第2个工作日查到进度并提示“等待工作人员审核”。</p>
         <p>3.在XX申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
-        <p>4.会员资料与银行无关，XX对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
+        <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
       </div>
     </section>
-    <div class="bottom-single-btn">
-      <mt-button type="primary" size="large" @click="onSubmit" :disabled="!agreeState.length">
-        提交
-      </mt-button>
-    </div>
+    <mt-button type="primary" size="large" @click="onSubmit" :disabled="!agreeState.length">
+      提交
+    </mt-button>
   </div>
 </template>
 
@@ -222,6 +221,7 @@
     },
     data() {
       return {
+        xieyi: true,
         popupVisible: false,
         isToBeingAgent: false, // 控制是否显示代理人相关表单信息
         form: {
@@ -327,6 +327,7 @@
         !msg && (msg = this.validateIDCardNo())
         !msg && (msg = this.validateMobile())
         !msg && (msg = this.validateAuthCode())
+        !msg && (msg = this.weixinAccountNo())
 
         if (msg) {
           Toast({
@@ -366,6 +367,12 @@
           return '请填写短信验证码'
         } else if (this.form.authCode.length < 6) {
           return '短信验证码不能少于6位'
+        }
+        return null
+      },
+      weixinAccountNo() {
+        if (!this.form.weixinAccountNo) {
+          return '请填写微信号'
         }
         return null
       },
@@ -444,7 +451,7 @@
       })
     },
     mounted() {
-      alert(window.location.href)
+      // alert(window.location.href)
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
       }

@@ -236,9 +236,10 @@
                   <p>申请人：{{item.realName}} (工号：{{item.employeeNo}})</p>
                   <p>手机号：{{item.mobile}}</p>
                   <p>浏览时间：{{item.createdDate}}</p>
-                  <section v-if="activeState !== 6">
+                  <section>
+                    <mt-button size="small" v-if="activeState !== 1" class="mini" @click="move(item, 1)">移至待再查</mt-button>
                     <mt-button size="small" v-if="activeState !== 2" class="mini" @click="move(item, 2)">移至待再查</mt-button>
-                    <mt-button size="small" class="mini" @click="move(item, 6)">移至回收站</mt-button>
+                    <mt-button v-if="activeState !== 6" size="small" class="mini" @click="move(item, 6)">移至回收站</mt-button>
                     <!--<mt-button size="small" class="mini">查询进度</mt-button>-->
                   </section>
                 </li>

@@ -69,7 +69,7 @@
         </a>
       </div>
     </div>
-    <p style="padding: 50px 10%;line-height: 1.5;font-size: 16px">专属服务经理是XXX面对用户的第一责任人，在享有XXX相关权益的同时，也肩负指导、培训和为用户排疑解惑的责任与义务。</p>
+    <p style="padding: 50px 10%;line-height: 1.5;font-size: 16px">专属服务经理是淘个卡面对用户的第一责任人，在享有淘个卡相关权益的同时，也肩负指导、培训和为用户排疑解惑的责任与义务。</p>
   </div>
 </template>
 

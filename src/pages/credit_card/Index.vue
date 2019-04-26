@@ -488,7 +488,7 @@
     },
     created() {
       let that = this
-      alert(window.location.href)
+      // alert(window.location.href)
       if (this.$route.query.creditCardId) {
         this.paramCreditCardId = this.$route.query.creditCardId
       }

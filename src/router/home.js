@@ -29,7 +29,7 @@ export default [
     name: '主页',
     component: Home,
     meta: {
-      title: '小猪办卡',
+      title: '淘个卡',
       page: 'homePage',
       requireAuth: false
     }
@@ -168,10 +168,10 @@ export default [
   },
   {
     path: '/newpage',
-    name: '加入众银家',
+    name: '加入淘个卡',
     component: newpage,
     meta: {
-      title: '加入众银家',
+      title: '加入淘个卡',
       page: 'newpage',
       requireAuth: true
     }

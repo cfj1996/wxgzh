@@ -157,6 +157,10 @@
       margin-right: -4px;
     }
   }
+  .xieyi {
+    color: #3eb7f3;
+    padding-left: 33px;
+  }
 </style>
 <template>
   <div class="page">
@@ -171,7 +175,7 @@
                   v-model="formInfo.IDCardNo"></mt-field>
         <mt-field class="form-cell" label="手机号" placeholder="" disabled readonly type="tel" :attr="{maxlength: 11}"
                   v-model="formInfo.mobile"></mt-field>
-        <mt-field class="form-cell" label="微信号" placeholder="" disabled readonly type="tel"
+        <mt-field v-if="formInfo.weixinAccountNo" class="form-cell" label="微信号" placeholder="" disabled readonly type="tel"
                   v-model="formInfo.weixinAccountNo"></mt-field>
       </div>
 
@@ -180,7 +184,13 @@
                     :value.sync="agreeState"
                     :options="agreeOption">
       </mt-checklist>
-
+      <span class="xieyi" @click="popupVisible = true">《淘个卡平台信用卡推广规范守则》</span>
+      <mt-popup v-model="popupVisible" position="right">
+        <xie-yi :isDaili="false"/>
+        <div style="text-align: center">
+          <div class="out" @click="popupVisible = false" size="small">关闭</div>
+        </div>
+      </mt-popup>
       <div class="notice">
         <h4>注意事项：</h4>
         <p>1.必须填写真实个人信息，否则无法在平台办理业务。</p>
@@ -246,7 +256,7 @@
           </p>
         </mt-field>
         <mt-field label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="dialogForm.authCode">
-          <mt-button style="font-size: 12px;" type="primary" size="small" :readonly="!!countDownNum"
+          <mt-button style="font-size: 12px;border: 1px solid #ff2521; background: none; color: #ff2521" type="primary" size="small" :readonly="!!countDownNum"
                      :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum
             > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
           </mt-button>
@@ -276,11 +286,13 @@
   import userAPI from '@/api/userAPI'
   import orderAPI from '@/api/orderAPI'
   import config from '@/config'
+  import XieYi from '../../components/agreement'
 
   export default {
     name: 'ConfirmApplicantInfo',
     components: {
-      BzwDialog
+      BzwDialog,
+      XieYi
     },
     computed: {
       user() {
@@ -302,6 +314,7 @@
     },
     data() {
       return {
+        popupVisible: false,
         countDownNum: 0, // 倒计时
         isVisibleModifyDialog: false,
         isVisibleConfirmDialog: false,
@@ -322,7 +335,7 @@
         agreeState: ['1'],
         agreeOption: [
           {
-            label: '我已认真阅读并完全同意：《XX平台服务协议》的所有条款',
+            label: '我已认真阅读并完全同意淘个卡平台协议',
             value: '1',
             checked: true
           }
