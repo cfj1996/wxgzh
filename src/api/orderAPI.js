@@ -23,10 +23,11 @@ export default {
    * @param params
    * @param successCallback
    */
-  fetchOrderList(params, page, successCallback) {
+  fetchOrderList(params, page, successCallback, filters) {
     http.request('/m/order/findPaged', {
       data: params,
       page,
+      filters,
       success: successCallback
     })
   },
@@ -79,7 +80,7 @@ export default {
     })
   },
   /*
-   * 已经实名后成为代理商的接口
+   * Failed to resolve filter: setLevel
    * @param successCallback
    */
   enroll(successCallback){

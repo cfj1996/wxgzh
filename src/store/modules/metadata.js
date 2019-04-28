@@ -25,6 +25,7 @@ const actions = {
       metadataAPI.getDataSet({}, function (res) {
         // 将行业数组存放缓存
         sessionStorage.level = JSON.stringify(res.data.level)
+        sessionStorage.commissionRule = JSON.stringify(res.data.commissionRule)
         commit('SET_DATASET', res.data)
         resolve(res)
       })

@@ -8,6 +8,10 @@
   @import "~@/assets/css/variable.scss";
 
   .page-main {
+    position: relative;
+    height: calc(100% - 53px);
+    overflow-y: auto;
+    overflow-x: hidden;
     .card-desc {
       padding: 40px 10px 10px;
       background: -webkit-gradient(linear, 0 0, 0 100%, from($color5), to($color1));
@@ -42,7 +46,7 @@
         }
         &.active {
           div {
-            border-bottom: 1px solid $color5;
+            border-bottom: 2px solid $color3;
           }
         }
         div {
@@ -53,6 +57,7 @@
       }
     }
     .slide-wrapper {
+      margin-top: 10px;
       position: relative;
       overflow-x: hidden;
       padding: 0 10px 10px;
@@ -64,11 +69,11 @@
         padding: 10px;
 
         .bank-img {
-          flex: 0 0 25%;
+          flex: 0 0 90px;
           height: 60px;
         }
         .bank-info {
-          flex: 0 0 50%;
+          flex: 1;
           padding: 0 6px;
           min-height: 30px;
           .title {
@@ -80,7 +85,7 @@
           }
         }
         .bank-apply-btn {
-          flex: 0 0 25%;
+          flex: 0 0 85px;
           min-height: 30px;
 
           > p {
@@ -130,7 +135,6 @@
         }
       }
     }
-
     .recommend-card-ul {
       display: flex;
       display: -webkit-flex; /* Safari */
@@ -170,10 +174,20 @@
             height: 20px;
             width: 100%;
             text-align: center;
+            .xian {
+              background-color: #cdcdcd;
+              position: relative;
+              z-index: 0;
+              margin-top: 10px;
+              width: 100%;
+              height: 1px;
+            }
             span {
               margin: 0 2px;
               padding: 2px 6px;
               border-radius: 10px;
+              position: relative;
+              top: -10px;
               color: #fff;
               background: linear-gradient(to right, #ff4f42, #ff2521);
               font-size: 12px;
@@ -194,7 +208,7 @@
           .bank-card-bonus {
             color: #ff2521;
             font-size: 12px;
-            padding: 0 6px;
+            padding-left: 5px;
           }
         }
       }
@@ -225,6 +239,47 @@
     }
   }
 
+  .con-text {
+    width: 100%;
+    h2 {
+      padding: 10px;
+      border-bottom: 1px solid #9f9f9f;
+      margin-bottom: 0;
+    }
+    .t-title {
+      padding: 10px;
+      display: flex;
+      text-align: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #9f9f9f;
+      span{
+        flex: 1;
+
+      }
+    }
+    .t-boby {
+      text-align: center;
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid #9f9f9f;
+      span{
+        flex: 1;
+      }
+    }
+    .con-text{
+      margin-top: 30px;
+      padding: 0 10px;
+      font-size: 16px;
+      line-height: 1.3;
+    }
+    .zhu {
+      color: #bfbfbf;
+      font-size: 14px;
+      padding-bottom: 25px;
+    }
+  }
+
   .mf-btn {
     margin-top: 30px;
     color: #ff2521;
@@ -234,6 +289,16 @@
     line-height: 0.8;
     border-radius: 10px;
     border: 1px solid #ff2521 !important;
+  }
+
+  .mint-popup {
+    width: 100%;
+    border-radius: 10px;
+  }
+  .out{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
   }
 </style>
 
@@ -276,20 +341,23 @@
       <ul class="recommend-card-ul">
         <li class="card-li" v-for="item in recommendBankCard" :key="item.id" @click="toBankCardDetail(item)">
           <section class="content">
-            <div class="bank-icon" :style="{ 'background-image': `url(${item.galleryImg}`}"></div>
-            <div class="bank-card-tags">
-              <template v-if="item.tags && item.tags.length">
-                <span v-for="tag in item.tags">{{tag | miashu}}</span>
-              </template>
+            <div style="width: 100%;position: relative;height: 90px;">
+              <div class="bank-icon" :style="{ 'background-image': `url(${item.galleryImg}`}"></div>
+              <div class="bank-card-tags">
+                <div class="xian"></div>
+                <template v-if="item.tags && item.tags.length">
+                  <span v-for="tag in item.tags">{{tag | miashu}}</span>
+                </template>
+              </div>
             </div>
             <p class="bank-card-name">{{item.name}}</p>
             <p class="bank-card-desc" v-html="item.descn"></p>
-            <p class="bank-card-bonus" v-if="isAgent">奖金: {{item.bonus | money(true)}} 元</p>
+            <p class="bank-card-bonus" @click.stop="shuoming(item.amount)" v-if="isAgent">
+            奖金: {{item.amount | money(true)}} 元<span class="mintui mintui-back" style="display: inline-block; transform: rotateZ(-90deg);color: #7c868c;font-size: 14px;"></span></p>
           </section>
         </li>
       </ul>
     </section>
-
     <bzw-dialog class="credit-card-authorise-dialog" v-model="isVisibleDialog"
                 :showCloseButton="false"
                 :showHeader="false"
@@ -305,6 +373,31 @@
         </mt-button>
       </div>
     </bzw-dialog>
+    <mt-popup v-model="jiesGze">
+      <div class="con-text">
+        <div class="">
+          <h2>佣金结算说明</h2>
+          <div class="t-title">
+            <span>代理商等级</span>
+            <span v-for="val in levelList" v-if="val.value !== 1 && val.value !== 2">{{ val.label }}</span>
+          </div>
+          <div class="t-boby">
+            <span>佣金(元)</span>
+            <span v-for="val in levelList" v-if=" val.value !== 1 && val.value !== 2">{{ jiesuan(val.value, thisBonus) }}</span>
+          </div>
+          <div class="con-text">
+            结算周期：
+            T+2 (查询进度符合银行要求后，一般2个工作日内结算) <br>
+            注：如曾申请过或有次行信用卡，不发放奖金。3个工作日可查结果。
+          </div>
+          <div class="con-text zhu">
+            结算规则：<br>
+            首次申请+资料审批通过+短信通知=成功办理此义务。（未通过审批的不结算奖金）
+          </div>
+        </div>
+      </div>
+      <div class="out" @click="jiesGze = false"><img src="../../assets/img/out.png" alt=""></div>
+    </mt-popup>
     <bottom-menu></bottom-menu>
   </div>
 </template>
@@ -337,6 +430,9 @@
     data() {
       let self = this
       return {
+        jiesGze: false,
+        thisBonus: 0,
+        levelList: [],
         isVisibleDialog: false,
         activeIndex: 0,
         swiperOption: {
@@ -484,10 +580,25 @@
         } else {
           this.isVisibleDialog = true
         }
+      },
+      shuoming(bonus) {
+        this.thisBonus = bonus
+        this.jiesGze = true
+      },
+      jiesuan(level, bonus) {
+        let dili = null
+        JSON.parse(sessionStorage.commissionRule).forEach(val => {
+          if (level === val.userLevel) {
+            dili = val.commission
+          }
+        })
+        let the = bonus * dili / 10000
+        return the
       }
     },
     created() {
       let that = this
+      this.levelList = JSON.parse(sessionStorage.level)
       // alert(window.location.href)
       if (this.$route.query.creditCardId) {
         this.paramCreditCardId = this.$route.query.creditCardId
@@ -520,7 +631,6 @@
           }]
         }
       })
-      console.log('biz', this.$route.query.biz)
       if (this.$route.query.creditCardId) {
         this.toBankCardDetail({
           id: this.$route.query.creditCardId

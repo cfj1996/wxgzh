@@ -141,6 +141,24 @@ export default {
       page,
       success: successCallback
     })
+  },
+  /*
+   * 我的收入
+   * @param successCallback
+   */
+  userIncome(successCallback){
+    http.request('/m/fund/count', {
+      success: successCallback
+    })
+  },
+  /*
+   * 我的客户数
+   * @param successCallback
+   */
+  userCustomer(successCallback) {
+    http.request('/m/customer/count', {
+      success: successCallback
+    })
   }
 }
 

@@ -75,7 +75,7 @@
 
 </style>
 <template>
-  <mt-tabbar class="bottom-nav" fixed v-model="selected">
+  <mt-tabbar class="bottom-nav" v-model="selected">
     <mt-tab-item id="homePage" @click.native="$router.push({path: '/'})" class="normal">
       <!--<img slot="icon" :src="selected == 'homePage'? require('../assets/img/bottomIcon/icon_discovery_pressed.png'): require('../assets/img/bottomIcon/icon_discovery_normal.png')">-->
       <!--<span v-if="selected=='homePage'" class="colc30911">首页</span>-->
@@ -85,7 +85,7 @@
         <span class="text">首页</span>
       </div>
     </mt-tab-item>
-    <mt-tab-item id="discover" @click.native="" class="normal">
+    <mt-tab-item id="discover" @click.native="$router.push('/be_agent_form')" class="normal">
       <!--<img slot="icon" :src="selected == 'discover'? require('../assets/img/bottomIcon/icon_classify_pressed.png'): require('../assets/img/bottomIcon/icon_classify_normal.png')" >-->
       <!--<span v-if="selected=='discover'" class="colc30911">发现</span>-->
       <!--<span v-else class="colbfbfbf">发现</span>-->

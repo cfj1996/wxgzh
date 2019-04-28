@@ -38,6 +38,7 @@
   </style>
 </head>
 <body ontouchstart>
+<div style="display: none;"><input type="text" id="testInput"></div>
 <div id="app">
   <router-view></router-view>
 </div>
@@ -50,4 +51,25 @@
 <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
 <!--<script src="https://res2.wx.qq.com/open/js/jweixin-1.4.0.js"></script>-->
 <script src="https://gw.alipayobjects.com/as/g/h5-lib/alipayjsapi/3.1.1/alipayjsapi.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.0/jquery.js"></script>
+<script>
+  document.getElementById('testInput').onblur = function () {
+
+  }
+  let inputs = document.getElementsByTagName('input')
+  for (let i = 0; i < inputs.length; i++) {
+    inputs[i].addEventListener('blur', function () {
+      if (isBrower) {
+        document.getElementsByClassName('page')[0].scrollTo(0, 0)
+      }
+      document.getElementsByClassName('page')[0].scrollTo(0, 0)
+    }, false)
+  }
+
+  function isBrower() {
+    let UA = window.navigator.userAgent.toLowerCase()
+    return UA.indexOf('iphone') > -1
+  }
+
+</script>
 </html>

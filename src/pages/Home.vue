@@ -18,7 +18,9 @@
     background: $color2!important;
   }
   .page-main.home-page {
-
+    height: calc(100% - 56px);
+    overflow-x: hidden;
+    overflow-y: auto;
     .slide-wrapper {
       position: relative;
       overflow-x: hidden;

@@ -27,7 +27,7 @@
   z-index: 9999;
   .zhezao{
     background-color: #7c868c;
-    opacity: 0.5;
+    opacity: 0.8;
     position: absolute;
     z-index: 99;
     left: 0;

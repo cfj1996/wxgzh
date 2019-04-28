@@ -1,11 +1,26 @@
 <style scoped lang="scss">
   @import "~@/assets/css/variable.scss";
+  @import "../../assets/css/common";
 
   .page {
-    .load{
+    .no-data-icon{
+      text-align: center;
+      position: relative;
+      top: 40%;
+      transform: translateY(-50%);
+      img{
+        width: 150px;
+        height: 150px;
+      }
+      p{
+        margin-top: 20px;
+        color: $color1;
+      }
+    }
+    .load {
       text-align: center;
       padding-bottom: 10px;
-      p{
+      p {
         font-size: 12px;
         display: inline-block;
         background: #cacaca;
@@ -108,7 +123,7 @@
           height: 40px;
           div {
             border-radius: 20px;
-            padding:0 40px;
+            padding: 0 40px;
           }
           .btn-out {
             color: $color3;
@@ -206,8 +221,12 @@
         <p>授权限状态：{{ val.status | isStatus }}</p>
       </li>
     </ul>
+    <div class="no-data-icon" v-if="noData">
+      <img src="../../assets/img/icon_empty_logo.png">
+      <p>暂无数据</p>
+    </div>
     <div class="load">
-      <p v-if="loadList" @click="load" >加载更多</p>
+      <p v-if="loadList" @click="load">加载更多</p>
     </div>
     <div class="foot">
       <div class="zhezao" v-if="open" @click="open= false"></div>
@@ -256,6 +275,7 @@
         jiazai: true,
         order: null,
         dataList: [],
+        noData: false,
         listItem: {
           id: '',
           approvalNo: '',
@@ -294,7 +314,7 @@
       },
       load() {
         // 下一页数据
-        this.page.pageNum ++
+        this.page.pageNum++
         this.getData()
       },
       editor(id, stret) {
@@ -319,16 +339,22 @@
         })
       },
       search() {
-        this.page.pageNum = 1
-        this.dataList = []
-        let a = [{ property: '_member.employeeNo', value: this.retrieve }]
-        this.getData((list) => {
-          if(list.length === 0){
-            Toast({
-              message: '未找到相关数据'
-            })
-          }
-        }, a)
+        if (!this.retrieve) {
+          this.getData()
+          this.noData = false
+        } else {
+          this.page.pageNum = 1
+          this.dataList = []
+          let a = [{property: '_member.employeeNo', value: this.retrieve}]
+          this.getData((list) => {
+            if (list.length === 0) {
+              this.noData = true
+            } else {
+              this.noData = false
+            }
+          }, a)
+        }
+
       }
     },
     filters: {

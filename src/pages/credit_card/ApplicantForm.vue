@@ -142,21 +142,21 @@
         <p>请如实填写您的相关信息，一旦提交，不予以修改。</p>
       </div>
       <div class="form-section">
-        <mt-field class="form-cell" @blur="onBlur" label="工号" placeholder="" disabled readonly v-model="form.employeeNo"
+        <mt-field class="form-cell" label="工号" placeholder="" disabled readonly v-model="form.employeeNo"
                   v-if="isToBeingAgent"></mt-field>
-        <mt-field class="form-cell" @blur="onBlur" label="用户名" placeholder="请输入您的真实姓名"
+        <mt-field class="form-cell" label="用户名" placeholder="请输入您的真实姓名"
                   v-model="form.realName"></mt-field>
-        <mt-field class="form-cell" @blur="onBlur" label="身份证号" placeholder="请输入您的身份证号" :attr="{maxlength: 20}"
+        <mt-field class="form-cell" label="身份证号" placeholder="请输入您的身份证号" :attr="{maxlength: 20}"
                   v-model="form.IDCardNo"></mt-field>
-        <mt-field class="form-cell" @blur="onBlur" label="手机号" placeholder="请输入您的常用手机号" type="tel"
+        <mt-field class="form-cell" label="手机号" placeholder="请输入您的常用手机号" type="tel"
                   :attr="{maxlength: 11}" v-model="form.mobile"></mt-field>
-        <mt-field class="form-cell" @blur="onBlur" label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}"
+        <mt-field class="form-cell" label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}"
                   v-model="form.authCode">
           <mt-button style="font-size: 12px;border: 1px solid #ff2521; background: none; color: #ff2521" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum"
                      @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
           </mt-button>
         </mt-field>
-        <mt-field class="form-cell" @blur="onBlur" label="微信号" placeholder="请输入微信号" v-model="form.weixinAccountNo"
+        <mt-field class="form-cell" label="微信号" placeholder="请输入微信号" v-model="form.weixinAccountNo"
                   v-if="isToBeingAgent"></mt-field>
 
         <p class="mint-cell-text">您是否有过以下推广经验<span>(请选择标签)</span></p>
@@ -183,7 +183,7 @@
                     :value.sync="agreeState"
                     :options="agreeOption">
       </mt-checklist>
-      <span class="xieyi" @click="popupVisible = true;xieyi = true">《淘个卡平台服务协议》</span>
+      <span class="xieyi" @click="popupVisible = true;xieyi = true">《淘个卡平台服务协议》</span> <br>
       <span v-if="isToBeingAgent" class="xieyi" @click="popupVisible = true; xieyi = false">《淘个卡平台信用卡推广规范守则》</span>
       <mt-popup v-model="popupVisible" position="right">
         <xie-yi :isDaili="xieyi"/>
@@ -196,13 +196,16 @@
         <h4>注意事项：</h4>
         <p>1.必须填写真实个人信息，否则无法在平台办理业务。</p>
         <p>2.收到办卡审核通知短信，第2个工作日查到进度并提示“等待工作人员审核”。</p>
-        <p>3.在XX申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
+        <p>3.在淘个卡申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
         <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
       </div>
     </section>
-    <mt-button type="primary" size="large" @click="onSubmit" :disabled="!agreeState.length">
-      提交
-    </mt-button>
+    <div style="padding: 0 10px;">
+      <mt-button type="primary" size="large" @click="onSubmit" :disabled="!agreeState.length">
+        提交
+      </mt-button>
+    </div>
+
   </div>
 </template>
 
@@ -217,7 +220,7 @@
   export default {
     name: 'ApplicantForm',
     components: {
-      XieYi,
+      XieYi
     },
     data() {
       return {
@@ -235,7 +238,7 @@
         agreeState: ['1'],
         agreeOption: [
           {
-            label: '我已认真阅读并完全同意淘个卡平台协议。',
+            label: '我已认真阅读并完全同意以下协议：',
             value: '1',
             checked: true
           }
@@ -414,16 +417,6 @@
             position: 'top'
           })
         })
-      },
-      isBrower(name) {
-        let UA = window.navigator.userAgent.toLowerCase()
-        return UA.indexOf(name) > -1
-      },
-      onBlur() {
-        if (this.isBrower('iphone')) {
-          window.scrollTo(0, 0)
-        }
-        window.scrollTo(0, 0)
       }
     },
     created() {
@@ -458,10 +451,10 @@
       // 已经实名后成为代理商的接口
       if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
         orderAPI.enroll(() => {})
-        this.$router.replace({
-          path: '/applicant_uaer',
-          query: this.$route.query
-        })
+        // this.$router.replace({
+        //   path: '/applicant_uaer',
+        //   query: this.$route.query
+        // })
       }
     }
   }

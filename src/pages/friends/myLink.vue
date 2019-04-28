@@ -82,10 +82,9 @@
     methods: {
       fenxi() {
         this.fenx = true
-        Toast({
-          message: this.link,
-          position: 'top'
-        })
+        setTimeout(() => {
+          this.fenx = false
+        }, 3000)
         weixin.wxShare({
           title: `${this.user.displayName}邀请您加入淘个卡，开启轻创业之旅.`,
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
@@ -145,7 +144,7 @@
       }
       .content {
         width: 100%;
-        height: 130px;
+        height: 122px;
         padding: 0 10px;
         p {
           font-size: 18px;

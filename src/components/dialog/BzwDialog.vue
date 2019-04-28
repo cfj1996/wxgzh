@@ -33,6 +33,12 @@
   .dialog-ok-btn{color:#c30911}
   .dialog-tip-cover{background:transparent;pointer-events:none;}
   .dialog-tip-cover>.dialog-box>.dialog-body{border-radius:3px;color:#FFF;background:rgba(0,0,0,.8);}
+  .zhezao-out{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    padding-top: 25px;
+  }
 </style>
 <template>
   <transition name="dialog">
@@ -57,6 +63,7 @@
             </div>
           </slot>
         </footer>
+        <div class="zhezao-out" @click="show = false"><img src="../../assets/img/out.png" alt=""></div>
       </div>
     </div>
   </transition>

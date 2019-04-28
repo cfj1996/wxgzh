@@ -143,12 +143,18 @@
         min-height: 200px;
         text-align: center;
         img{
-          width: 200px;
+          width: 150px;
+          height: auto;
         }
         p{
           padding-top: 10px;
         }
       }
+    }
+    .set-btn{
+      background-color: $color3;
+      border: $color3;
+      color: white;
     }
   }
 </style>
@@ -237,9 +243,9 @@
                   <p>手机号：{{item.mobile}}</p>
                   <p>浏览时间：{{item.createdDate}}</p>
                   <section>
-                    <mt-button size="small" v-if="activeState !== 1" class="mini" @click="move(item, 1)">移至待再查</mt-button>
-                    <mt-button size="small" v-if="activeState !== 2" class="mini" @click="move(item, 2)">移至待再查</mt-button>
-                    <mt-button v-if="activeState !== 6" size="small" class="mini" @click="move(item, 6)">移至回收站</mt-button>
+                    <mt-button size="small" v-if="activeState !== 1" class="mini set-btn" @click="move(item, 1)">移至待确认</mt-button>
+                    <mt-button size="small" v-if="activeState !== 2" class="mini set-btn" @click="move(item, 2)">移至待再查</mt-button>
+                    <mt-button v-if="activeState !== 6" size="small" class="mini set-btn" @click="move(item, 6)">移至回收站</mt-button>
                     <!--<mt-button size="small" class="mini">查询进度</mt-button>-->
                   </section>
                 </li>
@@ -258,9 +264,8 @@
           </mt-tab-container-item>
       </mt-tab-container>
         <div style="text-align: center; margin-top: 60px;">
-          <p>全国统一客服热线：0755-********</p>
-          <p>商务合作：marketing@***.com</p>
-          <p>copyright@2019-2020 ***.All Rights Reserved</p>
+          <p>淘个卡</p>
+          <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
         </div>
       </scroll-wrapper>
     </section>
@@ -353,7 +358,6 @@
     },
     methods: {
       search() {
-        console.log('search', this.searchKey)
         this.onRefreshPage()
       },
       move(data, status) {
@@ -421,14 +425,13 @@
           })
         }
         orderAPI.fetchOrderList({
-          status: this.status,
-          filters: filter
+          status: this.status
         }, {
           limit: this.limit,
           pageNum: currentPage
         }, (res) => {
           callback && callback(res)
-        })
+        }, filter)
         this.$refs.scroll.forceUpdate(false) // 显示没有更多
       },
       filter(item) {

@@ -1,24 +1,98 @@
 <style lang="scss" scoped>
   @import "~@/assets/css/variable.scss";
+
   .page {
     background-color: white;
     height: 100%;
     width: 100%;
     position: relative;
-    .main-img {
-      height: 100%;
-      width: 100%;
+    .view {
       position: relative;
+      height: calc(100% - 53px);
+      overflow-x: hidden;
+      overflow-y: auto;
+
+      width: 100%;
+      .content {
+        width: 100%;
+        height: 122px;
+        padding: 0 10px;
+        p {
+          font-size: 18px;
+        }
+        .cont {
+          margin-top: 15px;
+          display: flex;
+          align-items: center;
+          .cont-img {
+            margin-right: 30px;
+            width: 50px;
+            height: 50px;
+            overflow: hidden;
+            border-radius: 25px;
+            img {
+              max-width: 100%;
+              height: auto;
+            }
+          }
+          .cont-text {
+            font-size: 14px;
+            .name {
+              display: flex;
+              align-items: center;
+            }
+            i {
+              display: inline-block;
+              width: 16px;
+              height: 16px;
+              line-height: 16px;
+              border-radius: 8px;
+              background-color: $color3;
+              color: $color1;
+              margin-left: 10px;
+              text-align: center;
+            }
+            .xx {
+              margin-top: 10px;
+              font-size: 12px;
+              span {
+                margin-right: 15px;
+                color: #b5b5b5;
+              }
+            }
+          }
+        }
+        .lt {
+          margin-top: 15px;
+          border-top: 1px solid #e2e2e2;
+          padding: 10px 0;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+
+          img {
+            border-radius: 50%;
+          }
+          .tiem {
+            display: flex;
+            align-items: center;
+            span {
+              padding: 0 10px;
+              color: #000;
+            }
+          }
+        }
+      }
       img {
-        max-width: 70%;
+        max-width: 100%;
         height: auto;
         display: block;
-        margin: auto;
       }
     }
     .btn {
       background-color: white;
-      position: fixed;
+      position: absolute;
+      height: 53px;
       padding: 10px 0;
       display: flex;
       z-index: 998;
@@ -34,7 +108,7 @@
       }
       .bg-rigth {
         background-image: linear-gradient(to right, $color2 -30%, $color3);
-        color: $color1;
+        color: white;
         border-radius: 20px;
       }
       .item {
@@ -94,7 +168,7 @@
 
 <template>
   <div class="page">
-    <div class="main-img"><img :src="pageData.posterURL" alt=""></div>
+    <div class="main-img view"><img :src="pageData.posterURL" alt=""></div>
     <div class="btn">
       <div class="item bg-letf" @click="$router.push({path: '/friends'})">邀请链接</div>
       <div class="item bg-rigth" @click="saveOpen = true">保存邀请海报</div>

@@ -2,8 +2,19 @@
   @import "~@/assets/css/variable.scss";
 
   .page {
-    .mint-navbar .mint-tab-item.is-selected{
+    .mint-navbar .mint-tab-item.is-selected {
       color: $color2;
+    }
+    .mint-tab-container {
+      height: calc(100% - 50px);
+      .mint-tab-container-wrap {
+        position: relative;
+        height: 100%;
+        .mint-tab-container-item {
+          position: relative;
+          height: 100%;
+        }
+      }
     }
     .mint-tab-item-label {
       &:after {
@@ -15,7 +26,10 @@
 <style scoped lang="scss">
   .page {
     .img-ku {
+      position: relative;
+      height: calc(100% - 71px);
       padding: 15px 60px 0 60px;
+      overflow: auto;
       img {
         max-width: 100%;
         height: auto;
@@ -23,7 +37,7 @@
       }
     }
     .post-foot {
-      position: fixed;
+      position: relative;
       bottom: 0;
       left: 0;
       width: 100%;
@@ -53,14 +67,13 @@
     }
     .yh-list {
       display: flex;
-      position: fixed;
+      position: relative;
       left: 0;
       padding: 0 5px;
-      top: 50px;
       width: 100%;
       overflow-x: hidden;
       overflow-y: auto;
-      height: calc(100% - 120px);
+      height: calc(100% - 71px);
       flex-wrap: wrap;
       /*justify-content: space-between;*/
       .img-list {
@@ -82,7 +95,7 @@
           &:last-child {
             /*padding: 0 !important;*/
           }
-          padding: 0 40px;
+          padding: 0 35px;
 
           img {
             transform: scale(0.9);
@@ -94,20 +107,24 @@
       }
       .active {
         span {
+          border: none;
           color: white;
           background-image: linear-gradient(to right, #ff7777 -30%, #ff2222);
           border: none;
         }
       }
-      p {
-        margin-top: 10px;
-        text-align: center;
-        padding: 5px 3px;
-        /*flex: 0 0 25%;*/
-        span {
-          border-radius: 10px;
-          border: 1px solid #a6a6a6;
-          padding: 3px 5px;
+      .xyk-list{
+        padding: 10px 15px;
+        p {
+          margin-top: 20px;
+          display: inline-block;
+          text-align: center;
+          padding-right: 15px;
+          span {
+            border-radius: 10px;
+            padding: 3px 10px;
+            border: 1px solid #a6a6a6;
+          }
         }
       }
     }
@@ -147,8 +164,10 @@
                                                                                           :src="val.posterURL" alt="">
             </li>
           </ul>
-          <p v-for="(val, key) in productList" @click="qiek(val.id)" :class="val.id === inId? 'active': ''"><span>{{ val.name }}</span>
-          </p>
+          <div class="xyk-list">
+            <p v-for="(val, key) in productList" @click="qiek(val.id)" :class="val.id === inId? 'active': ''"><span>{{ val.shortName }}</span>
+            </p>
+          </div>
         </div>
         <div class="post-foot">
           <div class="item">
@@ -156,7 +175,7 @@
             <p>更新海报</p>
           </div>
           <div class="item">
-            <img src="../../assets/img/baocun.png" @click="saveOpen = true"  alt="">
+            <img src="../../assets/img/baocun.png" @click="saveOpen = true" alt="">
             <p>保存海报</p>
           </div>
           <div class="item" @click="haibaoFenXiang"><img src="../../assets/img/fenxian.png" alt="">
@@ -270,13 +289,9 @@
       },
       dailiFenXiang() {
         this.frnx = true
-        setTimeout(() =>{
+        setTimeout(() => {
           this.frnx = false
         }, 3000)
-        Toast({
-          message: this.pageDailiData.link,
-          position: 'top'
-        })
         weixin.wxShare({
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
@@ -287,9 +302,17 @@
         })
       },
       haibaoFenXiang() {
-        Toast({
-          message: '长按图片分享给好友',
-          position: 'top'
+        this.frnx = true
+        setTimeout(() => {
+          this.frnx = false
+        }, 3000)
+        weixin.wxShare({
+          title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
+          desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
+          link: encodeURI(this.pageHaibaoData.link),
+          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
+        }, () => {
+          this.frnx = false
         })
       }
     },
@@ -307,7 +330,7 @@
         }
         return {
           width: `${this.imgList.length * 150}+px`,
-          transform: `translateX(${70 - 230 * a}px)`
+          transform: `translateX(${70 - 220 * a}px)`
         }
       },
       ...mapState({

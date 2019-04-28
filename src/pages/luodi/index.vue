@@ -125,7 +125,7 @@
       }
       .content {
         width: 100%;
-        height: 130px;
+        height: 122px;
         padding: 0 10px;
         p {
           font-size: 18px;

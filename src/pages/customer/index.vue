@@ -29,22 +29,19 @@
       align-items: center;
       .item{
         div{
-          width: 55px;
-          height: 55px;
-          margin: 0 auto;
+          width: 35px;
+          height: 35px;
+          margin: 20px auto;
           img{
             border-radius: 50%;
             overflow: hidden;
-            width: 100%;
-            height: 100%;
+            max-width: 100%;
             height: auto;
             display: block;
           }
         }
         p{
-          padding: 10px 15px ;
-          margin-top: 10px;
-          background: #f2f2f2;
+          color: black;
         }
       }
     }

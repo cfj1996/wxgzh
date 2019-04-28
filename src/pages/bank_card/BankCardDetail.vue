@@ -104,7 +104,7 @@
 <style lang="scss">
   @import "~@/assets/css/variable.scss";
   .mint-button--primary{
-    background-color: $color3!important;
+    background-color: $color3;
   }
   .bank-card-promotion-dialog {
     .dialog-box{
@@ -242,10 +242,6 @@
         this.fenxin = true
         this.show = true
         setTimeout(() => {this.fenxin = false}, 3000)
-        Toast({
-          message: `${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`,
-          position: 'top'
-        })
         weixin.wxShare({
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',

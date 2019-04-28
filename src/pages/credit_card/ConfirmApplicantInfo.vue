@@ -136,6 +136,7 @@
   }
 </style>
 <style lang="scss" rel="stylesheet/scss">
+  @import "~@/assets/css/variable.scss";
   .applicant-confirm-modify-dialog {
     .tip-content {
       padding: 0;
@@ -161,6 +162,14 @@
     color: #3eb7f3;
     padding-left: 33px;
   }
+  .huoqu{
+    border: 1px solid $color3;
+    background: none!important;
+    .mint-button-text{
+      color: $color3;
+    }
+  }
+
 </style>
 <template>
   <div class="page">
@@ -184,7 +193,7 @@
                     :value.sync="agreeState"
                     :options="agreeOption">
       </mt-checklist>
-      <span class="xieyi" @click="popupVisible = true">《淘个卡平台信用卡推广规范守则》</span>
+      <span class="xieyi" @click="popupVisible = true">《淘个卡平台服务协议》</span>
       <mt-popup v-model="popupVisible" position="right">
         <xie-yi :isDaili="false"/>
         <div style="text-align: center">
@@ -195,9 +204,9 @@
         <h4>注意事项：</h4>
         <p>1.必须填写真实个人信息，否则无法在平台办理业务。</p>
         <p>2.收到办卡审核通知短信， 第2个工作日查到</p>
-        <p>进度并提示“等待工作人员审核”，将有机会拆红包。</p>
-        <p>3.在XX申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
-        <p>4.会员资料与银行无关，XX对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
+        <p>进度并提示“等待工作人员审核”。</p>
+        <p>3.在淘个卡申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
+        <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
       </div>
     </section>
     <div class="bottom-single-btn">
@@ -256,7 +265,7 @@
           </p>
         </mt-field>
         <mt-field label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}" v-model="dialogForm.authCode">
-          <mt-button style="font-size: 12px;border: 1px solid #ff2521; background: none; color: #ff2521" type="primary" size="small" :readonly="!!countDownNum"
+          <mt-button class="huoqu" type="primary" size="small" :readonly="!!countDownNum"
                      :disabled="!!countDownNum" @click="sendAuthCode">{{countDownNum
             > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
           </mt-button>

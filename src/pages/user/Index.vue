@@ -10,9 +10,8 @@
   @import "~@/assets/css/level.scss";
 
   .page-main.user-center {
-    overflow-y: scroll;
-    -webkit-overflow-scrolling: touch;
-
+    overflow-y: auto;
+    height: calc(100% - 53px);
     > section {
       margin-top: 20px;
       &:first-child {
@@ -20,7 +19,6 @@
       }
     }
     .user-info {
-      background: #fff;
       padding: 20px 10px;
       position: relative;
       display: flex;
@@ -178,31 +176,31 @@
       background-color: #c30911;
       color: #fff;
     }
-    .my-shru{
-      .title{
+    .my-shru {
+      .title {
         padding: 15px;
         font-size: 18px;
       }
     }
-    .list{
+    .list {
       padding: 20px 15px;
       background: white;
       display: flex;
       flex-wrap: wrap;
-      .ku{
+      .ku {
         flex: 0 25%;
-        img{
+        img {
           width: 42px;
           height: 42px;
           display: block;
           margin: auto;
         }
-        p{
+        p {
           margin-top: 5px;
           font-size: 14px;
           text-align: center;
         }
-        span{
+        span {
           display: block;
           color: #ff3f36;
           font-size: 16px;
@@ -215,7 +213,7 @@
 </style>
 
 <template>
-  <div class="page ">
+  <div class="page">
     <div class="page-main user-center">
       <section class="user-info">
         <div class="left-info">
@@ -240,108 +238,6 @@
           <div class="xian"></div>
         </div>
       </section>
-<!--
-      <div class="my-integral">
-        <section>
-          <div class="left-cell">
-            我的收入<i class="iconfont iconshouru" style="color: #e6a23c;"></i>
-            <p>¥ {{integrantCount.exchangeableCount}}</p>
-          </div>
-        </section>
-        <section>
-          <div class="right-cell">
-            我的团队<i class="iconfont icontuandui_keshi" style="color: #535BFF;"></i>
-            <p>¥ {{integrantCount.exchangeableCount}}</p>
-          </div>
-        </section>
-      </div>
-      <div style="margin: 20px 10px; padding: 10px 0; background-color: #fff;text-align: center;">
-        <h3 style="margin: 0 0 10px;">会员必读</h3>
-        <p>推荐办卡须知</p>
-      </div>
-
-      <section class="my-order">
-        <div class="mint-cell">
-          <div class="mint-cell-wrapper">
-            <div class="mint-cell-title">
-              <mt-tabbar class="order-group-nav vertical-group-nav">
-                <mt-tab-item class="item" id="1" @click.native="$router.push({path: '/order'})">
-                  <img slot="icon" src="../../assets/img/icon_to_order.png">
-                  <span>订单明细</span>
-                  <label v-if="orderStatisticData.statecount0"
-                         class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="2" @click.native="">
-                  <img slot="icon" src="../../assets/img/shouzhi.png">
-                  <span>收支明细</span>
-                  <label v-if="orderStatisticData.statecount0"
-                         class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="3" @click.native="">
-                  <img slot="icon" src="../../assets/img/khgl.png">
-                  <span>客户管理</span>
-                  <label v-if="orderStatisticData.statecount0"
-                         class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="4" @click.native="">
-                  <img slot="icon" src="../../assets/img/sjbb.png">
-                  <span>数据报表</span>
-                  <label v-if="orderStatisticData.statecount0"
-                         class="badge-label">{{orderStatisticData.statecount0}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="5" @click.native="$router.push('/friends')">
-                  <img slot="icon" src="../../assets/img/yqhy.png">
-                  <span>邀请好友</span>
-                  <label v-if="orderStatisticData.statecount3"
-                         class="badge-label">{{orderStatisticData.statecount3}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="6" @click.native="$router.push({path: '/author_proxy'})">
-                  <img slot="icon" src="../../assets/img/sqdl.png">
-                  <span>代理授权</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="7" @click.native="$router.push('/posters')">
-                  <img slot="icon" src="../../assets/img/zshb.png">
-                  <span>专属海报</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" id="8" @click.native="$router.push('/customer')">
-                  <img slot="icon" src="../../assets/img/zskf.png">
-                  <span>专属客服</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="9" @click.native="$router.push('/notice')">
-                  <img slot="icon" src="../../assets/img/xttz.png">
-                  <span>系统通知</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="10" @click.native="">
-                  <img slot="icon" src="../../assets/img/pxxy.png">
-                  <span>培训学院</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" v-if="level" id="11" @click.native="">
-                  <img slot="icon" src="../../assets/img/bzzx.png">
-                  <span>帮助中心</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-                <mt-tab-item class="item" id="12" @click.native="">
-                  <img slot="icon" src="../../assets/img/sz.png">
-                  <span>设置</span>
-                  <label v-if="orderStatisticData.statecount9"
-                         class="badge-label">{{orderStatisticData.statecount9}}</label>
-                </mt-tab-item>
-              </mt-tabbar>
-            </div>
-          </div>
-        </div>
-      </section>-->
       <div class="my-shru">
         <p class="title">我的收入</p>
         <div class="list">
@@ -370,7 +266,7 @@
           <div class="ku" v-if="level">
             <img src="../../assets/img/new_img/user/iocn/khgl.png" alt="">
             <p>客户管理</p>
-            <span>0人</span>
+            <span>{{ userInfo.customerCount }}人</span>
           </div>
           <div class="ku" v-if="level" @click="$router.push('/author_proxy')">
             <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
@@ -396,7 +292,7 @@
         </div>
       </div>
       <div class="my-shru" v-if="level">
-        <p class="title">会员必读</p>
+        <p class="title">资料</p>
         <div class="list">
           <div class="ku" v-if="level">
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
@@ -405,9 +301,9 @@
         </div>
       </div>
       <div style="text-align: center; margin-top: 20px;">
-        <p>全国统一客服热线：0755-********</p>
-        <p>商务合作：marketing@***.com</p>
-        <p>copyright@2019-2020 ***.All Rights Reserved</p>
+        <p>淘个卡</p>
+        <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
+        <br>
       </div>
     </div>
     <bottom-menu></bottom-menu>
@@ -419,7 +315,7 @@
   import {mapState} from 'vuex'
   import BottomMenu from '@/pages/BottomMenu'
   import BzwDialog from '../../components/dialog/BzwDialog'
-  import avater from '../../assets/img/wx-zone.png'
+  import userAPI from '../../api/userAPI'
 
   export default {
     name: 'UserCenter',
@@ -466,12 +362,14 @@
           statecount40: 0// 退货状态订单数量
         },
         // isPartner: true // 是否是合伙人
-        userInfo: {}
+        userInfo: {
+          customerCount: 0
+        }
       }
     },
     methods: {
       levelIcon(level) {
-        if (level !== this.user.level-1) {
+        if (level !== this.user.level - 1) {
           return `level${level}-nh`
         } else {
           return `level${level}`
@@ -484,7 +382,14 @@
       }
     },
     mounted() {
-      console.log(this.user)
+      userAPI.userIncome((res) => {
+        let a = res.data.mineTotal
+        a = (a / 100).toFixed(2)
+        this.integrantCount.exchangeableCount = a
+      })
+      userAPI.userCustomer((res) => {
+        this.userInfo.customerCount = res.data.customerCount
+      })
     }
   }
 </script>

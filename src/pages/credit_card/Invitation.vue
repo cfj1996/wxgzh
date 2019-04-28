@@ -142,11 +142,9 @@
     methods: {
       wxShare() {
         this.fenx = true
-        console.log(this.user)
-        Toast({
-          message: `${this.identity}/m/invitation/agent?inviterId=${this.user.id}`,
-          position: 'top'
-        })
+        setTimeout(() => {
+          this.fenx = false
+        }, 3000)
         weixin.wxShare({
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅.',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',

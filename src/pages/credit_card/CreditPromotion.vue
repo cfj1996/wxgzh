@@ -133,11 +133,15 @@
             <mt-button type="primary" size="large" style="margin-bottom: 10px;" @click="isVisibleGenerate = true">
               自定义海报
             </mt-button>
-            <mt-button type="primary" @click="seve" size="large">
+            <mt-button type="primary" @click="saveOpen = true" size="large">
               保存图片
             </mt-button>
           </div>
         </section>
+        <div class="s1" v-if="saveOpen" @click="saveOpen=false">
+          <div class="s2"></div>
+          <div class="s3"><img src="../../assets/img/seve.png" alt=""></div>
+        </div>
       </div>
     </section>
   </div>
@@ -154,6 +158,7 @@
     components: {},
     data() {
       return {
+        saveOpen: false,
         shareUrl: 'http://devxykviph5.isales.tech/credit_promotion?userId=123',
         isVisibleGenerate: false,
         copy: '',
@@ -188,12 +193,6 @@
           }
         })
       },
-      seve(){
-        Toast({
-          message: '长按图片保存',
-          position: 'top'
-        })
-      }
     },
     created() {
       creditCardApi.getCreditCardPosterDetail({
