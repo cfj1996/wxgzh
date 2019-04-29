@@ -159,7 +159,7 @@
     data() {
       return {
         saveOpen: false,
-        shareUrl: 'http://devxykviph5.isales.tech/credit_promotion?userId=123',
+        shareUrl: '',
         isVisibleGenerate: false,
         copy: '',
         name: '',

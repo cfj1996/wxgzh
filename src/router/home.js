@@ -46,7 +46,7 @@ export default [
   },
   {
     path: '/application_guide',
-    name: '申请指南',
+    name: 'sqzn',
     component: ApplicationGuide,
     meta: {
       title: '信用卡-申请指南',

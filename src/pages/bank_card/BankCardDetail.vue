@@ -174,7 +174,8 @@
             <i class="iconfont iconzizhutuiguang"></i>
             <p>分享</p>
           </div>
-          <div @click="$router.push({ path: '/application_guide', query: { plan: detail.guide,name: detail.name }})" class="menu">
+          <!--this.$router.push({ name: 'news', params: { userId: 123 }})-->
+          <div @click="$router.push({ name: 'sqzn', params: { path: detail.guide }})" class="menu">
             <i class="iconfont iconbangzhuzhongxin"></i>
             <p style="color: #36464e">申请指南</p>
           </div>

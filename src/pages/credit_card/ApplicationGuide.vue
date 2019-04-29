@@ -9,17 +9,16 @@
       text-align: center;
       background-color: $color3;;
     }
+    .iframe{
+      width: 100%;
+      height: auto;
+    }
   }
 </style>
 <template>
   <div class="page">
     <div class="title">{{ this.$route.query.name }}申请指南</div>
-    <div v-html="">
-      <p></p>
-      <img src="" alt="">
-    </div>
-    <div v-html="html"></div>
-    <img src="" alt="">
+    <iframe id="guideFrame"  frameborder=0 name="guideFrame" scrolling=auto width="100%" height="100%" :src="$route.params.path"></iframe>
   </div>
 </template>
 
@@ -34,11 +33,7 @@
       }
     },
     created() {
-      axios.get('/static/guide/' + this.$route.query.plan + '/index.html').then((res) => {
-        this.html = res.data
-      }).catch((err) => {
-        this.html = `<h1><img style="" src='/static/guide/xinyie/img/u1377.png'/></h1>`
-      })
+      console.log(this.$route.params.path)
     }
   }
 </script>
