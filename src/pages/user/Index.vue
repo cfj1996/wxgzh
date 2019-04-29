@@ -71,7 +71,7 @@
             width: 40px;
             height: 40px;
             left: -10px;
-            top: -7px;
+            top: -5px;
           }
         }
       }
@@ -82,8 +82,8 @@
         height: 40px;
         .xian {
           position: absolute;
-          width: 86%;
-          left: 7%;
+          width: calc(80% - 10px);
+          left: calc(10% + 5px);
           height: 1px;
           background-color: white;
           top: 23px;
@@ -92,12 +92,12 @@
         ul {
           z-index: 999;
           position: absolute;
-          width: 100%;
+          width: 80%;
+          left: 10%;
           display: flex;
           justify-content: space-between;
           text-align: center;
           li {
-            flex: 1;
             p {
               font-size: 12px;
               color: #e5e5e5;
@@ -229,7 +229,7 @@
         </div>
         <div class="tidu">
           <ul>
-            <li v-for="val in grade" v-if="val.value !== 1">
+            <li v-for="val in grade" v-if="val.value !== 1&&val.value !== 6&&val.value !== 7">
               <p :style="textLevel(val.value)">{{ val.label }}</p>
               <span :class="levelIcon(val.value-1)"></span>
               <div></div>
@@ -300,8 +300,9 @@
           </div>
         </div>
       </div>
-      <div style="text-align: center; margin-top: 20px;">
+      <div style="text-align: center; margin-top: 20px;color: #a4a4a4">
         <p>淘个卡</p>
+        <br>
         <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
         <br>
       </div>

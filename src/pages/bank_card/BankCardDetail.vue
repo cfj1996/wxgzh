@@ -174,7 +174,7 @@
             <i class="iconfont iconzizhutuiguang"></i>
             <p>分享</p>
           </div>
-          <div @click="$router.push('/application_guide')" class="menu">
+          <div @click="$router.push({ path: '/application_guide', query: { plan: detail.guide,name: detail.name }})" class="menu">
             <i class="iconfont iconbangzhuzhongxin"></i>
             <p style="color: #36464e">申请指南</p>
           </div>
@@ -228,7 +228,8 @@
         isVisibleSharePopup: false, // 分享
         bankCardContent: '',
         detail: {},
-        productId: ''
+        productId: '',
+        creditCardId: ''
       }
     },
     computed: {
@@ -246,7 +247,6 @@
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(`${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`),
-          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {this.fenxin = false})
       },
       toApply() {

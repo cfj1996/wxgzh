@@ -1,7 +1,18 @@
 <style lang="scss" scoped>
+  @import "~@/assets/css/level.scss";
+
   .page {
     padding-top: 20px;
     .title {
+      p{
+        line-height: 1.5;
+        .level{
+          transform: translateY(8px);
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+        }
+      }
       span {
         display: block;
         width: 55px;
@@ -15,6 +26,7 @@
           display: block;
         }
       }
+
     }
     .text{
       margin-top: 20px;
@@ -35,8 +47,8 @@
           img{
             border-radius: 50%;
             overflow: hidden;
-            max-width: 100%;
-            height: auto;
+            width: 35px;
+            height: 35px;
             display: block;
           }
         }
@@ -50,7 +62,7 @@
 <template>
   <div class="page">
     <div class="title"><span><img v-if="pageData.headImgURL" :src="pageData.headImgURL" alt=""></span>
-    <p class="text">{{pageData.displayName}} <br> UID:{{pageData.employeeNo}}</p>
+    <p class="text">{{pageData.displayName}} <span :class="'level' + (Number(pageData.level) - 1)" class="level"></span> <br> UID:{{pageData.employeeNo}} </p>
     </div>
     <div class="icon">
       <div class="item">
@@ -61,8 +73,7 @@
       </div>
       <div class="item" v-if="pageData.weixinAccountNo">
         <a href="javascript: void(0) ">
-          <div style="margin-bottom: 13px"><img src="../../assets/img/weixin.png" alt=""></div>
-          <button type="button" class="copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo">加我微信</button>
+          <button type="button" class="copy btn-copy" :data-clipboard-text="pageData.weixinAccountNo"><div style="margin-bottom: 13px"><img src="../../assets/img/weixin.png" alt=""></div><p style="margin-top: 16px;">加我微信</p></button>
         </a>
       </div>
     </div>

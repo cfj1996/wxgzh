@@ -69,14 +69,11 @@
           <li v-for="val in pageData">
             <div v-if="val.category === 1">
               <p class="time">{{ val.createdDate | timeAuto }}</p>
-              <div class="content">
+              <div class="content" style="padding-bottom: 25px">
                 <p class="lr" v-html="val.content"></p>
-                <div v-if="val.receiverId == user.id">
-                  <hr>
+                <div v-if="val.receiverId == user.id" style="border-top: 1px solid #f2f2f2;margin-top: 10px;padding-top: 10px">
                   <span @click="$router.push('/author_proxy')">查看详情 ></span>
                 </div>
-
-
               </div>
             </div>
             <div v-else>

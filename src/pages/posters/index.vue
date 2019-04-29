@@ -107,10 +107,9 @@
       }
       .active {
         span {
-          border: none;
+          border: none!important;
           color: white;
           background-image: linear-gradient(to right, #ff7777 -30%, #ff2222);
-          border: none;
         }
       }
       .xyk-list{
@@ -124,6 +123,28 @@
             border-radius: 10px;
             padding: 3px 10px;
             border: 1px solid #a6a6a6;
+          }
+        }
+      }
+    }
+    .generate-view {
+      h3{
+        padding: 0 10px;
+      }
+      p{
+        padding: 0 10px;
+      };
+      width: 375px;
+      ul {
+        margin-top: 10px;
+        li {
+          margin-bottom: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          .mint-button {
+            width: 100px;
+            margin-right: 10px;
           }
         }
       }
@@ -142,7 +163,7 @@
       <mt-tab-container-item id="1">
         <div class="img-ku"><img v-if="pageDailiData.posterURL" :src="pageDailiData.posterURL" alt=""></div>
         <div class="post-foot">
-          <div class="item">
+          <div class="item" @click="updataDaiLi()">
             <img src="../../assets/img/genxin.png" alt="">
             <p>更新海报</p>
           </div>
@@ -170,7 +191,7 @@
           </div>
         </div>
         <div class="post-foot">
-          <div class="item">
+          <div class="item" @click="updataXykKu = true">
             <img src="../../assets/img/genxin.png" alt="">
             <p>更新海报</p>
           </div>
@@ -190,6 +211,33 @@
       <div class="s2"></div>
       <div class="s3"><img src="../../assets/img/seve.png" alt=""></div>
     </div>
+    <mt-popup v-model="updataXykKu" position="bottom">
+        <section class="generate-view">
+          <h3>自定义海报内容</h3>
+          <p>请选择想要在海报上生成的内容</p>
+          <ul>
+            <li>
+              <mt-radio
+                v-model="name"
+                :options="[{label: '真实姓名', value: 'realName'}, {label: '微信昵称', value: 'displayName'}]">
+              </mt-radio>
+              <span>单选</span>
+            </li>
+            <li style="padding-bottom: 50px">
+              <mt-checklist
+                v-model="inform"
+                :options="[{label: '手机号', value: 'mobile'}, {label:  '微信号', value: 'weixin'}]">
+              </mt-checklist>
+              <span>多选</span>
+            </li>
+          </ul>
+          <div class="bottom-single-btn">
+            <mt-button type="primary" size="large" @click="updataXyk()">
+              生成海报
+            </mt-button>
+          </div>
+        </section>
+    </mt-popup>
     <fen-xiang :show="frnx"></fen-xiang>
   </div>
 </template>
@@ -210,6 +258,9 @@
     },
     data() {
       return {
+        updataXykKu: false,
+        name: 'realName',
+        inform: ['weixin'],
         saveOpen: false,
         frnx: false,
         selected: '1',
@@ -224,9 +275,43 @@
       };
     },
     methods: {
-      getPosters(id, key) {
+      updataDaiLi() {
+        this.getData(() => {
+          Toast({
+            message: '已成功更新海报',
+            position: 'top'
+          })
+        })
+      },
+      updataXyk() {
         Indicator.open({
-          text: '图片加载中...',
+          text: '正在更新海报...',
+          spinnerType: 'fading-circle'
+        });
+        creditCardAPI.generateCreditCardPoster({
+          productId: this.inId,
+          name: this.name,
+          contact: this.inform.toString()
+        }, (res2) => {
+          Indicator.close();
+          let key = null
+          this.imgList.forEach((val, i) => {
+            if(val.id === this.inId){
+              key = i
+            }
+          })
+          this.$set(this.imgList, key, {
+            link: this.imgList[key].link,
+            posterURL: res2.data.url,
+            id: this.inId
+          })
+          this.updataXykKu = false
+        })
+      },
+      getPosters(id, key) {
+        console.log('inId', this.inId)
+        Indicator.open({
+          text: '正在加载海报...',
           spinnerType: 'fading-circle'
         });
         creditCardAPI.getCreditCardPosterDetail({productId: id}, (res) => {
@@ -234,19 +319,18 @@
           Indicator.close();
           if (res.data.posterURL) {
             this.imgList.push(res.data)
-            console.log(this.imgList)
             if (key) {
               this.inId = this.imgList[this.imgList.length - 1].id
             }
           } else {
             Indicator.open({
-              text: '图片加载中...',
+              text: '正在加载海报...',
               spinnerType: 'fading-circle'
             });
             creditCardAPI.generateCreditCardPoster({
               productId: id,
-              name: 'displayName',
-              contact: 'weixin'
+              name: this.name,
+              contact: this.inform.toString()
             }, (res2) => {
               Indicator.close();
               this.imgList.push({
@@ -254,7 +338,6 @@
                 posterURL: res2.data.url,
                 id: id
               })
-              console.log(this.imgList)
               if (key) {
                 this.inId = this.imgList[this.imgList.length - 1].id
               }
@@ -274,15 +357,16 @@
           this.getPosters(id, i)
         }
       },
-      getData() {
-        console.log('init')
+      getData(fn) {
         orderAPI.getAgent((res) => {
           if (res.data.posterURL) {
             this.pageDailiData = res.data
+            if(fn && fn()){fn()}
           } else {
             orderAPI.generateAgentPoster((res2) => {
               this.pageDailiData.posterURL = res2.data.url
               this.pageDailiData.link = res.data.link
+              if(fn && fn()){fn()}
             })
           }
         })
@@ -296,7 +380,6 @@
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(this.pageDailiData.link),
-          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {
           this.frnx = false
         })
@@ -310,7 +393,6 @@
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(this.pageHaibaoData.link),
-          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {
           this.frnx = false
         })
@@ -341,7 +423,6 @@
     mounted() {
       creditCardAPI.getCreditCards({catalog: 1}, (res) => {
         this.productList = res.data
-        console.log(this.productList)
         this.inId = this.productList[1].id
         this.getPosters(this.productList[0].id)
         this.getPosters(this.productList[1].id)

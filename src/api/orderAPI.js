@@ -80,11 +80,12 @@ export default {
     })
   },
   /*
-   * Failed to resolve filter: setLevel
+   * 已经实名后成为代理商的接口
    * @param successCallback
    */
-  enroll(successCallback){
+  enroll(params, successCallback){
     http.request('/m/agent/enroll',  {
+      data: params,
       success: successCallback
     })
   }

@@ -24,7 +24,7 @@
       display: -webkit-flex; /* Safari */
       flex-wrap: wrap;
       justify-content: left;
-      padding: px2rem(10);
+      padding-top: 5px;
 
       li {
         flex: 49.8%;
@@ -46,6 +46,7 @@
         }
         &.active {
           div {
+            color: $color3;
             border-bottom: 2px solid $color3;
           }
         }
@@ -82,6 +83,7 @@
           }
           .text {
             font-size: 12px;
+            color: $color1;
           }
         }
         .bank-apply-btn {
@@ -196,16 +198,29 @@
             }
           }
           .bank-card-name {
-            width: 100%;
             text-align: center;
+            width: 100%;
+            display: block;
             font-weight: bold;
           }
-          .bank-card-desc {
+          .applications {
+            text-align: center;
+            display: block;
+            width: 100%;
+            padding: 5px 0 3px 0;
+            color: $color1;
             font-size: 12px;
-            color: gray;
-            padding: 4px 6px;
+          }
+          .bank-card-desc {
+            color: $color1;
+            font-size: 12px;
+            padding: 4px 2px;
+            min-height: 55px;
           }
           .bank-card-bonus {
+            padding: 5px 0;
+            width: 100%;
+            border-top: 1px solid #cdcdcd;
             color: #ff2521;
             font-size: 12px;
             padding-left: 5px;
@@ -252,7 +267,7 @@
       text-align: center;
       justify-content: space-between;
       border-bottom: 1px solid #9f9f9f;
-      span{
+      span {
         flex: 1;
 
       }
@@ -263,11 +278,11 @@
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid #9f9f9f;
-      span{
+      span {
         flex: 1;
       }
     }
-    .con-text{
+    .con-text {
       margin-top: 30px;
       padding: 0 10px;
       font-size: 16px;
@@ -291,25 +306,30 @@
     border: 1px solid #ff2521 !important;
   }
 
-  .mint-popup {
-    width: 100%;
-    border-radius: 10px;
+  .xyk-xq {
+    .mint-popup {
+      width: 90%;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
   }
-  .out{
+
+  .out {
     position: absolute;
+    margin-top: 20px;
     left: 50%;
     transform: translateX(-50%);
   }
 </style>
 
 <template>
-  <div class="page">
+  <div class="page xyk-xq">
     <section class="page-main">
       <div class="card-desc">
         <img src="../../assets/img/background_img/bg-2.jpg">
       </div>
 
-      <ul class="card-group">
+      <ul class="card-group" v-if="headShow">
         <li @click="toggleMenu(0)" :class="activeIndex==0? 'active': ''">
           <div>高端卡</div>
         </li>
@@ -351,9 +371,12 @@
               </div>
             </div>
             <p class="bank-card-name">{{item.name}}</p>
+            <p class="applications">已申请：{{ item.applyCount}}</p>
             <p class="bank-card-desc" v-html="item.descn"></p>
             <p class="bank-card-bonus" @click.stop="shuoming(item.amount)" v-if="isAgent">
-            奖金: {{item.amount | money(true)}} 元<span class="mintui mintui-back" style="display: inline-block; transform: rotateZ(-90deg);color: #7c868c;font-size: 14px;"></span></p>
+              奖金: {{item.amount | money(true)}} 元<span class="mintui mintui-back"
+                                                       style="display: inline-block; transform: rotateZ(-90deg);color: #7c868c;font-size: 14px;"></span>
+            </p>
           </section>
         </li>
       </ul>
@@ -379,11 +402,13 @@
           <h2>佣金结算说明</h2>
           <div class="t-title">
             <span>代理商等级</span>
-            <span v-for="val in levelList" v-if="val.value !== 1 && val.value !== 2">{{ val.label }}</span>
+            <span v-for="val in levelList"
+                  v-if="val.value !== 1 && val.value !== 2 && val.value !== 6&& val.value !== 7">{{ val.label }}</span>
           </div>
           <div class="t-boby">
             <span>佣金(元)</span>
-            <span v-for="val in levelList" v-if=" val.value !== 1 && val.value !== 2">{{ jiesuan(val.value, thisBonus) }}</span>
+            <span v-for="val in levelList"
+                  v-if=" val.value !== 1 && val.value !== 2&& val.value !== 6&& val.value !== 7">{{ jiesuan(val.value, thisBonus) }}</span>
           </div>
           <div class="con-text">
             结算周期：
@@ -392,7 +417,7 @@
           </div>
           <div class="con-text zhu">
             结算规则：<br>
-            首次申请+资料审批通过+短信通知=成功办理此义务。（未通过审批的不结算奖金）
+            首次申请+资料审批通过+短信通知=成功办理此业务。（未通过审批的不结算奖金）
           </div>
         </div>
       </div>
@@ -470,6 +495,21 @@
       }
     },
     computed: {
+      headShow() {
+        let a = false
+        if (this.banners !== 0) {
+          this.banners.forEach(val => {
+            if (val.items.length !== 0) {
+              val.items.forEach(val2 => {
+                if (val2.length !== 0) {
+                  a = true
+                }
+              })
+            }
+          })
+        }
+        return a
+      },
       swiper() {
         return this.$refs.swiper.swiper
       },
@@ -567,6 +607,7 @@
         }
       },
       toBankCardDetail(data) {
+        // data = {id: 3}
         if (this.user.identity && this.user.identity.IDCardNo) {
           // 如果该用户已经实名认证过了，则跳转确认银行详情页面
           this.$router.push({

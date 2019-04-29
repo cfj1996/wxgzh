@@ -241,7 +241,7 @@
                   <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己': '客户'}}</label>
                   <p>申请人：{{item.realName}} (工号：{{item.employeeNo}})</p>
                   <p>手机号：{{item.mobile}}</p>
-                  <p>浏览时间：{{item.createdDate}}</p>
+                  <p>浏览时间：{{item.createdDate | timeAuto}}</p>
                   <section>
                     <mt-button size="small" v-if="activeState !== 1" class="mini set-btn" @click="move(item, 1)">移至待确认</mt-button>
                     <mt-button size="small" v-if="activeState !== 2" class="mini set-btn" @click="move(item, 2)">移至待再查</mt-button>
@@ -263,8 +263,9 @@
             321
           </mt-tab-container-item>
       </mt-tab-container>
-        <div style="text-align: center; margin-top: 60px;">
+        <div style="text-align: center; margin-top: 60px;color: #a4a4a4">
           <p>淘个卡</p>
+          <br>
           <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
         </div>
       </scroll-wrapper>
@@ -274,6 +275,7 @@
 
 <script>
   import { mapState } from 'vuex'
+  import moment from 'moment'
   import { Toast } from 'mint-ui'
   import orderAPI from '@/api/orderAPI'
   import ScrollWrapper from '../../components/scrollWrapper/ScrollWrapper'
@@ -450,6 +452,11 @@
       orderAPI.count((res) => {
         this.orderAmount = res.data.totalCount
       })
+    },
+    filters: {
+      timeAuto: function (val) {
+        return moment(Number(val)).format('YYYY-MM-DD h:mm')
+      }
     }
   }
 </script>

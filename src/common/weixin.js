@@ -214,7 +214,7 @@ export default {
               title: params.title, // 分享标题
               link: params.link, // // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
               desc: params.desc,
-              imgUrl: params.imgUrl, // 分享图标
+              imgUrl: 'http://devxykviph5.isales.tech/static/weika-logo.png', // 分享图标
               success: function () {
                 // 用户确认分享后执行的回调函数
                 callFn && callFn()
@@ -228,7 +228,7 @@ export default {
               title: params.title, // 分享标题
               link: params.link, // 分享链接,将当前登录用户转为puid,以便于发展下线
               desc: params.desc,
-              imgUrl: params.imgUrl, // 分享图标
+              imgUrl: 'http://devxykviph5.isales.tech/static/weika-logo.png', // 分享图标
               success: function () {
                 // 用户确认分享后执行的回调函数
                 callFn && callFn()
@@ -444,6 +444,7 @@ export default {
     let jsApiList = ['scanQRCode']
     this.wxReady(jsApiList, ()=>this.checkJsApi(jsApiList, () => this.scanQRCode(need,(res) => {(callback && typeof callback === 'function') && callback(res)})))
   },
+  // http://devxykviph5.isales.tech/static/weika-logo.png
 //#endregion
   mtShare(link) {
     let jsApiList = [

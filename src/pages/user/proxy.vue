@@ -190,7 +190,7 @@
 
   .bg-1 {
     background: linear-gradient(to left, $color2, $color3);
-    padding: 4px 30px;
+    padding: 4px 20px;
     color: white;
   }
 
@@ -198,9 +198,9 @@
     align-items: center;
     display: flex;
     background: white;
+    padding: 0 10px;
     .mint-cell {
       flex: 1 0 auto;
-      padding: 0 20px;
     }
   }
 </style>
@@ -209,7 +209,7 @@
     <div class="title">待授权的订单 <p style="text-align: center">{{ order }}</p></div>
     <div class="retrieve">
       <mt-field placeholder="请输入工号检索" v-model="retrieve"></mt-field>
-      <mt-button class="bg-1" @click="search">搜索</mt-button>
+      <mt-button class="bg-1" size="small" @click="search">搜索</mt-button>
     </div>
     <ul class="item">
       <li v-for="val in dataList" @click="editor(val.id, val.status)">

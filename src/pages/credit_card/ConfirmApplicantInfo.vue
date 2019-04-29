@@ -195,9 +195,9 @@
       </mt-checklist>
       <span class="xieyi" @click="popupVisible = true">《淘个卡平台服务协议》</span>
       <mt-popup v-model="popupVisible" position="right">
-        <xie-yi :isDaili="false"/>
+        <xie-yi :isDaili="true"/>
         <div style="text-align: center">
-          <div class="out" @click="popupVisible = false" size="small">关闭</div>
+          <div style="line-height: 35px;" @click="popupVisible = false" size="small">关闭</div>
         </div>
       </mt-popup>
       <div class="notice">
@@ -221,7 +221,7 @@
                 :showFooter="true">
       <div class="tip-content">
         <p class="line-1">请仔细核对您的身份信息，</p>
-        <p class="line-2">在XX平台申请信用卡完全免费，凡索取费用的均为欺诈行为，请不要相信！</p>
+        <p class="line-2">在淘个卡平台申请信用卡完全免费，凡索取费用的均为欺诈行为，请不要相信！</p>
         <ul>
           <li><label>姓名</label> <span>{{formInfo.realName}}</span></li>
           <li><label>身份证</label> <span>{{formInfo.mobile}}</span></li>

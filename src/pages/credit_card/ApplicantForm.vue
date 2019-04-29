@@ -9,7 +9,6 @@
 
   .page-main {
     min-height: 100%;
-    padding-bottom: 62px;
     margin-bottom: 0;
     background-color: #fff;
 
@@ -18,7 +17,6 @@
       /*background: -webkit-gradient(linear, 0 0, 0 100%, from(#535BFF), to(#41C2FF));*/
       background-image: linear-gradient(to bottom, $color2 -30%, $color3);
       color: #fff;
-      padding-bottom: 10px;
       h3 {
         margin: 10px 0;
       }
@@ -127,7 +125,7 @@
     padding-left: 20px;
   }
 
-  .out {
+  .xy-out {
     display: inline-block;
     padding: 8px 20px;
     text-align: center;
@@ -144,15 +142,15 @@
       <div class="form-section">
         <mt-field class="form-cell" label="工号" placeholder="" disabled readonly v-model="form.employeeNo"
                   v-if="isToBeingAgent"></mt-field>
-        <mt-field class="form-cell" label="用户名" placeholder="请输入您的真实姓名"
+        <mt-field class="form-cell" label="用户名" :disabled="disabled" placeholder="请输入您的真实姓名"
                   v-model="form.realName"></mt-field>
-        <mt-field class="form-cell" label="身份证号" placeholder="请输入您的身份证号" :attr="{maxlength: 20}"
+        <mt-field class="form-cell" label="身份证号" :disabled="disabled" placeholder="请输入您的身份证号" :attr="{maxlength: 20}"
                   v-model="form.IDCardNo"></mt-field>
-        <mt-field class="form-cell" label="手机号" placeholder="请输入您的常用手机号" type="tel"
+        <mt-field class="form-cell" label="手机号" :disabled="disabled" placeholder="请输入您的常用手机号" type="tel"
                   :attr="{maxlength: 11}" v-model="form.mobile"></mt-field>
-        <mt-field class="form-cell" label="验证码" placeholder="请输入短信验证码" :attr="{maxlength: 6}"
+        <mt-field class="form-cell" label="验证码" v-if="!disabled" :disabled="disabled" placeholder="请输入短信验证码" :attr="{maxlength: 6}"
                   v-model="form.authCode">
-          <mt-button style="font-size: 12px;border: 1px solid #ff2521; background: none; color: #ff2521" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum"
+          <mt-button v-if="!disabled" style="font-size: 12px;border: 1px solid #ff2521; background: none; color: #ff2521" size="small" :readonly="!!countDownNum" :disabled="!!countDownNum"
                      @click="sendAuthCode">{{countDownNum > 0 ? '剩余'+countDownNum+ 's' : '获取'}}
           </mt-button>
         </mt-field>
@@ -185,10 +183,10 @@
       </mt-checklist>
       <span class="xieyi" @click="popupVisible = true;xieyi = true">《淘个卡平台服务协议》</span> <br>
       <span v-if="isToBeingAgent" class="xieyi" @click="popupVisible = true; xieyi = false">《淘个卡平台信用卡推广规范守则》</span>
-      <mt-popup v-model="popupVisible" position="right">
+      <mt-popup v-model="popupVisible" position="right" style="border-radius: 0">
         <xie-yi :isDaili="xieyi"/>
         <div style="text-align: center">
-          <div class="out" @click="popupVisible = false" size="small">关闭</div>
+          <div class="xy-out" @click="popupVisible = false" size="small">关闭</div>
         </div>
       </mt-popup>
 
@@ -199,13 +197,14 @@
         <p>3.在淘个卡申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
         <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
       </div>
+      <br>
+      <div style="padding:0 10px;">
+        <mt-button type="primary" size="large" @click="onSubmit" :disabled="!agreeState.length">
+          提交
+        </mt-button>
+      </div>
+      <br>
     </section>
-    <div style="padding: 0 10px;">
-      <mt-button type="primary" size="large" @click="onSubmit" :disabled="!agreeState.length">
-        提交
-      </mt-button>
-    </div>
-
   </div>
 </template>
 
@@ -224,6 +223,7 @@
     },
     data() {
       return {
+        disabled: false,
         xieyi: true,
         popupVisible: false,
         isToBeingAgent: false, // 控制是否显示代理人相关表单信息
@@ -279,48 +279,60 @@
               ownBankCard.push(item.id)
             }
           })
-          if (this.isToBeingAgent) { // 代理
-            userAPI.agentRegiste({
-              realName: this.form.realName,
-              mobile: this.form.mobile,
-              IDCardNo: this.form.IDCardNo,
-              experience: experience.join(','),
-              weixinAccountNo: this.form.weixinAccountNo,
-              authCode: this.form.authCode
-            }, (res) => {
-              Toast({
-                message: '代理申请信息提交成功',
-                position: 'top'
-              })
-              this.refreshBaseData(() => {
-                this.$router.replace({
-                  path: '/applicant_uaer',
-                  query: this.$route.query
+
+          // 已经实名后成为代理商的接口 更新微信号
+          if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo){
+            orderAPI.enroll({
+              weixinAccountNo: this.form.weixinAccountNo
+            }, () => {})
+            this.$router.replace({
+              path: '/applicant_uaer',
+              query: this.$route.query
+            })
+          } else {
+            if (this.isToBeingAgent) { // 代理
+              userAPI.agentRegiste({
+                realName: this.form.realName,
+                mobile: this.form.mobile,
+                IDCardNo: this.form.IDCardNo,
+                experience: experience.join(','),
+                weixinAccountNo: this.form.weixinAccountNo,
+                authCode: this.form.authCode
+              }, (res) => {
+                Toast({
+                  message: '代理申请信息提交成功',
+                  position: 'top'
+                })
+                this.refreshBaseData(() => {
+                  this.$router.replace({
+                    path: '/applicant_uaer',
+                    query: this.$route.query
+                  })
                 })
               })
-            })
-          } else { // 银行卡
-            userAPI.memberRegiste({
-              realName: this.form.realName,
-              mobile: this.form.mobile,
-              IDCardNo: this.form.IDCardNo,
-              experience: experience.join(','),
-              ownBankCard: ownBankCard.join(','),
-              authCode: this.form.authCode
-            }, (res) => {
-              Toast({
-                message: '银行卡实名认证信息提交成功',
-                position: 'top'
-              })
-              this.refreshBaseData(() => {
-                this.$router.replace({
-                  path: '/bank_card_info',
-                  query: {
-                    creditCardId: this.$route.query.creditCardId
-                  }
+            } else { // 银行卡
+              userAPI.memberRegiste({
+                realName: this.form.realName,
+                mobile: this.form.mobile,
+                IDCardNo: this.form.IDCardNo,
+                experience: experience.join(','),
+                ownBankCard: ownBankCard.join(','),
+                authCode: this.form.authCode
+              }, (res) => {
+                Toast({
+                  message: '银行卡实名认证信息提交成功',
+                  position: 'top'
+                })
+                this.refreshBaseData(() => {
+                  this.$router.replace({
+                    path: '/bank_card_info',
+                    query: {
+                      creditCardId: this.$route.query.creditCardId
+                    }
+                  })
                 })
               })
-            })
+            }
           }
         }
       },
@@ -374,7 +386,7 @@
         return null
       },
       weixinAccountNo() {
-        if (!this.form.weixinAccountNo) {
+        if (this.isToBeingAgent && !this.form.weixinAccountNo) {
           return '请填写微信号'
         }
         return null
@@ -450,11 +462,11 @@
       }
       // 已经实名后成为代理商的接口
       if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
-        orderAPI.enroll(() => {})
-        // this.$router.replace({
-        //   path: '/applicant_uaer',
-        //   query: this.$route.query
-        // })
+        this.disabled = true
+        this.form.IDCardNo =  this.user.identity.IDCardNo
+        this.form.mobile =  this.user.identity.mobile
+        this.form.realName =  this.user.identity.realName
+        this.form.authCode =  '******'
       }
     }
   }

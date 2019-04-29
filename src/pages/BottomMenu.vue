@@ -85,7 +85,7 @@
         <span class="text">首页</span>
       </div>
     </mt-tab-item>
-    <mt-tab-item id="discover" @click.native="$router.push('/be_agent_form')" class="normal">
+    <mt-tab-item id="discover" @click.native="" class="normal">
       <!--<img slot="icon" :src="selected == 'discover'? require('../assets/img/bottomIcon/icon_classify_pressed.png'): require('../assets/img/bottomIcon/icon_classify_normal.png')" >-->
       <!--<span v-if="selected=='discover'" class="colc30911">发现</span>-->
       <!--<span v-else class="colbfbfbf">发现</span>-->

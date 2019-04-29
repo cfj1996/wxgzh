@@ -255,7 +255,6 @@
           title: `${this.user.displayName}邀请您加入淘个卡，开启轻创业之旅.`,
           desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(`${config.HOST}/m/invitation/agent?inviterId=${this.user.id}`),
-          imgUrl: 'http://devxykviph5.isales.tech/static/img/yaoqin.7da0515.png'
         }, () => {
           this.open = false
           this.fex = false
