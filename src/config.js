@@ -20,7 +20,7 @@ export default {
 
   // ==================  生产与开发通用环境变量  ==============================
   // 微信授权URL
-  wxSignHost: 'http://devxykviph5.isales.tech',
+  wxSignHost: 'http://devxykviph5.isales.tech', // 微信分享也是用的这个链接
   h5AppId: 100, // 应用标识ID（与后端约定）
   appId: 'wx97a3f8c05002bd41', // 微信appId
   qiniuUpUrl: 'http://upload.qiniu.com/', // 上传域名
