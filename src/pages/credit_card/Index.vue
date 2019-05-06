@@ -292,6 +292,7 @@
       color: #bfbfbf;
       font-size: 14px;
       padding-bottom: 25px;
+      line-height: 1.2;
     }
   }
 
@@ -373,7 +374,7 @@
             <p class="bank-card-name">{{item.name}}</p>
             <p class="applications">已申请：{{ item.applyCount}}</p>
             <p class="bank-card-desc" v-html="item.descn"></p>
-            <p class="bank-card-bonus" @click.stop="shuoming(item.amount)" v-if="isAgent">
+            <p class="bank-card-bonus" @click.stop="shuoming(item.amount, item.settlement)" v-if="isAgent">
               奖金: {{item.amount | money(true)}} 元<span class="mintui mintui-back"
                                                        style="display: inline-block; transform: rotateZ(-90deg);color: #7c868c;font-size: 14px;"></span>
             </p>
@@ -416,8 +417,8 @@
             注：如曾申请过或有次行信用卡，不发放奖金。3个工作日可查结果。
           </div>
           <div class="con-text zhu">
-            结算规则：<br>
-            首次申请+资料审批通过+短信通知=成功办理此业务。（未通过审批的不结算奖金）
+            <p v-html="settlement"></p>
+            <!--首次申请+资料审批通过+短信通知=成功办理此业务。（未通过审批的不结算奖金）-->
           </div>
         </div>
       </div>
@@ -428,7 +429,7 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import BottomMenu from '@/pages/BottomMenu'
   import ScrollWrapper from '@/components/scrollWrapper/ScrollWrapper'
   import creditCardApi from '@/api/creditCardAPI'
@@ -459,6 +460,7 @@
         thisBonus: 0,
         levelList: [],
         isVisibleDialog: false,
+        settlement: '',
         activeIndex: 0,
         swiperOption: {
           autoHeight: true,
@@ -484,12 +486,6 @@
         banners: [],
         // 推荐的银行卡
         recommendBankCard: [],
-        basicInfo: {
-          county: '440306',
-          province: '440000',
-          city: '440300',
-          storeLogoUrl: 'http://7xv6zz.com2.z0.glb.qiniucdn.com/20171122201942390.jpg'
-        },
         paramBankId: '', // [高端卡，学生卡，其他推荐]选中的银行的ID
         paramCreditCardId: '' // 免费申请时选中的卡的ID
       }
@@ -542,7 +538,7 @@
           this.isVisibleDialog = true
         }
       },
-      onAuthorise() {
+      onAuthorise() { // 跳转信用卡实名认证 带creditCardId 产品id
         this.isVisibleDialog = false
         this.$router.push({
           path: '/apply_credit_card_form',
@@ -561,7 +557,7 @@
         }
       },
       showGoodsPage(item) {
-        this.$router.push({path: '/credit_card'})
+        this.$router.push({ path: '/credit_card' })
       },
       getRecommendedProducts(currentPage, callback) {
         if (this.storeId) {
@@ -619,10 +615,13 @@
             }
           })
         } else {
+          this.paramCreditCardId = data.id
           this.isVisibleDialog = true
         }
       },
-      shuoming(bonus) {
+      shuoming(bonus, settlement) {
+        let reg = new RegExp('\n', 'g')
+        this.settlement = settlement.replace(reg, '<br/>')
         this.thisBonus = bonus
         this.jiesGze = true
       },
@@ -640,11 +639,11 @@
     created() {
       let that = this
       this.levelList = JSON.parse(sessionStorage.level)
-      // alert(window.location.href)
+      alert(window.location.href)
       if (this.$route.query.creditCardId) {
         this.paramCreditCardId = this.$route.query.creditCardId
       }
-      creditCardApi.getCreditCards({catalog: 1}, (res) => {
+      creditCardApi.getCreditCards({ catalog: 1 }, (res) => {
         console.log(res)
         that.recommendBankCard.splice(0, that.recommendBankCard.length)
         // 1=普通卡(推荐卡)，2=高端卡，3=学生卡
@@ -677,7 +676,6 @@
           id: this.$route.query.creditCardId
         })
       }
-
     },
     filters: {
       miashu: function (val) {

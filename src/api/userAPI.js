@@ -159,6 +159,25 @@ export default {
     http.request('/m/customer/count', {
       success: successCallback
     })
+  },
+
+  /*
+   * 直推业务奖励
+   */
+  findDirectPaged(page, successCallback) {
+    http.request('/m/fund/findDirectPaged', {
+      page,
+      success: successCallback
+    })
+  },
+  /*
+   * 团队业务奖励
+   */
+  findTeamPaged(page, successCallback) {
+    http.request('/m/fund/findTeamPaged', {
+      page,
+      success: successCallback
+    })
   }
 }
 

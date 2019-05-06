@@ -247,7 +247,7 @@
         </div>
         <div class="f-yao">
           <p>{{listItem.approvalNo}}</p>
-          <p>代理类型:{{listItem.category}}</p>
+          <p>代理类型: 青铜</p>
           <p>授权限状态：{{listItem.status | isStatus}}</p>
           <p>申请时间：{{listItem.submitDate | timeAuto}}</p>
         </div>
@@ -340,6 +340,7 @@
       },
       search() {
         if (!this.retrieve) {
+          this.dataList = []
           this.getData()
           this.noData = false
         } else {
@@ -367,7 +368,7 @@
         return '拒绝'
       },
       timeAuto: function (val) {
-        return moment(Number(val)).format('YYYY-MM-DD h:mm')
+        return moment(Number(val)).format('YYYY-MM-DD HH:mm')
       }
     },
     created() {

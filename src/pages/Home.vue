@@ -498,7 +498,7 @@
       }
     },
     mounted() {
-      // alert(window.location.href)
+      alert(window.location.href)
       if (this.$route.query.operation === '2') {
         if (this.user.level * 1 == 1) {
           if (this.user.agentApproveStatus && this.user.agentApproveStatus == 1) {

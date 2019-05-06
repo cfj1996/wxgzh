@@ -276,11 +276,13 @@
     },
     methods: {
       updataDaiLi() {
-        this.getData(() => {
-          Toast({
-            message: '已成功更新海报',
-            position: 'top'
-          })
+        Indicator.open({
+          text: '正在更新海报...',
+          spinnerType: 'fading-circle'
+        });
+        orderAPI.generateAgentPoster((res2) => {
+          this.pageDailiData.posterURL = res2.data.url
+          Indicator.close();
         })
       },
       updataXyk() {

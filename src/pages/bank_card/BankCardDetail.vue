@@ -298,8 +298,8 @@
       }
     },
     created() {
+      alert(window.location.href)
       this.getCardDetail()
-      console.log('userId', this.user.id)
     },
     mounted() {
       // 银行信用卡详情

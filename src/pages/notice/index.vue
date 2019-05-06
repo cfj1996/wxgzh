@@ -156,7 +156,7 @@
     },
     filters: {
       timeAuto: function (val) {
-        return moment(Number(val)).format('YYYY-MM-DD h:mm')
+        return moment(Number(val)).format('YYYY-MM-DD HH:mm')
       }
     }
   }

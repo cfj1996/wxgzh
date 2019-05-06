@@ -209,12 +209,12 @@
 </template>
 
 <script>
-  import {mapState} from 'vuex'
-  import {Toast} from 'mint-ui'
+  import { mapState } from 'vuex'
+  import { Toast } from 'mint-ui'
   import creditCardApi from '@/api/creditCardAPI'
   import userAPI from '@/api/userAPI'
   import XieYi from '../../components/agreement'
-  import orderAPI from "../../api/orderAPI";
+  import orderAPI from '../../api/orderAPI';
 
   export default {
     name: 'ApplicantForm',
@@ -244,7 +244,7 @@
           }
         ],
         experienceBadge: [ // 经验列表
-          /*{
+          /* {
             name: 'fgfgfdgfd',
             id: 66,
             checked: false
@@ -256,9 +256,9 @@
     },
     computed: {
       ...mapState({
-        user: (state => state.security.user),
+        user: state => state.security.user,
         permissions: state => state.user.permissions
-      }),
+      })
     },
     methods: {
       agreeChange(data) {
@@ -281,7 +281,7 @@
           })
 
           // 已经实名后成为代理商的接口 更新微信号
-          if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo){
+          if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
             orderAPI.enroll({
               weixinAccountNo: this.form.weixinAccountNo
             }, () => {})
@@ -456,17 +456,17 @@
       })
     },
     mounted() {
-      // alert(window.location.href)
+      alert(window.location.href)
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
       }
       // 已经实名后成为代理商的接口
       if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
         this.disabled = true
-        this.form.IDCardNo =  this.user.identity.IDCardNo
-        this.form.mobile =  this.user.identity.mobile
-        this.form.realName =  this.user.identity.realName
-        this.form.authCode =  '******'
+        this.form.IDCardNo = this.user.identity.IDCardNo
+        this.form.mobile = this.user.identity.mobile
+        this.form.realName = this.user.identity.realName
+        this.form.authCode = '******'
       }
     }
   }

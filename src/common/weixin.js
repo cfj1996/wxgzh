@@ -300,7 +300,8 @@ export default {
   chooseWXPay(payment,prepayOrderId,callFn){
     console.log('payment=',payment)
     wx.chooseWXPay({
-      appId: payment.appId, // 必填，公众号的唯一标识
+      appId: config.appId,
+      // appId: payment.appId, // 必填，公众号的唯一标识
       timestamp: payment.timeStamp, // 支付签名时间戳，注意微信jssdk中的所有使用timestamp字段均为小写。但最新版的支付后台生成签名使用的timeStamp字段名需大写其中的S字符
       nonceStr: payment.nonceStr, // 支付签名随机串，不长于 32 位
       package: payment.package, // 统一支付接口返回的prepay_id参数值，提交格式如：prepay_id=***）

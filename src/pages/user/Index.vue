@@ -222,7 +222,7 @@
         </div>
         <div class="center-info">
           <p>{{ user.displayName || ''}}</p>
-          <p>UID {{user.employeeNo || ''}}</p>
+          <p>UID： {{user.employeeNo || ''}}</p>
         </div>
         <div class="right-info">
           <p><span :class="`level${user.level-1}`"></span>{{ userLevel}}</p>
@@ -241,7 +241,7 @@
       <div class="my-shru">
         <p class="title">我的收入</p>
         <div class="list">
-          <div class="ku" v-if="level">
+          <div class="ku" v-if="level" @click="$router.push('/income')">
             <img src="../../assets/img/new_img/user/iocn/mysq.png" alt="">
             <p>我的收入</p>
             <span>￥{{integrantCount.exchangeableCount}}</span>
@@ -294,7 +294,7 @@
       <div class="my-shru" v-if="level">
         <p class="title">资料</p>
         <div class="list">
-          <div class="ku" v-if="level">
+          <div class="ku" v-if="level" @click="$router.push('/real_name')">
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
             <p>会员必读</p>
           </div>
