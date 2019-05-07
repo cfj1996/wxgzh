@@ -263,10 +263,10 @@
       <div class="my-shru" v-if="level">
         <p class="title">我的团队</p>
         <div class="list">
-          <div class="ku" v-if="level">
+          <div class="ku" v-if="level" @click="$router.push('/my_team')">
             <img src="../../assets/img/new_img/user/iocn/khgl.png" alt="">
             <p>客户管理</p>
-            <span>{{ userInfo.customerCount }}人</span>
+            <span>{{ userInfo.count }}人</span>
           </div>
           <div class="ku" v-if="level" @click="$router.push('/author_proxy')">
             <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
@@ -294,9 +294,13 @@
       <div class="my-shru" v-if="level">
         <p class="title">资料</p>
         <div class="list">
-          <div class="ku" v-if="level" @click="$router.push('/real_name')">
+          <div class="ku" v-if="level">
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
             <p>会员必读</p>
+          </div>
+          <div class="ku" v-if="level" @click="$router.push('/user_set')">
+            <img src="../../assets/img/new_img/user/iocn/set.png" alt="">
+            <p>设置</p>
           </div>
         </div>
       </div>
@@ -364,7 +368,7 @@
         },
         // isPartner: true // 是否是合伙人
         userInfo: {
-          customerCount: 0
+          count: 0
         }
       }
     },
@@ -389,7 +393,7 @@
         this.integrantCount.exchangeableCount = a
       })
       userAPI.userCustomer((res) => {
-        this.userInfo.customerCount = res.data.customerCount
+        this.userInfo.count = res.data.count
       })
     }
   }

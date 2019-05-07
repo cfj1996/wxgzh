@@ -362,9 +362,10 @@ export default {
   },
   //#endregion
   //#region 自定义接口类
-  wxUploadImg(serverId,callFn){
+  wxUploadImg(serverId, name, callFn){
     wxAPI.wxUploadImg({
-      mediaId: serverId
+      mediaId: serverId,
+      name,
     }, function (res) {
       Indicator.close()
       Toast({
@@ -406,7 +407,7 @@ export default {
    * @param type  相机和相册的选择，1-相册，2-相机，3-都有
    * @param callback
    */
-  weixinUploadImg(type,callFn) {
+  weixinUploadImg(type, name, callFn) {
     let jsApiList = ['chooseImage', 'uploadImage']
     let chooseImageCofig = {
       count: 1,
@@ -423,7 +424,7 @@ export default {
     }
     //#endregion
     if (callFn && typeof callFn == 'function')
-      this.wxReady(jsApiList, () => this.chooseImage(chooseImageCofig, (res) => this.uploadImage(res, 0, (serverId) => this.wxUploadImg(serverId, (urlres) => callFn(urlres)))))
+      this.wxReady(jsApiList, () => this.chooseImage(chooseImageCofig, (res) => this.uploadImage(res, 0, (serverId) => this.wxUploadImg(serverId, name, (urlres) => callFn(urlres)))))
   },
   /**
    * 获取地理位置

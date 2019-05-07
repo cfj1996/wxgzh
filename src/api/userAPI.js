@@ -146,7 +146,7 @@ export default {
    * 我的收入
    * @param successCallback
    */
-  userIncome(successCallback){
+  userIncome(successCallback) {
     http.request('/m/fund/count', {
       success: successCallback
     })
@@ -175,6 +175,52 @@ export default {
    */
   findTeamPaged(page, successCallback) {
     http.request('/m/fund/findTeamPaged', {
+      page,
+      success: successCallback
+    })
+  },
+  /*
+  * 提交保存身份证正反面
+  **/
+  saveIDCardPicture(params, successCallback) {
+    http.request('/m/member/saveIDCardPicture', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+  * 用户是否上传身份证图片，审核状态
+  **/
+  getIdentity(fn) {
+    http.request('/m/member/getIdentity', {
+      success: fn
+    })
+  },
+  /*
+  * 保存用户二维码
+  * */
+  severwm(params, successCallback) {
+    http.request('/m/member/update', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+   * 团队成员的详细信息
+   * */
+  statsCount(params, successCallback) {
+    http.request('/m/customer/statsCount', {
+      data: params,
+      success: successCallback
+    })
+  },
+// /m/customer/findPaged
+  /*
+  * 客户列表
+  * */
+  teamFindPaged(params, page, successCallback){
+    http.request('/m/customer/findPaged', {
+      data: params,
       page,
       success: successCallback
     })
