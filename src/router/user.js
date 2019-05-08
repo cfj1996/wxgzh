@@ -122,5 +122,15 @@ export default [
       page: 'homePage',
       requireAuth: true
     }
+  },
+  {
+    path: '/withd_from',
+    name: '提现',
+    component: () => import('../pages/income/form'),
+    meta: {
+      title: '提现',
+      page: 'homePage',
+      requireAuth: true
+    }
   }
 ]

@@ -100,15 +100,15 @@
     <div class="view">
       <div class="head">
         <p>可提现</p>
-        <h2>￥ {{ pageData.all | currencyAuot}}</h2>
+        <h2>￥ {{ pageData.withdrawTotal | currencyAuot}}</h2>
         <div class="mx">
           <div>
             <p>我的收入</p>
-            <h2>￥{{ pageData.income | currencyAuot}}</h2>
+            <h2>￥{{ SUM | currencyAuot}}</h2>
           </div>
           <div>
             <p>已提现</p>
-            <h2>￥{{ pageData.withdraw | currencyAuot}}</h2>
+            <h2>￥{{ pageData.withdrawTotal | currencyAuot}}</h2>
           </div>
         </div>
       </div>
@@ -116,32 +116,65 @@
         <p class="title">基本收益</p>
         <ul>
           <li @click="$router.push('/mine_total')"><span>直推业务奖励</span>
-            <p><span>￥{{ (pageData.mineTotal/100).toFixed(2)}}</span><span class="mintui mintui-back"></span></p></li>
+            <p><span>￥{{ pageData.mineTotal | currencyAuot}}</span><span class="mintui mintui-back"></span></p></li>
           <li @click="$router.push('/team_total')"><span>团队业务奖励</span>
-            <p><span>￥{{ (pageData.teamTotal/100).toFixed(2)}}</span><span class="mintui mintui-back"></span></p></li>
+            <p><span>￥{{ pageData.teamTotal | currencyAuot}}</span><span class="mintui mintui-back"></span></p></li>
         </ul>
       </div>
+      <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
+                  :showCloseButton="false"
+                  :showHeader="false"
+                  :showFooter="false">
+        <div class="tip-content">
+          <p>为了保障您的资金安全，同时依照《国家反洗钱法》的要求，必须实名认证后方可提款</p>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="onAuthorise">
+            立即实认证
+          </mt-button>
+        </div>
+      </bzw-dialog>
     </div>
     <div class="foot">
-      <div class="btn">提现</div>
+      <div class="btn" @click="tixanToFrom">提现</div>
     </div>
   </div>
 </template>
 
 <script>
   import userAPI from '../../api/userAPI'
+  import {mapState} from 'vuex'
+  import BzwDialog from '@/components/dialog/BzwDialog'
 
   export default {
     name: 'index',
+    components: {
+      BzwDialog
+    },
     data() {
       return {
+        certificatedStatus: false,
+        SUM: 0, // 我的收入
         pageData: {
-          all: '34000',
-          income: '25000',
-          withdraw: '15000', // 已提现
-          mineTotal: '1523', // 直推收入
-          teamTotal: '26522' // 团队收入
+          availableTotal: 0, // 可提现
+          withdrawTotal: 0, // 已提现
+          mineTotal: 0, // 直推收入
+          teamTotal: 0 // 团队收入
         }
+      }
+    },
+    computed: {
+      ...mapState({
+        user: state => state.security && state.security.user || {}
+      })
+    },
+    methods: {
+      tixanToFrom() {
+        console.log(this.user.identity.certificatedStatus)
+        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
+      },
+      onAuthorise() {
+        this.$router.push('/real_name')
       }
     },
     filters: {
@@ -149,16 +182,14 @@
         val = Number(val)
         if (val === 0) {
           return '0.00'
-        } else {
-          return (val / 100).toFixed(2)
         }
+        return (val / 100).toFixed(2)
       }
     },
     mounted() {
       userAPI.userIncome((res) => {
         this.pageData = res.data
-        this.pageData.all = 300000
-        this.pageData.income = 300000
+        this.SUM = Number(res.data.mineTotal) + Number(res.data.teamTotal)
       })
     }
   }

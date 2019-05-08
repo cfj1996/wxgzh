@@ -339,10 +339,9 @@
       validate() {
         let msg = ''
         msg = this.validateRealName()
-        !msg && (msg = this.validateIDCardNo())
+        // !msg && (msg = this.validateIDCardNo())
         !msg && (msg = this.validateMobile())
         !msg && (msg = this.validateAuthCode())
-        !msg && (msg = this.weixinAccountNo())
 
         if (msg) {
           Toast({

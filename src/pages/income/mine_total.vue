@@ -57,21 +57,31 @@
           }
         }
       }
-      .no-data-view{
+      .no-data-view {
         margin-top: 50px;
         position: relative;
         min-height: 200px;
         text-align: center;
-        img{
+        img {
           width: 250px;
           height: auto;
         }
-        p{
+        p {
           padding-top: 10px;
         }
       }
-      .bound {
+      .load {
         text-align: center;
+        padding-bottom: 10px;
+        p {
+          font-size: 12px;
+          display: inline-block;
+          background: #cacaca;
+          height: 20px;
+          line-height: 16px;
+          border-radius: 10px;
+          padding: 3px 10px;
+        }
       }
     }
     .foot {
@@ -107,25 +117,37 @@
             <div class="time-list" v-for="i in val.list">
               <p class="title">直推业务奖励：{{i.productCatalog}} {{ i.productId | productName }}</p>
               <div class="content">
-                客户：{{i.orderNo}}, {{ i.realName }}, {{ i.mobile }} <span>+￥{{i.incomeFee | currencyAuot }}</span>
+                客户：{{i.employeeNo}} <br>姓名：{{ i.realName }}<br> 手机：{{ i.mobile }} <span><i style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
                 <br>
                 时间：{{ i.createdDate | timeAuto }}
               </div>
             </div>
           </section>
-
         </li>
       </ul>
       <div class="no-data-view" v-if="noData">
         <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
         <p>暂无数据</p>
       </div>
-      <div class="bound" v-if="load">
-        <mt-button size="small" @click="DataLoad">加载更多数据</mt-button>
+      <div class="load" v-if="load">
+        <p @click="DataLoad">加载更多数据</p>
       </div>
+      <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
+                  :showCloseButton="false"
+                  :showHeader="false"
+                  :showFooter="false">
+        <div class="tip-content">
+          <p>为了保障您的资金安全，同时依照《国家反洗钱法》的要求，必须实名认证后方可提款</p>
+        </div>
+        <div style="padding: 0 20px 20px;">
+          <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="onAuthorise">
+            立即实名认证
+          </mt-button>
+        </div>
+      </bzw-dialog>
     </div>
     <div class="foot">
-      <div class="btn">提现</div>
+      <div class="btn" @click="tixanToFrom">提现</div>
     </div>
   </div>
 </template>
@@ -133,99 +155,98 @@
 <script>
   import userAPI from '../../api/userAPI'
   import moment from 'moment'
+  import {mapState} from 'vuex'
+  import BzwDialog from '@/components/dialog/BzwDialog'
 
   export default {
     name: 'mine_total',
+    components: {
+      BzwDialog
+    },
     data() {
       return {
+        certificatedStatus: false,
         pageData: {
           mineTotal: '0'
         },
         load: false,
         noData: false,
         page: {
-          limit: 10,
+          limit: 3,
           pageNum: 1
         },
         lan: [],
-        pageList: [
-          {
-            id: '1', //	订单Id
-            orderNo: '0012', //	订单号
-            createdDate: '1557130052135', //	创建时间
-            mobile: '1568975698', //	手机号码
-            incomeFee: '12453', //	收入金额，单位分
-            productId: '1', //	产品Id
-            productCatalog: '代理', //	产品类型
-            productName: '没有1', //	产品名称
-            realName: '张飞1', //	真实姓名
-            employeeNo: '1586' // 工号
-          },
-          {
-            id: '323', //	订单Id
-            orderNo: '0012', //	订单号
-            createdDate: '1557130052135', //	创建时间
-            mobile: '1568975698', //	手机号码
-            incomeFee: '12453', //	收入金额，单位分
-            productId: '1', //	产品Id
-            productCatalog: '信用卡1', //	产品类型
-            productName: '没有1', //	产品名称
-            realName: '张飞1', //	真实姓名
-            employeeNo: '1586' // 工号
-          }, {
-            id: '3', //	订单Id
-            orderNo: '0012', //	订单号
-            createdDate: '1557023430000', //	创建时间
-            mobile: '1568975698', //	手机号码
-            incomeFee: '12453', //	收入金额，单位分
-            productId: '1', //	产品Id
-            productCatalog: '信用卡2', //	产品类型
-            productName: '没有3', //	产品名称
-            realName: '张飞4', //	真实姓名
-            employeeNo: '1586' // 工号
-          }, {
-            id: '4', //	订单Id
-            orderNo: '0012', //	订单号
-            createdDate: '1556850630000', //	创建时间
-            mobile: '1568975698', //	手机号码
-            incomeFee: '12453', //	收入金额，单位分
-            productId: '1', //	产品Id
-            productCatalog: '信用卡5', //	产品类型
-            productName: '没有6', //	产品名称
-            realName: '张飞7', //	真实姓名
-            employeeNo: '1586' // 工号
-          }, {
-            id: '5', //	订单Id
-            orderNo: '0012', //	订单号
-            createdDate: '1556850630000', //	创建时间
-            mobile: '1568975698', //	手机号码
-            incomeFee: '12453', //	收入金额，单位分
-            productId: '1', //	产品Id
-            productCatalog: '信用卡8', //	产品类型
-            productName: '没有4', //	产品名称
-            realName: '张飞3', //	真实姓名
-            employeeNo: '1586' // 工号
-          }],
         zuZhuangData: []
       }
     },
+    computed: {
+      ...mapState({
+        user: state => state.security && state.security.user || {}
+      })
+    },
     methods: {
       getData() {
-        userAPI.findDirectPaged(this.page, (res) => {
+        userAPI.findDirectPaged({category: 1}, this.page, (res) => {
           if (this.page.pageNum === 1 && res.data.items.length === 0) {
             this.noData = true
           }
-          if (res.data.items.length > this.page.limit) {
+          if (res.data.items.length === this.page.limit) {
             this.load = true
           } else {
             this.load = false
           }
-          this.pageList.push(...res.data.rows)
+          let dataList = res.data.items // 请求的原始数据
+          dataList.forEach((val, key) => {
+            dataList[key].yyyyddd = moment(Number(val.createdDate)).format('YYYY-MM-DD')
+          })
+          console.log(dataList)
+          let index = 0
+          let pinZhuang = [] // 拼装的数组{time: 'yyyy-dd',minAll: 0, list: [] }
+          for (let i = 0; i < dataList.length; i++) {
+            pinZhuang[index] = {time: dataList[i].yyyyddd, list: [dataList[i]]}
+            for (let n = i + 1; n < dataList.length; n++) {
+              if (dataList[i].yyyyddd === dataList[n].yyyyddd) {
+                i++
+                n = i
+                pinZhuang[index].list.push(dataList[n])
+              }
+            }
+            index++
+          }
+          pinZhuang.forEach((val, key) => {
+            let all = 0
+            val.list.forEach(v => {
+              all += Number(v.amount)
+            })
+            pinZhuang[key].minAll = all
+          })
+          if (this.zuZhuangData[this.zuZhuangData.length - 1] && this.zuZhuangData[this.zuZhuangData.length - 1].time && this.zuZhuangData[this.zuZhuangData.length - 1].time === pinZhuang[0].time) {
+            let msg = this.zuZhuangData.map(val => {
+              return val
+            })
+            msg[msg.length - 1].list.push(...pinZhuang[0].list)
+            let all = 0
+            msg[msg.length - 1].list.forEach(v => {
+              all += Number(v.amount)
+            })
+            msg[msg.length - 1].minAll = all
+            msg.push(...(pinZhuang.slice(1)))
+            this.zuZhuangData = msg
+          } else {
+            this.zuZhuangData.push(...pinZhuang)
+          }
         })
       },
       DataLoad() {
         this.page.pageNum++
         this.getData()
+      },
+      onAuthorise() {
+        this.$router.push('/real_name')
+      },
+      tixanToFrom() {
+        console.log(this.user.identity.certificatedStatus)
+        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
       }
     },
     filters: {
@@ -233,9 +254,8 @@
         val = Number(val)
         if (val === 0) {
           return '0.00'
-        } else {
-          return (val / 100).toFixed(2)
         }
+        return (val / 100).toFixed(2)
       },
       timeAuto: function (val) {
         return moment(Number(val)).format('YYYY-MM-DD HH:mm')
@@ -247,37 +267,14 @@
             name = val.bankName
           }
         })
-        return ', ' + name
+        return name
       }
     },
     created() {
       userAPI.userIncome((res) => {
-        this.pageData.mineTotal = res.data.mineTotal
+        this.pageData.mineTotal = Number(res.data.mineTotal)
       })
-      this.pageList.forEach((val, key) => {
-        this.pageList[key].yyyyddd = moment(Number(val.createdDate)).format('YYYY-MM-DD')
-      })
-      let key = 0
-      for (let i = 0; i < this.pageList.length; i++) {
-        this.zuZhuangData[key] = {time: this.pageList[i].yyyyddd, list: [this.pageList[i]]}
-        for (let n = i + 1; n < this.pageList.length; n++) {
-          if (this.pageList[i].yyyyddd === this.pageList[n].yyyyddd) {
-            i++
-            n = i
-            this.zuZhuangData[key].list.push(this.pageList[n])
-          }
-        }
-        key++
-      }
-      this.zuZhuangData.forEach((val, key) => {
-        let all = 0
-        val.list.forEach(v => {
-          all += Number(v.incomeFee)
-        })
-        this.zuZhuangData[key].minAll = all
-      })
-      console.log(this.zuZhuangData)
-      // this.getData()
+      this.getData()
     }
   }
 </script>

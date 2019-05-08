@@ -125,7 +125,7 @@
         <section>
           <h3>我的客户</h3>
           <ul>
-            <li>
+            <li @click="$router.push({path: 'team_detailed', query: {level: 1}})">
               <span>客户</span>
               <p><span>{{ pageData.customerCount }}</span> <span class="mintui mintui-back"></span></p>
             </li>
@@ -180,7 +180,7 @@
     },
     created() {
       userAPI.userCustomer((res) => {
-        // this.pageData = res.data
+        this.pageData = res.data
       })
     }
   }

@@ -388,9 +388,8 @@
     },
     mounted() {
       userAPI.userIncome((res) => {
-        let a = res.data.mineTotal
-        a = (a / 100).toFixed(2)
-        this.integrantCount.exchangeableCount = a
+        let a = Number(res.data.mineTotal) + Number(res.data.teamTotal)
+        this.integrantCount.exchangeableCount = (a / 100).toFixed(2)
       })
       userAPI.userCustomer((res) => {
         this.userInfo.count = res.data.count

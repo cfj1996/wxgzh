@@ -372,7 +372,13 @@
       }
     },
     created() {
-      this.getData()
+      this.getData((list) => {
+        if (list.length === 0) {
+          this.noData = true
+        } else {
+          this.noData = false
+        }
+      })
     }
   }
 </script>

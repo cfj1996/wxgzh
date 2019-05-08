@@ -162,11 +162,13 @@ export default {
   },
 
   /*
-   * 直推业务奖励
+   * 直推/团队业务收入列表
    */
-  findDirectPaged(page, successCallback) {
-    http.request('/m/fund/findDirectPaged', {
+  findDirectPaged(params, page, successCallback) {
+    http.request('/m/fund/findPaged', {
+      data: params,
       page,
+      sorts: [{'property': '_fund.createdDate', 'order': 'DESC'}],
       success: successCallback
     })
   },
@@ -218,10 +220,11 @@ export default {
   /*
   * 客户列表
   * */
-  teamFindPaged(params, page, successCallback){
+  teamFindPaged(params, page, successCallback, filters) {
     http.request('/m/customer/findPaged', {
       data: params,
       page,
+      filters,
       success: successCallback
     })
   }

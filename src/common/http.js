@@ -69,6 +69,9 @@ export default {
     if (_options.filters) {
       params.filters = _options.filters
     }
+    if (_options.sorts) {
+      params.sorts = _options.sorts
+    }
     axios({
       url: config.HOST + _url,
       data: params,

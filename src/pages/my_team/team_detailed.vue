@@ -37,6 +37,20 @@
       }
     }
     .body {
+      position: relative;
+      .no-data-icon{
+        text-align: center;
+        position: relative;
+        margin-top: 30px;
+        img{
+          width: 150px;
+          height: 150px;
+        }
+        p{
+          margin-top: 20px;
+          color: $color1;
+        }
+      }
       .search {
         .retrieve {
           align-items: center;
@@ -94,20 +108,20 @@
               justify-content: center;
               flex: 1;
               align-items: center;
-              button{
+              button {
                 border: none;
                 background: none;
                 display: block;
-                span{
+                span {
                   line-height: 1.8;
                   display: block;
                   text-align: center;
                 }
               }
-              a{
+              a {
                 display: block;
                 color: black;
-                span{
+                span {
                   line-height: 1.8;
                   display: block;
                   text-align: center;
@@ -146,10 +160,23 @@
               }
             }
           }
-          .active{
-            height: 45px!important;
+          .active {
+            height: 45px !important;
             border-top: 1px solid $color1;
           }
+        }
+      }
+      .load {
+        text-align: center;
+        padding-bottom: 10px;
+        p {
+          font-size: 12px;
+          display: inline-block;
+          background: #cacaca;
+          height: 20px;
+          line-height: 16px;
+          border-radius: 10px;
+          padding: 3px 10px;
         }
       }
     }
@@ -189,7 +216,7 @@
           <p>昨日新增（个）</p>
           <h2>{{ pageData.yesterdayCount }}</h2>
         </div>
-        <div v-if="$route.query.level !== 2">
+        <div v-if="$route.query.level !== 1 && $route.query.level !== 2 && $route.query.level !== 3">
           <p>团队业绩（个）</p>
           <h2>{{ pageData.orderCount }}</h2>
         </div>
@@ -197,26 +224,27 @@
     </div>
     <div class="body">
       <div class="search">
-        <mt-field placeholder="请输入工号搜索" v-model="search"></mt-field>
-        <mt-button size="small"> 搜索</mt-button>
+        <mt-field placeholder="请输入工号搜索" v-model="retrieve"></mt-field>
+        <mt-button size="small" @click="search"> 搜索</mt-button>
       </div>
       <ul>
-        <li v-for="(val, key) in pageLiat">
+        <li v-for="(val, key) in pageList">
           <div class="user-msg">
             <div class="user-img">
               <img :src="val.headImgURL || defUserImg" alt="">
             </div>
             <div class="text">
-              <p>{{ val.displayName }}</p>
-              <p>{{ val.mobile }}</p>
+              <p>姓名：{{ val.displayName }}</p>
+              <p>手机：{{ val.mobile }}</p>
               <p>加入时间：{{ val.createdDate | timeAuto }}</p>
               <p>UID： {{ val.employeeNo}}</p>
             </div>
-            <div class="ztui"><span>直推</span></div>
+            <div v-if="$route.query.level == 2 && val.direct" class="ztui"><span>直推</span></div>
+            <div v-if="$route.query.level !== 2" class="ztui"><span>{{ val.actived == 1 ? '活跃':'不活跃' }}</span></div>
           </div>
           <div class="user-lxfs">
             <div class="img-ku">
-              <button  type="button" :class="'copy' + key" :data-clipboard-text="val.weixinAccountNo">
+              <button type="button" :class="'copy' + key" :data-clipboard-text="val.weixinAccountNo">
                 <img src="../../assets/img/weixin.png" alt="">
                 <span>微信</span>
               </button>
@@ -227,23 +255,39 @@
                 <span>电话</span>
               </a>
             </div>
+            <template v-if="$route.query.level !== 1">
             <div class="jindu" v-if="inKey === key" @click="inKey = null">
-              <p>收起 <span class="mintui mintui-back"></span></p>
+              <p style="padding: 16px 0">收起 <span class="mintui mintui-back"></span></p>
             </div>
             <div class="jindu" v-else @click="inKey = key">
-              <p>查看转正进度 <span class="mintui mintui-back"></span></p>
-            </div>
+              <p style="padding: 16px 0">{{ $route.query.level === '2'? '查看转正进度': '查看团队详情' }} <span class="mintui mintui-back"></span></p>
+            </div></template>
           </div>
-          <div class="xiala" :class="inKey === key? 'active' : ''">
-            <div>转正任务 <p>{{ val.taskCount }}</p></div>
-            <div>锁粉数 <p>{{ val.customerCount }}</p></div>
-            <div>
-              <p>转正进度</p>
-              <mt-progress style="height: 5px" :value="Number(val.progress)" :bar-height="5"></mt-progress>
-            </div>
+          <template v-if="$route.query.level !== 1">
+          <div v-if="$route.query.level == 2" class="xiala" :class="inKey === key? 'active' : ''">
+              <div>转正任务 <p>{{ val.taskCount }}</p></div>
+              <div>锁粉数 <p>{{ val.customerCount }}</p></div>
+              <div>
+                <p>转正进度</p>
+                <mt-progress style="height: 5px" :value="Number(val.progress)" :bar-height="5"></mt-progress>
+              </div>
           </div>
+          <div v-else class="xiala" :class="inKey === key? 'active' : ''">
+            <div><p>客户数</p><span>{{ val.customerCount }}</span></div>
+            <div><p>团队数</p><span>{{ val.teamCount }}</span></div>
+            <div><p>实习数</p><span>{{ val.probationCount }}</span></div>
+            <div><p>业务数</p><span>{{ val.orderCount }}</span></div>
+          </div>
+          </template>
         </li>
       </ul>
+      <div class="no-data-icon" v-if="noData">
+        <img src="../../assets/img/icon_empty_logo.png">
+        <p>暂无数据</p>
+      </div>
+      <div class="load" v-if="loadList">
+        <p @click="load">加载更多</p>
+      </div>
     </div>
   </div>
 </template>
@@ -258,7 +302,10 @@
     name: 'team_detailed',
     data() {
       return {
+        loadList: true,
+        retrieve: '',
         teamName: '',
+        noData: false,
         pageData: {
           customerCount: 0, // 客户数
           monthCount: 0, // 本月新增
@@ -266,92 +313,59 @@
           taskCount: 0, // 转正任务数
           orderCount: 0 // 团队业绩
         },
-        search: '',
         defUserImg: defUserImg,
-        pageLiat: [
-          {
-            id: '1', // 用户Id
-            displayName: '王可可', // 微信昵称
-            employeeNo: '12563', // 工号
-            headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
-            weixinAccountNo: '48569', // 微信号
-            mobile: '123456', // 手机号
-            realName: '神将', // 真实名称
-            createdDate: '1556850630000', // 加入时间
-            taskCount: '2', // 转正任务数
-            customerCount: '15', // 客户数/锁粉数
-            progress: '65', // 转正进度
-            orderCount: '10', // 业务数
-            teamCount: '4', // 团队数
-            probationCount: '3' // 实习数
-          },
-          {
-            id: '2', // 用户Id
-            displayName: '王可可1', // 微信昵称
-            employeeNo: '125634', // 工号
-            headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
-            weixinAccountNo: '485695', // 微信号
-            mobile: '1234576', // 手机号
-            realName: '神将8', // 真实名称
-            createdDate: '1556850630000', // 加入时间
-            taskCount: '25', // 转正任务数
-            customerCount: '156', // 客户数/锁粉数
-            progress: '35', // 转正进度
-            orderCount: '101', // 业务数
-            teamCount: '44', // 团队数
-            probationCount: '35' // 实习数
-          },
-          {
-            id: '16', // 用户Id
-            displayName: '王可45可', // 微信昵称
-            employeeNo: '125643', // 工号
-            headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
-            weixinAccountNo: '468569', // 微信号
-            mobile: '1234756', // 手机号
-            realName: '神将88', // 真实名称
-            createdDate: '1556850630000', // 加入时间
-            taskCount: '27', // 转正任务数
-            customerCount: '157', // 客户数/锁粉数
-            progress: '15', // 转正进度
-            orderCount: '104', // 业务数
-            teamCount: '45', // 团队数
-            probationCount: '36' // 实习数
-          },
-          {
-            id: '11', // 用户Id
-            displayName: '王可可57', // 微信昵称
-            employeeNo: '1256773', // 工号
-            headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
-            weixinAccountNo: '4788569', // 微信号
-            mobile: '12387456', // 手机号
-            realName: '神7将', // 真实名称
-            createdDate: '1556850630000', // 加入时间
-            taskCount: '285', // 转正任务数
-            customerCount: '175', // 客户数/锁粉数
-            progress: '95', // 转正进度
-            orderCount: '104', // 业务数
-            teamCount: '4', // 团队数
-            probationCount: '3' // 实习数
-          }
-        ],
+        pageList: [],
         page: {
           pageNum: 1,
-          limit: 10
+          limit: 3
         },
         inKey: null,
         jindu: false
       }
     },
     methods: {
-      getData() {
+      getData(fn, search) {
         userAPI.teamFindPaged({category: this.$route.query.level}, this.page, (res) => {
-          this.pageLiat.push(...res.data.items)
-        })
+          this.pageList.push(...res.data.items)
+          if (res.data.items.length === this.page.limit) {
+            this.loadList = true
+          } else if (res.data.items.length < this.page.limit) {
+            this.loadList = false
+          }
+          if (typeof fn === 'function') {
+            fn(res.data.items)
+          }
+        }, search)
+      },
+      load() {
+        // 下一页数据
+        this.page.pageNum++
+        this.getData()
+      },
+      // 搜索
+      search() {
+        if (!this.retrieve) {
+          this.pageList = []
+          this.getData()
+          this.noData = false
+        } else {
+          this.page.pageNum = 1
+          this.pageList = []
+          let a = [{property: '_member.employeeNo', value: this.retrieve}]
+          this.getData((list) => {
+            if (list.length === 0) {
+              this.noData = true
+            } else {
+              this.noData = false
+            }
+          }, a)
+        }
+
       }
     },
     filters: {
       timeAuto: function (val) {
-        return moment(Number(val)).format('YYYY-MM-DD HH:mm')
+        return moment(Number(val)).format('YYYY-MM-DD')
       }
     },
     created() {
@@ -363,19 +377,24 @@
       userAPI.statsCount({category: this.$route.query.level}, res => {
         this.pageData = res.data
       })
-      this.pageLiat.forEach((val, key) => {
-        let className = `.copy${key}`
-        let clipboard1 = new this.clipboard(className);
-        clipboard1.on('success', function (e) {
-          Toast({
-            message: '已成功复制微信号',
-            position: 'top'
-          })
-          e.clearSelection();
-        });
+      this.getData((list) => {
+        if (list.length === 0) {
+          this.noData = true
+        } else {
+          this.noData = false
+        }
+        this.pageList.forEach((val, key) => {
+          let className = `.copy${key}`
+          let clipboard1 = new this.clipboard(className);
+          clipboard1.on('success', function (e) {
+            Toast({
+              message: '已成功复制微信号',
+              position: 'top'
+            })
+            e.clearSelection();
+          });
+        })
       })
-
-      // this.getData()
     }
   }
 </script>
