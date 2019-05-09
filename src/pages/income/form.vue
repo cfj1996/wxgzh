@@ -42,6 +42,7 @@
       height: 54px;
       padding: 10px;
       .btn {
+        width: 100%;
         color: white;
         background: linear-gradient(to left, $color2, $color3);
         height: 34px;
@@ -70,7 +71,7 @@
           <mt-button size="small" @click="AllOnWithdrawal">全部提现</mt-button>
         </mt-field>
         <mt-field class="form-cell" label="收款人姓名" placeholder="当前微信实名认证的真实姓名" v-model="form.name"></mt-field>
-        <mt-field class="form-cell" label="手机号" type="tel" placeholder="请输入手机号" disabled=""
+        <mt-field class="form-cell" label="手机号" type="tel" placeholder="请输入手机号" disabled
                   :value="user.identity.mobile"></mt-field>
         <mt-field class="form-cell" label="验证码" placeholder="请输入图片验证码" type="text" :attr="{maxlength: 4}"
                   v-model="form.imgcode">
@@ -92,7 +93,7 @@
       </section>
     </div>
     <div class="foot">
-      <div class="btn" @click="tixain">提现到微信零钱</div>
+      <mt-button :disabled="canOnSubmit" class="btn" @click="tixain">提现到微信零钱</mt-button>
     </div>
   </div>
 </template>
@@ -124,11 +125,35 @@
     computed: {
       ...mapState({
         user: state => state.security && state.security.user || {}
-      })
+      }),
+      canOnSubmit() {
+        let i = false
+        if (this.form.amount/100 > Number(this.availableTotal)) {
+          i = true
+          console.log(this.form.amount, Number(this.availableTotal))
+        }
+        if (this.form.name === '' || this.form.mobileYzm === '' || this.form.imgcode === '') {
+          i = true
+        }
+        return i
+      }
     },
     methods: {
       tixain() {
-
+        let qian = this.form.amount
+        console.log(qian)
+        userAPI.withdraw({
+          amount: qian,
+          realName: this.form.name,
+          mobile: this.user.identity.mobile,
+          authCode: this.form.mobileYzm
+        }, () => {
+          Toast({
+            message: '提现成功',
+            position: 'top'
+          })
+          this.$router.push('/income')
+        })
       },
       AllOnWithdrawal() {
         this.amount = this.availableTotal
@@ -138,7 +163,11 @@
         this.yzmCode.text = a + 's'
         this.yzmCode.isONclick = true
         let time = null
-        userAPI.sendPhoneAuthCode({mobile: this.user.identity.mobile, category: 'REGISTER'}, () => {
+        userAPI.getPhoneAuthCode({
+          mobile: this.user.identity.mobile,
+          imageAuthCode: this.form.imgcode,
+          category: 'WITHDRAW'
+        }, () => {
           Toast({
             message: '短信发送成功',
             position: 'top'
@@ -168,7 +197,6 @@
     watch: {
       'amount': function (val) {
         this.form.amount = Number(val) * 100
-        console.log(this.form)
       }
     }
   }

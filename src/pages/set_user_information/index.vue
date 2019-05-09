@@ -2,7 +2,6 @@
   @import "~@/assets/css/variable.scss";
   @import "~@/assets/css/level.scss";
 
-
   .set-inform {
     .view {
       position: relative;
@@ -49,7 +48,11 @@
   }
 
 </style>
-
+<style>
+  .set-inform .mint-checklist-title{
+    display: none;
+  }
+</style>
 <template>
   <div class="page set-inform">
     <div class="view">
@@ -72,15 +75,17 @@
               <img @click="getImgCode" :src="pageData.imgCodeSrc" height="45px" width="100px">
             </mt-field>
             <mt-field class="form-cell" label="短信验证码" placeholder="请输入短信验证码" v-model="fromData.mobileYzm">
-              <mt-button style="width: 94px" size="small" type="danger" @click="getYzmCode" :disabled="pageData.yzmCode.isONclick">{{
+              <mt-button style="width: 94px" size="small" type="danger" @click="getYzmCode"
+                         :disabled="pageData.yzmCode.isONclick">{{
                 pageData.yzmCode.text }}
               </mt-button>
             </mt-field>
           </template>
           <mt-field label="微信号" v-model="fromData.weixinAccountNo"></mt-field>
-          <div style="background-color: white;padding: 15px 10px">
-            <mt-switch v-model="state.agreement" @change="agreeChange">我已认真阅读并完全同意以下协议：</mt-switch>
-          </div>
+          <mt-checklist style="overflow: hidden;display: block;"
+            v-model="state.agreement"
+            :options="pageData.options">
+          </mt-checklist>
           <p>
             <span @click="state.popupVisible = true;state.xieyi = true">
               《淘个卡平台服务协议》
@@ -97,17 +102,17 @@
       </div>
     </mt-popup>
     <div class="foot">
-      <mt-button :disabled="state.isOnSubmit" @click="OnSubmit" class="btn">确认修改</mt-button>
+      <mt-button :disabled="canSubmit" @click="OnSubmit" class="btn">确认修改</mt-button>
     </div>
   </div>
 </template>
 
 <script>
-  import {mapState} from 'vuex'
+  import { mapState } from 'vuex'
   import XieYi from '../../components/agreement'
   import userAPI from '../../api/userAPI'
   import config from '../../config'
-
+  import { Toast } from 'mint-ui'
 
   export default {
     name: 'set_user_information',
@@ -128,11 +133,16 @@
           yzmCode: {
             text: '获取验证码',
             isONclick: false
-          }
+          },
+          options: [{
+            label: '我已认真阅读并完全同意以下协议：',
+            value: '1',
+            checked: true
+          }]
         },
         state: { // 页面按钮，显示状态。
           openMobile: false,
-          agreement: true,
+          agreement: [1],
           popupVisible: false,
           xieyi: true,
           isOnSubmit: true
@@ -143,32 +153,59 @@
       ...mapState({
         user: state => state.security && state.security.user || {},
         initialized: (state => state.metadata.initialized)
-      })
-    },
-    methods: {
-      agreeChange() {
-        console.log('this.state.agreement', this.state.agreement)
-        if (this.state.agreement) {
-          if (Object.values(this.fromData).toString() === Array.of(this.user.identity.realName, this.user.identity.mobile, this.user.weixinAccountNo).toString()) {
-            this.state.isOnSubmit = true
-            console.log(1)
+      }),
+      canSubmit() {
+        let can = false
+        if (this.state.agreement.length) {
+          if (Object.values(this.fromData).toString().replace(/,/g, '') === Array.of(this.user.identity.realName, this.user.identity.mobile, this.user.weixinAccountNo).toString().replace(/,/g, '')) {
+            can = true
           } else {
-            console.log(2)
-            this.state.isOnSubmit = false
+            can = false
           }
         } else {
-          this.state.isOnSubmit = true
+          can = true
         }
-      },
+        return can
+      }
+    },
+    methods: {
       OnSubmit() {
-        console.log('this.state.agreement2', this.state.agreement)
+        if (this.state.openMobile) {
+          userAPI.PhoneAuthCode({
+            mobile: this.fromData.mobile,
+            smsAuthCode: this.fromData.mobileYzm,
+            category: 'CHANGEMOBILE'
+          }, () => {
+            this.updataUser(() => {
+              this.$store.dispatch('getUserDetails')
+              Toast({
+                message: '修改成功',
+                position: 'top'
+              })
+              this.$router.push('/user_center')
+            })
+          })
+        } else {
+          this.updataUser(() => {
+            this.$store.dispatch('getUserDetails')
+            Toast({
+              message: '修改成功',
+              position: 'top'
+            })
+            this.$router.push('/user_center')
+          })
+        }
       },
       getYzmCode() {
         let a = 10
         this.pageData.yzmCode.text = a + 's'
         this.pageData.yzmCode.isONclick = true
         let time = null
-        userAPI.sendPhoneAuthCode({mobile: this.fromData.mobile, category: 'REGISTER'}, () => {
+        userAPI.getPhoneAuthCode({
+          mobile: this.fromData.mobile,
+          category: 'CHANGEMOBILE',
+          imageAuthCode: this.fromData.imgcode
+        }, () => {
           Toast({
             message: '短信发送成功',
             position: 'top'
@@ -184,26 +221,35 @@
           }
         }, 1000)
       },
+      updataUser(fn) {
+        let data = {}
+        if (this.user.identity.realName !== this.fromData.name) {
+          data.realName = this.fromData.name
+        }
+        if (this.user.identity.mobile !== this.fromData.mobile) {
+          data.mobile = this.fromData.mobile
+        }
+        if (this.user.identity.weixinAccountNo !== this.fromData.weixinAccountNo) {
+          data.weixinAccountNo = this.fromData.weixinAccountNo
+        }
+        userAPI.severwm(data, () => {
+          if (fn && fn()) {
+            fn()
+          }
+        })
+      },
       getImgCode() {
         this.pageData.imgCodeSrc = config.HOST + '/m/auth/getImageAuthCode?' + Math.floor(Math.random() * 100)
       }
     },
     watch: {
-      'fromData.name': function (val) {
-        this.agreeChange()
-      },
       'fromData.mobile': function (val) {
-        this.agreeChange()
         if (val !== this.user.identity.mobile){
           this.state.openMobile = true
         } else {
           this.state.openMobile = false
         }
-      },
-      'fromData.weixinAccountNo': function (val) {
-        this.agreeChange()
       }
-
     },
     created() {
       this.getImgCode()

@@ -27,14 +27,6 @@
 
   export default {
     name: 'applicationguide',
-    data() {
-      return {
-        html: ''
-      }
-    },
-    created() {
-      console.log(this.$route.params.path)
-    }
   }
 </script>
 

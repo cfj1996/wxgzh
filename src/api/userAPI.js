@@ -227,6 +227,43 @@ export default {
       filters,
       success: successCallback
     })
+  },
+  /*
+  * 修改个人信息验证手机号
+  * */
+  PhoneAuthCode(params, successCallback) {
+    http.request('/m/auth/validatePhoneAuthCode', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+   * 提现到钱包
+   * */
+  withdraw(params, successCallback) {
+    http.request('/m/fund/withdraw', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+  * 帮助中心
+  * */
+  help(params, successCallback) {
+    http.request('/m/help/find', {
+      method: 'get',
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+* 进度查询
+* */
+  schedule(successCallback) {
+    http.request('/m/product/findBank', {
+      method: 'get',
+      success: successCallback
+    })
   }
 }
 

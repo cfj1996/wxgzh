@@ -449,15 +449,15 @@
             break;
           case 2:
             // 跳转到银行信用卡详情
-            // this.$router.push({
-            //   path: '/bank_card_info',
-            //   query: {}
-            // })
+            this.$router.push({
+              path: '/schedule',
+              query: {}
+            })
             break;
           case 3:
             // 我的页面
             this.$router.push({
-              path: '/userCenter'
+              path: '/user_center'
             })
             break;
         }

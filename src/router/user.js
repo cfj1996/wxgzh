@@ -18,7 +18,7 @@ import realErwm from '../pages/withdrawal/wechet_ewm'
 
 export default [
   {
-    path: '/userCenter',
+    path: '/user_center',
     name: '我的',
     component: UserCenter,
     meta: {
@@ -139,6 +139,46 @@ export default [
     component: () => import('../pages/set_user_information/index'),
     meta: {
       title: '修改个人信息',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/help',
+    name: '帮助中心',
+    component: () => import('../pages/help/index'),
+    meta: {
+      title: '帮助中心',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/help_view',
+    name: 'helpView',
+    component: () => import('../pages/help/help_view'),
+    meta: {
+      title: '帮助中心',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/schedule',
+    name: '查询进度',
+    component: () => import('../pages/schedule/index'),
+    meta: {
+      title: '查询进度',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/schedule_form',
+    name: '查询进度',
+    component: () => import('../pages/schedule/form'),
+    meta: {
+      title: '查询进度',
       page: 'homePage',
       requireAuth: true
     }

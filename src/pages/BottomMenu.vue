@@ -103,11 +103,11 @@
         <span class="text">资讯</span>
       </div>
     </mt-tab-item>
-    <mt-tab-item id="userCenter" @click.native="$router.push({path: '/userCenter'})" class="normal">
+    <mt-tab-item id="userCenter" @click.native="$router.push({path: '/user_center'})" class="normal">
       <!--<img slot="icon" :src="selected == 'userCenter'? require('../assets/img/bottomIcon/icon_mine_pressed.png'): require('../assets/img/bottomIcon/icon_mine_normal.png')">-->
       <!--<span v-if="selected=='userCenter'" class="colc30911">我的</span>-->
       <!--<span v-else class="colbfbfbf">我的</span>-->
-      <div class="nev-icon" :class="$route.path === '/userCenter'?'active':''">
+      <div class="nev-icon" :class="$route.path === '/user_center'?'active':''">
         <div class="icon my"></div>
         <span class="text">我的</span>
       </div>

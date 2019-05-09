@@ -216,7 +216,7 @@
   <div class="page">
     <div class="page-main user-center">
       <section class="user-info">
-        <div class="left-info">
+        <div class="left-info" @click="$router.push('/inform_set')">
           <img v-if="user.headImgURL" :src="user.headImgURL"/>
           <img v-else src="../../assets/img/new_img/user/iocn/user.png" alt="">
         </div>
@@ -298,9 +298,9 @@
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
             <p>会员必读</p>
           </div>
-          <div class="ku" v-if="level" @click="$router.push('/inform_set')">
-            <img src="../../assets/img/new_img/user/iocn/user_zl.png" alt="">
-            <p>修改个人信息</p>
+          <div class="ku" @click="$router.push('/help')">
+            <img src="../../assets/img/new_img/user/iocn/help.png" alt="">
+            <p>帮助中心</p>
           </div>
           <div class="ku" v-if="level" @click="$router.push('/user_set')">
             <img src="../../assets/img/new_img/user/iocn/set.png" alt="">
