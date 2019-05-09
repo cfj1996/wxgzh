@@ -137,7 +137,7 @@
       }
     }
     .title {
-      padding: 25px 0 10px 0;
+      padding: 10px 0;
       font-size: 16px;
       color: white;
       text-align: center;

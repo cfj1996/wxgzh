@@ -298,6 +298,10 @@
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
             <p>会员必读</p>
           </div>
+          <div class="ku" v-if="level" @click="$router.push('/inform_set')">
+            <img src="../../assets/img/new_img/user/iocn/user_zl.png" alt="">
+            <p>修改个人信息</p>
+          </div>
           <div class="ku" v-if="level" @click="$router.push('/user_set')">
             <img src="../../assets/img/new_img/user/iocn/set.png" alt="">
             <p>设置</p>

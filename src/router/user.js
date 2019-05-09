@@ -132,5 +132,15 @@ export default [
       page: 'homePage',
       requireAuth: true
     }
+  },
+  {
+    path: '/inform_set',
+    name: '修改个人信息',
+    component: () => import('../pages/set_user_information/index'),
+    meta: {
+      title: '修改个人信息',
+      page: 'homePage',
+      requireAuth: true
+    }
   }
 ]
