@@ -340,7 +340,7 @@
           mobile: '',
           weixinAccountNo: ''
         },
-        isToBeingAgent: false, // 控制是否显示代理人相关表单信息
+        isToBeingAgent: false, // 控制是否显示会员人相关表单信息
         agreeState: ['1'],
         agreeOption: [
           {

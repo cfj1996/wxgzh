@@ -28,12 +28,12 @@ export default [
     }
   },
   {
-    // 授权代理
+    // 授权会员
     path: '/author_proxy',
-    name: '授权代理',
+    name: '授权会员',
     component: authorProxy,
     meta: {
-      title: '授权代理',
+      title: '授权会员',
       page: 'homePage',
       requireAuth: true
     }
@@ -134,6 +134,16 @@ export default [
     }
   },
   {
+    path: '/withd_list',
+    name: '提现lsit',
+    component: () => import('../pages/income/tixian_list'),
+    meta: {
+      title: '提现',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
     path: '/inform_set',
     name: '修改个人信息',
     component: () => import('../pages/set_user_information/index'),
@@ -179,6 +189,16 @@ export default [
     component: () => import('../pages/schedule/form'),
     meta: {
       title: '查询进度',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
+    path: '/schedule_results',
+    name: 'scheduleResults',
+    component: () => import('../pages/schedule/results'),
+    meta: {
+      title: '查询进度结果',
       page: 'homePage',
       requireAuth: true
     }

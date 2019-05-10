@@ -15,6 +15,9 @@ export default {
   // REDIRECT_URL: 'http://shop.qdshsh.com/#',
   // SHARE_ADDRESS: 'http://shop.qdshsh.com/#/userId=',
 
+  // 查询进度的图片验证码地址 /m/scheduler/getImageCode
+  getImageCodeUrl: '/m/scheduler/getImageCode',
+
   // 测试环境
   HOST: 'http://devxykvip.isales.tech',
   // 微信授权URL

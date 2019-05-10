@@ -90,7 +90,7 @@ const actions = {
         {
           id: "1", //用户Id
           displayName: "行云流水", // 微信昵称
-          employeeNo: "10000", // 工号
+          employeeNo: "10000", // ID
           weixinAccountNo: "xxxxx", // 微信账号
           weixinQRCode: "http://xxxx.jpg", // 微信号二维码链接
           level: "1", // 用户等级(1=普通会员，2=实习专员，3=专员，4=经理，5=银行家，6=战略家，7=合伙人)

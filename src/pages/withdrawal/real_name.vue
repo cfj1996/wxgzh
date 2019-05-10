@@ -46,9 +46,14 @@
           align-items: center;
           justify-content: space-between;
           .img-ku {
-            flex: 0 0 120px;
+            border: 1px solid #d9d9d9;
+            height: 90px;
+            flex: 0 0 140px;
+            padding: 5px;
+            text-align: center;
             img {
-              max-width: 100%;
+              height: 100%;
+              width: 100%;
             }
           }
         }

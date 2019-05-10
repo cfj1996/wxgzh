@@ -32,7 +32,7 @@
     <div class="view">
       <div class="body">
         <mt-navbar v-model="selected">
-          <mt-tab-item id="1">代理</mt-tab-item>
+          <mt-tab-item id="1">会员</mt-tab-item>
           <mt-tab-item id="2">信用卡</mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected">

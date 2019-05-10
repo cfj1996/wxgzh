@@ -12,7 +12,7 @@
                                                                                              :class="'level' + (Number(pageData.level) - 1)"></span>
             </div>
             <div class="xx">
-              <span>工号: {{ pageData.employeeNo }}</span> <span>职务: {{ pageData.level | setLevel }}</span>
+              <span>ID: {{ pageData.employeeNo }}</span> <span>职务: {{ pageData.level | setLevel }}</span>
             </div>
           </div>
         </div>
@@ -44,7 +44,7 @@
       return {
         pageData: {
           id: '',
-          employeeNo: '', // 工号
+          employeeNo: '', // ID
           displayName: '', // 微信昵称
           headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
           weixinAccountNo: '', // 微信号

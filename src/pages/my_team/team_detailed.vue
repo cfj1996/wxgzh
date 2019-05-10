@@ -37,16 +37,42 @@
       }
     }
     .body {
+      .tabbar {
+        margin-top: 10px;
+        background: white;
+        width: 100%;
+        .tabbar-content {
+          display: flex;
+          padding: 0 10px;
+          flex-wrap: wrap;
+          span {
+            width: 60px;
+            padding: 3px;
+            margin: 5px;
+            border-radius: 5px;
+            border: 1px solid red;
+            display: block;
+            text-align: center;
+          }
+          .active{
+            background: linear-gradient(to left, $color2, $color3);;
+            color: white;
+            border: none;
+          }
+
+        }
+
+      }
       position: relative;
-      .no-data-icon{
+      .no-data-icon {
         text-align: center;
         position: relative;
         margin-top: 30px;
-        img{
+        img {
           width: 150px;
           height: 150px;
         }
-        p{
+        p {
           margin-top: 20px;
           color: $color1;
         }
@@ -68,6 +94,9 @@
           background-color: white;
           border-radius: 10px;
           margin-top: 20px;
+          &:nth-child(1){
+            margin-top: 10px;
+          }
           padding: 10px 10px 0 10px;
           .user-msg {
             border-bottom: 1px solid $color1;
@@ -168,7 +197,7 @@
       }
       .load {
         text-align: center;
-        padding-bottom: 10px;
+        padding: 10px;
         p {
           font-size: 12px;
           display: inline-block;
@@ -216,7 +245,7 @@
           <p>昨日新增（个）</p>
           <h2>{{ pageData.yesterdayCount }}</h2>
         </div>
-        <div v-if="$route.query.level !== 1 && $route.query.level !== 2 && $route.query.level !== 3">
+        <div v-if="$route.query.level === 5 || $route.query.level === 4">
           <p>团队业绩（个）</p>
           <h2>{{ pageData.orderCount }}</h2>
         </div>
@@ -224,8 +253,20 @@
     </div>
     <div class="body">
       <div class="search">
-        <mt-field placeholder="请输入工号搜索" v-model="retrieve"></mt-field>
-        <mt-button size="small" @click="search"> 搜索</mt-button>
+        <mt-field placeholder="请输入ID搜索" v-model="retrieve">
+          <mt-button size="small" @click="search"> 搜索</mt-button>
+        </mt-field>
+      </div>
+      <div class="tabbar">
+        <!--1=信用卡，2=借记卡，3=贷款，4=保险，5=理财-->
+        <div class="tabbar-content">
+          <span @click="bankType('')" :class="type===''?'active': ''">全部</span>
+          <span @click="bankType('1')" :class="type==='1'?'active': ''">信用卡</span>
+          <span @click="bankType('2')" :class="type==='2'?'active': ''">借记卡</span>
+          <span @click="bankType('3')" :class="type==='3'?'active': ''">贷款</span>
+          <span @click="bankType('4')" :class="type==='4'?'active': ''">保险</span>
+          <span @click="bankType('5')" :class="type==='5'?'active': ''">理财</span>
+        </div>
       </div>
       <ul>
         <li v-for="(val, key) in pageList">
@@ -256,28 +297,30 @@
               </a>
             </div>
             <template v-if="$route.query.level !== 1">
-            <div class="jindu" v-if="inKey === key" @click="inKey = null">
-              <p style="padding: 16px 0">收起 <span class="mintui mintui-back"></span></p>
-            </div>
-            <div class="jindu" v-else @click="inKey = key">
-              <p style="padding: 16px 0">{{ $route.query.level === '2'? '查看转正进度': '查看团队详情' }} <span class="mintui mintui-back"></span></p>
-            </div></template>
+              <div class="jindu" v-if="inKey === key" @click="inKey = null">
+                <p style="padding: 16px 0">收起 <span class="mintui mintui-back"></span></p>
+              </div>
+              <div class="jindu" v-else @click="inKey = key">
+                <p style="padding: 16px 0">{{ $route.query.level === '2'? '查看转正进度': '查看团队详情' }} <span
+                  class="mintui mintui-back"></span></p>
+              </div>
+            </template>
           </div>
           <template v-if="$route.query.level !== 1">
-          <div v-if="$route.query.level == 2" class="xiala" :class="inKey === key? 'active' : ''">
+            <div v-if="$route.query.level == 2" class="xiala" :class="inKey === key? 'active' : ''">
               <div>转正任务 <p>{{ val.taskCount }}</p></div>
               <div>锁粉数 <p>{{ val.customerCount }}</p></div>
               <div>
                 <p>转正进度</p>
                 <mt-progress style="height: 5px" :value="Number(val.progress)" :bar-height="5"></mt-progress>
               </div>
-          </div>
-          <div v-else class="xiala" :class="inKey === key? 'active' : ''">
-            <div><p>客户数</p><span>{{ val.customerCount }}</span></div>
-            <div><p>团队数</p><span>{{ val.teamCount }}</span></div>
-            <div><p>实习数</p><span>{{ val.probationCount }}</span></div>
-            <div><p>业务数</p><span>{{ val.orderCount }}</span></div>
-          </div>
+            </div>
+            <div v-else class="xiala" :class="inKey === key? 'active' : ''">
+              <div><p>客户数</p><span>{{ val.customerCount }}</span></div>
+              <div><p>团队数</p><span>{{ val.teamCount }}</span></div>
+              <div><p>实习数</p><span>{{ val.probationCount }}</span></div>
+              <div><p>业务数</p><span>{{ val.orderCount }}</span></div>
+            </div>
           </template>
         </li>
       </ul>
@@ -305,6 +348,7 @@
         loadList: true,
         retrieve: '',
         teamName: '',
+        type: '',
         noData: false,
         pageData: {
           customerCount: 0, // 客户数
@@ -325,7 +369,7 @@
     },
     methods: {
       getData(fn, search) {
-        userAPI.teamFindPaged({category: this.$route.query.level}, this.page, (res) => {
+        userAPI.teamFindPaged({category: this.$route.query.level, catalog: this.type}, this.page, (res) => {
           this.pageList.push(...res.data.items)
           if (res.data.items.length === this.page.limit) {
             this.loadList = true
@@ -336,6 +380,17 @@
             fn(res.data.items)
           }
         }, search)
+      },
+      bankType(type) {
+        this.pageList = []
+        this.type = type
+        this.getData((list) => {
+          if (list.length === 0) {
+            this.noData = true
+          } else {
+            this.noData = false
+          }
+        })
       },
       load() {
         // 下一页数据
@@ -383,17 +438,6 @@
         } else {
           this.noData = false
         }
-        this.pageList.forEach((val, key) => {
-          let className = `.copy${key}`
-          let clipboard1 = new this.clipboard(className);
-          clipboard1.on('success', function (e) {
-            Toast({
-              message: '已成功复制微信号',
-              position: 'top'
-            })
-            e.clearSelection();
-          });
-        })
       })
     }
   }

@@ -15,7 +15,8 @@
       width: 100%;
       min-height: 90px;
       padding-top: 20px;
-      background-color: #fff;
+      background: linear-gradient(to left, $color2, $color3);
+      color: white;
 
       .title{
         text-align: center;
@@ -24,6 +25,7 @@
       }
       .amount{
         text-align: center;
+        font-size: 18px;
       }
       >ul{
         margin: 10px 40px 0;
@@ -212,7 +214,7 @@
         </div>
         <div class="search-section">
           <mt-field class="employee-no"
-                    placeholder="请输入工号搜索"
+                    placeholder="请输入ID搜索"
                     :attr="{maxlength: 12}"
                     v-model="searchKey">
           </mt-field>
@@ -239,14 +241,14 @@
                 <li v-for="(item , index) in creditOrderList">
                   <div class="title">{{item.productName}}</div>
                   <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己': '客户'}}</label>
-                  <p>申请人：{{item.realName}} (工号：{{item.employeeNo}})</p>
+                  <p>申请人：{{item.realName}} (ID：{{item.employeeNo}})</p>
                   <p>手机号：{{item.mobile}}</p>
                   <p>浏览时间：{{item.createdDate | timeAuto}}</p>
                   <section>
                     <mt-button size="small" v-if="activeState !== 1" class="mini set-btn" @click="move(item, 1)">移至待确认</mt-button>
                     <mt-button size="small" v-if="activeState !== 2" class="mini set-btn" @click="move(item, 2)">移至待再查</mt-button>
                     <mt-button v-if="activeState !== 6" size="small" class="mini set-btn" @click="move(item, 6)">移至回收站</mt-button>
-                    <!--<mt-button size="small" class="mini">查询进度</mt-button>-->
+                    <mt-button v-if="activeState === 1" size="small" class="mini set-btn" @click="$router.push({path: 'schedule_form', query:{id: item.productId	}})">查看进度</mt-button>
                   </section>
                 </li>
               </ul>

@@ -76,6 +76,8 @@
         <mt-field class="form-cell" label="验证码" placeholder="请输入图片验证码" type="text" :attr="{maxlength: 4}"
                   v-model="form.imgcode">
           <img @click="getImgCode" :src="imgCodeSrc" height="45px" width="100px">
+          <p style="font-size: 12px;color: #3eb7f3;text-align: center">点击图片切换</p>
+
         </mt-field>
         <mt-field class="form-cell" label="短信验证码" placeholder="请输入短信验证码" v-model="form.mobileYzm">
           <mt-button style="width: 94px" size="small" type="danger" @click="getYzmCode" :disabled="yzmCode.isONclick">{{
@@ -128,7 +130,7 @@
       }),
       canOnSubmit() {
         let i = false
-        if (this.form.amount/100 > Number(this.availableTotal)) {
+        if (this.form.amount / 100 > Number(this.availableTotal)) {
           i = true
           console.log(this.form.amount, Number(this.availableTotal))
         }
@@ -159,9 +161,13 @@
         this.amount = this.availableTotal
       },
       getYzmCode() {
-        let a = 10
-        this.yzmCode.text = a + 's'
-        this.yzmCode.isONclick = true
+        if (this.form.imgcode === '') {
+          Toast({
+            message: '请输入图片验证码',
+            position: 'top'
+          })
+          return false
+        }
         let time = null
         userAPI.getPhoneAuthCode({
           mobile: this.user.identity.mobile,
@@ -172,16 +178,19 @@
             message: '短信发送成功',
             position: 'top'
           })
-        })
-        time = setInterval(() => {
-          a -= 1
+          let a = 10
           this.yzmCode.text = a + 's'
-          if (a < 1) {
-            this.yzmCode.text = '获取验证码'
-            this.yzmCode.isONclick = false
-            clearInterval(time)
-          }
-        }, 1000)
+          this.yzmCode.isONclick = true
+          time = setInterval(() => {
+            a -= 1
+            this.yzmCode.text = a + 's'
+            if (a < 1) {
+              this.yzmCode.text = '获取验证码'
+              this.yzmCode.isONclick = false
+              clearInterval(time)
+            }
+          }, 1000)
+        })
       },
       getImgCode() {
         this.imgCodeSrc = config.HOST + '/m/auth/getImageAuthCode?' + Math.floor(Math.random() * 100)

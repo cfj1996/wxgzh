@@ -402,7 +402,7 @@
         <div class="">
           <h2>佣金结算说明</h2>
           <div class="t-title">
-            <span>代理商等级</span>
+            <span>会员等级</span>
             <span v-for="val in levelList"
                   v-if="val.value !== 1 && val.value !== 2 && val.value !== 6&& val.value !== 7">{{ val.label }}</span>
           </div>

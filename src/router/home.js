@@ -76,12 +76,12 @@ export default [
     }
   },
   {
-    // 申请成为代理商（填写个人资料）
+    // 申请成为会员（填写个人资料）
     path: '/be_agent_form',
-    name: '填写代理信息',
+    name: '填写会员信息',
     component: ApplicantForm,
     meta: {
-      title: '填写代理信息',
+      title: '填写会员信息',
       page: 'homePage',
       requireAuth: true
     }
@@ -98,10 +98,10 @@ export default [
   },
   {
     path: '/customer',
-    name: '专属客服',
+    name: '推荐人',
     component: customer,
     meta: {
-      title: '专属客服',
+      title: '推荐人',
       page: 'homePage',
       requireAuth: true
     }

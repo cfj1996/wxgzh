@@ -4,7 +4,7 @@
       <div class="img-ku"><img src="../../assets/img/sqok.png" alt=""></div>
       <p>申请成功等待审核</p>
     </div>
-    <p class="text">请联系您的专属客服授权，尽快完成实习任务（直接推荐客户或是自己成功办理一笔业务）成为淘个卡正式代理商。</p>
+    <p class="text">请联系您的推荐人授权，尽快完成实习任务（直接推荐客户或是自己成功办理一笔业务）成为淘个卡正式代理商。</p>
     <div class="content">
       <div class="img-ku"><img v-if="pageData.headImgURL" :src="pageData.headImgURL" alt=""></div>
       <div>

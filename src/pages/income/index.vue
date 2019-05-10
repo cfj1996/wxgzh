@@ -47,6 +47,7 @@
         }
       }
       .body {
+        padding: 0 10px;
         .title {
           padding: 15px 20px;
         }
@@ -106,7 +107,7 @@
             <p>我的收入</p>
             <h2>￥{{ SUM | currencyAuot}}</h2>
           </div>
-          <div>
+          <div @click="$router.push('/withd_list')">
             <p>已提现</p>
             <h2>￥{{ pageData.withdrawTotal | currencyAuot}}</h2>
           </div>
@@ -126,7 +127,7 @@
                   :showHeader="false"
                   :showFooter="false">
         <div class="tip-content">
-          <p>为了保障您的资金安全，同时依照《国家反洗钱法》的要求，必须实名认证后方可提款</p>
+          <p>为了保障您的资金安全，同时依照《国家反洗钱法》的要求，必须通过实名认证后方可提款</p>
         </div>
         <div style="padding: 0 20px 20px;">
           <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="onAuthorise">

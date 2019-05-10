@@ -48,7 +48,7 @@
     <div class="view">
       <div class="body">
         <ul>
-          <li v-for="val in pageData.bankList" @click="$router.push('/schedule_form')">
+          <li v-for="val in pageData.bankList" @click="$router.push('/schedule_form?id=' + val.id)">
             <div class="content">
               <div class="img-ku">
                 <img :src="val.logo" alt="">

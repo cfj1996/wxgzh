@@ -1,5 +1,5 @@
 /*
-* @class   代理授权
+* @class   会员授权
 * @author  Dennis Lei
 * @date    19.04.15
 */
@@ -206,7 +206,7 @@
       </div>
       <div class="search-section">
         <mt-field class="employee-no"
-                  placeholder="请输入工号搜索"
+                  placeholder="请输入ID搜索"
                   :attr="{maxlength: 12}"
                   v-model="searchKey">
         </mt-field>
@@ -247,7 +247,7 @@
           <div>UID：16690032</div>
           <br/>
           <div class="title">AGT201903181639289784792</div>
-          <p>代理类型：青铜</p>
+          <p>会员类型：青铜</p>
           <p>授权限状态：已授权</p>
           <p>申请时间：2019-03-18 16:39:29</p>
         </li>
@@ -327,7 +327,7 @@
           approveDate: '201-12-12', // 审批时间
           status: 1, // 审批状态：1=待审，2=通过，3=拒绝
           displayName: 'zhangsan', // 申请者昵称
-          employeeNo: '4785443' // 申请者工号
+          employeeNo: '4785443' // 申请者ID
         }],
         stateMateData: Object.freeze({
           1: '待审',

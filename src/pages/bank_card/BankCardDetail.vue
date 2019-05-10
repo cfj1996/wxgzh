@@ -225,7 +225,7 @@
       return {
         fenxin: false,
         show: false,
-        isToBeingAgent: false, // 控制是否显示代理人相关表单信息
+        isToBeingAgent: false, // 控制是否显示会员相关表单信息
         isVisibleSharePopup: false, // 分享
         bankCardContent: '',
         detail: {},
@@ -246,7 +246,7 @@
         setTimeout(() => {this.fenxin = false}, 3000)
         weixin.wxShare({
           title: this.user.displayName + '邀请您加入淘个卡，开启轻创业之旅',
-          desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
+          desc: '会员最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(`${config.HOST}/m/invitation/xyc?productId=${this.$route.query.creditCardId}&inviterId=${this.user.id}`),
         }, () => {this.fenxin = false})
       },
@@ -255,7 +255,7 @@
           if (this.user.identity && this.user.identity.IDCardNo) {
             // 已经实名认证过
             if (Number(this.user.level) > 1) {
-              // 代理商
+              // 会员
               // 跳转到确认申请人信息页面
               this.$router.push({
                 path: '/confirm_applicant_info',

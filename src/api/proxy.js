@@ -1,11 +1,11 @@
 /**
- * 线下代理接口
+ * 线下会员接口
  */
 import http from '../common/http'
 
 export default {
   /**
-   * 生成代理商海报
+   * 生成会员商海报
    * @param params
    * @param successCallback
    */

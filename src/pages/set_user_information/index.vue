@@ -65,7 +65,7 @@
       </div>
       <div class="body">
         <div class="form-section">
-          <mt-field label="工号" disabled :value="user.employeeNo"></mt-field>
+          <mt-field label="ID" disabled :value="user.employeeNo"></mt-field>
           <mt-field label="姓名" v-model="fromData.name"></mt-field>
           <mt-field label="身份证" placeholder="未实名认证" disabled :value="user.identity.IDCardNo"></mt-field>
           <mt-field label="手机号" type="tel" v-model="fromData.mobile"></mt-field>
@@ -73,6 +73,7 @@
             <mt-field class="form-cell" label="验证码" placeholder="请输入图片验证码" type="text" :attr="{maxlength: 4}"
                       v-model="fromData.imgcode">
               <img @click="getImgCode" :src="pageData.imgCodeSrc" height="45px" width="100px">
+              <p style="font-size: 12px;color: #3eb7f3;text-align: center">点击图片切换</p>
             </mt-field>
             <mt-field class="form-cell" label="短信验证码" placeholder="请输入短信验证码" v-model="fromData.mobileYzm">
               <mt-button style="width: 94px" size="small" type="danger" @click="getYzmCode"
@@ -197,9 +198,13 @@
         }
       },
       getYzmCode() {
-        let a = 10
-        this.pageData.yzmCode.text = a + 's'
-        this.pageData.yzmCode.isONclick = true
+        if (this.form.imgcode === '') {
+          Toast({
+            message: '请输入图片验证码',
+            position: 'top'
+          })
+          return false
+        }
         let time = null
         userAPI.getPhoneAuthCode({
           mobile: this.fromData.mobile,
@@ -210,16 +215,19 @@
             message: '短信发送成功',
             position: 'top'
           })
-        })
-        time = setInterval(() => {
-          a -= 1
+          let a = 10
           this.pageData.yzmCode.text = a + 's'
-          if (a < 1) {
-            this.pageData.yzmCode.text = '获取验证码'
-            this.pageData.yzmCode.isONclick = false
-            clearInterval(time)
-          }
-        }, 1000)
+          this.pageData.yzmCode.isONclick = true
+          time = setInterval(() => {
+            a -= 1
+            this.pageData.yzmCode.text = a + 's'
+            if (a < 1) {
+              this.pageData.yzmCode.text = '获取验证码'
+              this.pageData.yzmCode.isONclick = false
+              clearInterval(time)
+            }
+          }, 1000)
+        })
       },
       updataUser(fn) {
         let data = {}

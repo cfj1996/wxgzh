@@ -222,7 +222,7 @@
         </div>
         <div class="center-info">
           <p>{{ user.displayName || ''}}</p>
-          <p>UID： {{user.employeeNo || ''}}</p>
+          <p>ID： {{user.employeeNo || ''}}</p>
         </div>
         <div class="right-info">
           <p><span :class="`level${user.level-1}`"></span>{{ userLevel}}</p>
@@ -270,7 +270,7 @@
           </div>
           <div class="ku" v-if="level" @click="$router.push('/author_proxy')">
             <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
-            <p>代理授权</p>
+            <p>会员授权</p>
           </div>
         </div>
       </div>
@@ -287,7 +287,7 @@
           </div>
           <div class="ku" @click="$router.push('/customer')">
             <img src="../../assets/img/new_img/user/iocn/zskf.png" alt="">
-            <p>专属客服</p>
+            <p>推荐人</p>
           </div>
         </div>
       </div>

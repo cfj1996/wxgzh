@@ -76,7 +76,7 @@ export default {
   },
 
   /*
-   * 代理商注册
+   * 会员商注册
    * @param params
    * @param successCallback
    */
@@ -262,6 +262,50 @@ export default {
   schedule(successCallback) {
     http.request('/m/product/findBank', {
       method: 'get',
+      success: successCallback
+    })
+  },
+  /*
+* 进度查询是否需要图片验证码
+* */
+  createView(params, successCallback) {
+    http.request('/m/scheduler/createView', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+  * 查询进度短信验证码
+  * */
+  getSmsCode(params, successCallback) {
+    http.request('/m/scheduler/getSmsCode', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+  * 查询进度
+  * */
+  pustQuery(params, successCallback) {
+    http.request('/m/scheduler/query', {
+      data: params,
+      success: successCallback
+    })
+  },
+  /*
+  * 已提现列表
+  * */
+  findWithdrawPaged(page, successCallback) {
+    http.request('/m/fund/findWithdrawPaged', {
+      page,
+      success: successCallback
+    })
+  },
+  /*
+  * 已经提现金额
+  * */
+  countWithdrew(successCallback) {
+    http.request('/m/fund/countWithdrew', {
       success: successCallback
     })
   }

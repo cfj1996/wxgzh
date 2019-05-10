@@ -1,7 +1,7 @@
 <template>
   <div class="page user-set">
     <ul>
-      <li><p>工号</p>
+      <li><p>ID</p>
         <div>{{ user.employeeNo }}</div>
       </li>
       <li @click="$router.push('/real_ewm')"><p>微信二维码</p>

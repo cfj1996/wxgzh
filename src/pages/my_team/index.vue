@@ -131,21 +131,40 @@
             </li>
           </ul>
         </section>
+        <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
+                    :showCloseButton="false"
+                    :showHeader="false"
+                    :showFooter="false">
+          <div class="tip-content">
+            <p>为了保障您的资金安全，同时依照《国家反洗钱法》的要求，必须通过实名认证后方可提款</p>
+          </div>
+          <div style="padding: 0 20px 20px;">
+            <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="this.$router.push('/real_name')">
+              立即实名认证
+            </mt-button>
+          </div>
+        </bzw-dialog>
       </div>
     </div>
     <div class="foot">
-      <div class="btn">提现</div>
+      <div class="btn" @click="tixanToFrom">提现</div>
     </div>
   </div>
 </template>
 
 <script>
   import userAPI from '../../api/userAPI'
+  import {mapState} from 'vuex'
+  import BzwDialog from '@/components/dialog/BzwDialog'
 
   export default {
     name: 'index',
+    components: {
+      BzwDialog
+    },
     data() {
       return {
+        certificatedStatus: false,
         pageData: {
           count: 0, //	客户总数
           customerCount: 0, //	我的客户数
@@ -155,8 +174,13 @@
           managerCount: 0, //	黄金
           bankerCount: 0 // 钻石
         },
-        level: JSON.parse(sessionStorage.level)
+        level: JSON.parse(sessionStorage.level).reverse()
       }
+    },
+    computed: {
+      ...mapState({
+        user: state => state.security && state.security.user || {}
+      })
     },
     methods: {
       getSet(level) {
@@ -176,6 +200,9 @@
             break;
         }
         return msg
+      },
+      tixanToFrom() {
+        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
       }
     },
     created() {

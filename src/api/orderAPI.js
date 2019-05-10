@@ -62,7 +62,7 @@ export default {
     })
   },
   /*
-   * 代理商海报
+   * 会员海报
    * @param successCallback
    */
   getAgent(successCallback) {
@@ -71,7 +71,7 @@ export default {
     })
   },
   /*
-  * 代理商海报生成
+  * 会员海报生成
   * @param successCallback
   */
   generateAgentPoster(successCallback) {
@@ -80,7 +80,7 @@ export default {
     })
   },
   /*
-   * 已经实名后成为代理商的接口
+   * 已经实名后成为会员的接口
    * @param successCallback
    */
   enroll(params, successCallback){

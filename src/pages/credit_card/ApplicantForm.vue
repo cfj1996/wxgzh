@@ -140,7 +140,7 @@
         <p>请如实填写您的相关信息，一旦提交，不予以修改。</p>
       </div>
       <div class="form-section">
-        <mt-field class="form-cell" label="工号" placeholder="" disabled readonly v-model="form.employeeNo"
+        <mt-field class="form-cell" label="ID" placeholder="" disabled readonly v-model="form.employeeNo"
                   v-if="isToBeingAgent"></mt-field>
         <mt-field class="form-cell" label="用户名" :disabled="disabled" placeholder="请输入您的真实姓名"
                   v-model="form.realName"></mt-field>
@@ -226,9 +226,9 @@
         disabled: false,
         xieyi: true,
         popupVisible: false,
-        isToBeingAgent: false, // 控制是否显示代理人相关表单信息
+        isToBeingAgent: false, // 控制是否显示会员相关表单信息
         form: {
-          employeeNo: '', // 工号，用户同意授权后台即给该微信用户分配工号
+          employeeNo: '', // ID，用户同意授权后台即给该微信用户分配ID
           realName: '', // 用户真实姓名
           IDCardNo: '', // 用户身份证
           mobile: '', // 用户手机
@@ -280,7 +280,7 @@
             }
           })
 
-          // 已经实名后成为代理商的接口 更新微信号
+          // 已经实名后成为会员的接口 更新微信号
           if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
             orderAPI.enroll({
               weixinAccountNo: this.form.weixinAccountNo
@@ -290,7 +290,7 @@
               query: this.$route.query
             })
           } else {
-            if (this.isToBeingAgent) { // 代理
+            if (this.isToBeingAgent) { // 会员
               userAPI.agentRegiste({
                 realName: this.form.realName,
                 mobile: this.form.mobile,
@@ -300,7 +300,7 @@
                 authCode: this.form.authCode
               }, (res) => {
                 Toast({
-                  message: '代理申请信息提交成功',
+                  message: '会员申请信息提交成功',
                   position: 'top'
                 })
                 this.refreshBaseData(() => {
@@ -459,7 +459,7 @@
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
       }
-      // 已经实名后成为代理商的接口
+      // 已经实名后成为会员商的接口
       if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
         this.disabled = true
         this.form.IDCardNo = this.user.identity.IDCardNo

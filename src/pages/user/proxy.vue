@@ -19,7 +19,7 @@
     }
     .load {
       text-align: center;
-      padding-bottom: 10px;
+      padding: 10px;
       p {
         font-size: 12px;
         display: inline-block;
@@ -208,7 +208,7 @@
   <div class="page">
     <div class="title">待授权的订单 <p style="text-align: center">{{ order }}</p></div>
     <div class="retrieve">
-      <mt-field placeholder="请输入工号检索" v-model="retrieve"></mt-field>
+      <mt-field placeholder="请输入ID检索" v-model="retrieve"></mt-field>
       <mt-button class="bg-1" size="small" @click="search">搜索</mt-button>
     </div>
     <ul class="item">
@@ -247,7 +247,7 @@
         </div>
         <div class="f-yao">
           <p>{{listItem.approvalNo}}</p>
-          <p>代理类型: 青铜</p>
+          <p>会员类型: 青铜</p>
           <p>授权限状态：{{listItem.status | isStatus}}</p>
           <p>申请时间：{{listItem.submitDate | timeAuto}}</p>
         </div>

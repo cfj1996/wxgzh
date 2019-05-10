@@ -11,7 +11,7 @@
           <div class="cont-text">
             <div class="name">{{ pageData.displayName }} (实名: {{ pageData.realName }}) <span class="level" :class="'level' + (Number(pageData.level) - 1)"></span></div>
             <div class="xx">
-              <span>工号: {{ pageData.employeeNo }}</span> <span >职务: {{ pageData.level | setLevel }}</span>
+              <span>ID: {{ pageData.employeeNo }}</span> <span >职务: {{ pageData.level | setLevel }}</span>
             </div>
           </div>
         </div>
@@ -26,7 +26,7 @@
       <img src="../../assets/img/landing_page/img2.png" alt="">
     </div>
     <div class="foot-bt">
-      <div class="item">等待专属客服审核</div>
+      <div class="item">等待推荐人审核</div>
     </div>
     <fen-xiang :show="fenx"></fen-xiang>
   </div>
@@ -45,7 +45,7 @@
       return {
         pageData: {
           id: '',
-          employeeNo: '', // 工号
+          employeeNo: '', // ID
           displayName: '', // 微信昵称
           headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
           weixinAccountNo: '', // 微信号
@@ -87,7 +87,7 @@
         }, 3000)
         weixin.wxShare({
           title: `${this.user.displayName}邀请您加入淘个卡，开启轻创业之旅.`,
-          desc: '代理最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
+          desc: '会员最高补贴140元，办卡轻松拿佣金，点击获取更多权益。',
           link: encodeURI(this.link),
         }, () => {
           this.fenx = false
