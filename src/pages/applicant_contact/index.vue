@@ -14,12 +14,23 @@
       </div>
     </div>
     <div class="lt">
-      <button type="button" v-if="pageData.weixinAccountNo" class="tiem copy btn-copy liao bo-wei" :data-clipboard-text="pageData.weixinAccountNo">
+      <div v-if="pageData.weixinQRCodeURL || pageData.weixinAccountNo"
+           @click="ISopen = true"
+           class="tiem btn-copy liao bo-wei">
         <img src="../../assets/img/weixin.png" alt=""> <span>微信聊</span>
-      </button>
-      <a class="tiem liao bo-dha" :href="`tel:${ pageData.mobile }`"><img src="../../assets/img/shouji.png"
-                                                              alt=""><span>电话聊</span></a>
+      </div>
+      <div v-else class="tiem btn-copy liao bo-wei" >
+        <img src="../../assets/img/weixin_on.png" alt=""> <span>微信聊</span>
+      </div>
+      <a class="tiem liao bo-dha" :href="`tel:${ pageData.mobile }`">
+        <img src="../../assets/img/shouji.png" alt=""><span>电话聊</span></a>
     </div>
+    <br>
+    <div style="text-align: center;color:red;">
+      <img src="../../assets/img/wechat_ewm.jpg" width="120px" height="120px" alt="">
+      <p style="padding-top: 4px">关注公众号，及时了解申请结果</p>
+    </div>
+    <add-wechat :open="ISopen" v-model="ISopen" :weChatImg="pageData.weixinQRCodeURL" :weChatName="pageData.weixinAccountNo"/>
   </div>
 </template>
 
@@ -31,6 +42,7 @@
     name: 'index',
     data() {
       return {
+        ISopen: false,
         pageData: {
           id: '',
           employeeNo: '',	// 工号

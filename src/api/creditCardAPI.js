@@ -61,6 +61,22 @@ export default {
       page,
       success: successCallback
     })
+  },
+  /*
+  * 未读消息数
+  * */
+  unreadInfo(fn) {
+    http.request('/m/notification/getUnReadCount', {
+      success: fn
+    })
+  },
+  /*
+  * 读通知
+  * */
+  readInfo(fn) {
+    http.request('/m/notification/read', {
+      success: fn
+    })
   }
 }
 

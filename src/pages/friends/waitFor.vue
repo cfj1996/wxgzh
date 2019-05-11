@@ -16,12 +16,18 @@
           </div>
         </div>
         <div class="lt">
-          <button v-if="pageData.weixinAccountNo" type="button" class="tiem copy btn-copy liao bo-wei" :data-clipboard-text="pageData.weixinAccountNo">
+          <div v-if="pageData.weixinQRCodeURL || pageData.weixinAccountNo"
+               @click="ISopen = true"
+                class="tiem btn-copy liao bo-wei">
             <img src="../../assets/img/weixin.png" alt=""> <span>微信聊</span>
-          </button>
-          <a class="tiem liao bo-dha" :href="`tel:${ pageData.mobile }`"><img src="../../assets/img/shouji.png"
-                                                                  alt=""><span>电话聊</span></a>
+          </div>
+          <div v-else  class="tiem btn-copy liao bo-wei">
+            <img src="../../assets/img/weixin_on.png" alt=""> <span>微信聊</span>
+          </div>
+          <a class="tiem liao bo-dha" :href="`tel:${ pageData.mobile }`">
+            <img src="../../assets/img/shouji.png" alt=""><span>电话聊</span></a>
         </div>
+        <add-wechat :open="ISopen" v-model="ISopen" :weChatImg="pageData.weixinQRCodeURL" :weChatName="pageData.weixinAccountNo"/>
       </div>
       <img src="../../assets/img/landing_page/img2.png" alt="">
     </div>
@@ -43,18 +49,9 @@
     name: 'waitFor',
     data() {
       return {
-        pageData: {
-          id: '',
-          employeeNo: '', // ID
-          displayName: '', // 微信昵称
-          headImgURL: 'http://thirdwx.qlogo.cn/mmopen/ey4onjt5WiaepYWINm4dn5ib6YkbpHZbWKh5Exia8RFsIEhtLebQNGteRwbSWkxNyuer6RCpC4Xkb1jQVibS4ypx1e8iaCgOsqP3p/132', // 头像
-          weixinAccountNo: '', // 微信号
-          mobile: '', // 手机号
-          realName: '',
-          level: null
-        },
+        ISopen: false,
+        pageData: {},
         link: '',
-        my: false,
         fenx: false
       }
     },
@@ -101,27 +98,6 @@
       orderAPI.getAgent((res) => {
         this.link = res.data.link
       })
-      let clipboard1 = new this.clipboard('.copy');
-      clipboard1.on('success', function (e) {
-        Toast({
-          message: '已成功复制微信号',
-          position: 'top'
-        })
-        e.clearSelection();
-      });
-      let clipboard2 = new this.clipboard('.cope-link');
-      clipboard2.on('success', function (e) {
-        Toast({
-          message: '复制成功',
-          position: 'top'
-        })
-        e.clearSelection();
-      });
-      if (this.$route.query.inviterId === this.user.id) {
-        this.my = true
-      } else {
-        this.my = false
-      }
     }
   }
 </script>

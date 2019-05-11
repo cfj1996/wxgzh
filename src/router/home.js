@@ -195,5 +195,15 @@ export default [
       page: 'newpage',
       requireAuth: true
     }
+  },
+  {
+    path: '/members_doc',
+    name: '会员必读',
+    component: ()=> import('../pages/members_doc/index'),
+    meta: {
+      title: '会员必读',
+      page: 'newpage',
+      requireAuth: true
+    }
   }
 ]

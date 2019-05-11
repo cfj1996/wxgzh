@@ -47,6 +47,9 @@
         margin: 0 auto;
         width: 25px;
         height: 25px;
+        .msg{
+          transform: translateX(100%);
+        }
       }
       .text{
         display: block;
@@ -108,7 +111,9 @@
       <!--<span v-if="selected=='userCenter'" class="colc30911">我的</span>-->
       <!--<span v-else class="colbfbfbf">我的</span>-->
       <div class="nev-icon" :class="$route.path === '/user_center'?'active':''">
-        <div class="icon my"></div>
+        <div class="icon my">
+          <mt-badge v-if="Number(read) > 0" style="transform: translateX(100%) scale(0.8);" type="error" size="small">{{ read }}</mt-badge>
+        </div>
         <span class="text">我的</span>
       </div>
     </mt-tab-item>
@@ -116,6 +121,7 @@
 </template>
 
 <script>
+  import {mapState} from 'vuex'
   export default {
     name: 'BottomMenu',
     data () {
@@ -123,7 +129,13 @@
         selected: ''
       }
     },
+    computed: {
+      ...mapState({
+        read: (state => state.security.read),
+      })
+    },
     mounted() {
+
       if (localStorage.activedPage) {
         this.selected = localStorage.activedPage
       }

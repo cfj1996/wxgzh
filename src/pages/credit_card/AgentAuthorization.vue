@@ -225,7 +225,7 @@
               </div>
             </label>
             <p>用户昵称：{{item.displayName}}</p>
-            <p>UID：{{item.employeeNo}}</p>
+            <p>ID：{{item.employeeNo}}</p>
             <p>申请时间：{{item.submitDate}}</p>
             <p>授权状态：{{stateMateData[item.status]}}</p>
           </li>
@@ -244,7 +244,7 @@
         </li>
         <li>
           <div class="title">真爱永恒</div>
-          <div>UID：16690032</div>
+          <div>ID：16690032</div>
           <br/>
           <div class="title">AGT201903181639289784792</div>
           <p>会员类型：青铜</p>

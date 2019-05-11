@@ -189,6 +189,17 @@
       flex-wrap: wrap;
       .ku {
         flex: 0 25%;
+        position: relative;
+        .is-info{
+          position: absolute;
+          right: 0;
+          top: 0;
+          color: white;
+          display: inline-block;
+          height: 15px;
+          font-size: 12px;
+          transform: scale(0.8);
+        }
         img {
           width: 42px;
           height: 42px;
@@ -256,6 +267,7 @@
           </div>
           <div class="ku" @click="$router.push('/notice')">
             <img src="../../assets/img/new_img/user/iocn/xttz.png" alt="">
+            <mt-badge v-if="Number(read) > 0" class="is-info" type="error" size="small">{{ read }}</mt-badge>
             <p>系统通知</p>
           </div>
         </div>
@@ -286,15 +298,19 @@
             <p>专属海报</p>
           </div>
           <div class="ku" @click="$router.push('/customer')">
-            <img src="../../assets/img/new_img/user/iocn/zskf.png" alt="">
+            <img src="../../assets/img/new_img/user/iocn/tjr.png" alt="">
             <p>推荐人</p>
+          </div>
+          <div class="ku" @click="$router.push('/mykefu')">
+            <img src="../../assets/img/new_img/user/iocn/kf.png" alt="">
+            <p>客服</p>
           </div>
         </div>
       </div>
       <div class="my-shru" v-if="level">
         <p class="title">资料</p>
         <div class="list">
-          <div class="ku" v-if="level">
+          <div class="ku" v-if="level" @click="$router.push('/members_doc')">
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
             <p>会员必读</p>
           </div>
@@ -335,6 +351,7 @@
     computed: {
       ...mapState({
         user: state => state.security && state.security.user || {},
+        read: (state => state.security.read),
         identity: state => state.security && state.security.user && state.security.user.identity || {}
       }),
       level() {

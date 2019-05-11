@@ -53,11 +53,11 @@ export default {
     })
   },
   /*
-   *  获取专属客服
+   *  获取推荐人
    * @param successCallback
    */
   getCustomerService(successCallback) {
-    http.request('/m/agent/getCustomerService', {
+    http.request('/m/agent/getRecommender', {
       success: successCallback
     })
   },

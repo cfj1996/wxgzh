@@ -202,5 +202,15 @@ export default [
       page: 'homePage',
       requireAuth: true
     }
+  },
+  {
+    path: '/mykefu',
+    name: '客服',
+    component: () => import('../pages/mykefu/index'),
+    meta: {
+      title: '客服',
+      page: 'homePage',
+      requireAuth: true
+    }
   }
 ]

@@ -211,12 +211,22 @@
       <mt-field placeholder="请输入ID检索" v-model="retrieve"></mt-field>
       <mt-button class="bg-1" size="small" @click="search">搜索</mt-button>
     </div>
-    <ul class="item">
+    <ul class="item" v-if="$route.query.id">
+      <li v-for="val in dataList" @click="editor(val.id, val.status)" v-if="$route.query.id == val.submitterId">
+        <div class="bhao"><p>{{ val.approvalNo }}</p> <span
+          :class="'status'+val.status">{{ val.status | isStatus }}</span></div>
+        <p>用户昵称: {{ val.displayName }}</p>
+        <p>ID: {{ val.employeeNo }}</p>
+        <p>申请时间：{{ val.submitDate | timeAuto }}</p>
+        <p>授权限状态：{{ val.status | isStatus }}</p>
+      </li>
+    </ul>
+    <ul class="item" v-else>
       <li v-for="val in dataList" @click="editor(val.id, val.status)">
         <div class="bhao"><p>{{ val.approvalNo }}</p> <span
           :class="'status'+val.status">{{ val.status | isStatus }}</span></div>
         <p>用户昵称: {{ val.displayName }}</p>
-        <p>UID: {{ val.employeeNo }}</p>
+        <p>ID: {{ val.employeeNo }}</p>
         <p>申请时间：{{ val.submitDate | timeAuto }}</p>
         <p>授权限状态：{{ val.status | isStatus }}</p>
       </li>
@@ -242,7 +252,7 @@
           </div>
           <div class="f-cont-item2">
             <p style="padding-bottom: 5px;font-size: 16px">{{listItem.displayName}}</p>
-            <i style="font-size: 12px">UID: {{listItem.employeeNo}}</i>
+            <i style="font-size: 12px">ID: {{listItem.employeeNo}}</i>
           </div>
         </div>
         <div class="f-yao">

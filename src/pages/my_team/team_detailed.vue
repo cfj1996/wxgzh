@@ -137,7 +137,7 @@
               justify-content: center;
               flex: 1;
               align-items: center;
-              button {
+              .wecher {
                 border: none;
                 background: none;
                 display: block;
@@ -278,17 +278,21 @@
               <p>姓名：{{ val.displayName }}</p>
               <p>手机：{{ val.mobile }}</p>
               <p>加入时间：{{ val.createdDate | timeAuto }}</p>
-              <p>UID： {{ val.employeeNo}}</p>
+              <p>ID： {{ val.employeeNo}}</p>
             </div>
             <div v-if="$route.query.level == 2 && val.direct" class="ztui"><span>直推</span></div>
             <div v-if="$route.query.level !== 2" class="ztui"><span>{{ val.actived == 1 ? '活跃':'不活跃' }}</span></div>
           </div>
           <div class="user-lxfs">
             <div class="img-ku">
-              <button type="button" :class="'copy' + key" :data-clipboard-text="val.weixinAccountNo">
+              <div class="wecher" v-if="val.weixinQRCodeURL || val.weixinAccountNo" @click="openWeCher(val.weixinQRCodeURL, val.weixinAccountNo)">
                 <img src="../../assets/img/weixin.png" alt="">
                 <span>微信</span>
-              </button>
+              </div>
+              <div class="wecher" v-else>
+                <img src="../../assets/img/weixin_on.png" alt="">
+                <span>微信</span>
+              </div>
             </div>
             <div class="img-ku">
               <a :href="'tel:'+val.mobile">
@@ -328,6 +332,7 @@
         <img src="../../assets/img/icon_empty_logo.png">
         <p>暂无数据</p>
       </div>
+      <add-wechat :open="ISopen" v-model="ISopen" :weChatImg="weixinQRCodeURL" :weChatName="weixinAccountNo"/>
       <div class="load" v-if="loadList">
         <p @click="load">加载更多</p>
       </div>
@@ -345,6 +350,9 @@
     name: 'team_detailed',
     data() {
       return {
+        ISopen: false,
+        weixinQRCodeURL: '',// 点击当前的item的微信头像
+        weixinAccountNo: '', // 点击当前的item的微信名
         loadList: true,
         retrieve: '',
         teamName: '',
@@ -416,6 +424,11 @@
           }, a)
         }
 
+      },
+      openWeCher(url, name){
+        this.weixinQRCodeURL = url
+        this.weixinAccountNo = name
+        this.ISopen = true
       }
     },
     filters: {
@@ -424,6 +437,7 @@
       }
     },
     created() {
+      console.log('level', this.$route.query.level)
       JSON.parse(sessionStorage.level).forEach(val => {
         if (val.value === this.$route.query.level) {
           this.teamName = val.label

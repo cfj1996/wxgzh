@@ -72,17 +72,16 @@
               <div class="content" style="padding-bottom: 25px">
                 <p class="lr" v-html="val.content"></p>
                 <div v-if="val.receiverId == user.id" style="border-top: 1px solid #f2f2f2;margin-top: 10px;padding-top: 10px">
-                  <span @click="$router.push('/author_proxy')">查看详情 ></span>
+                  <span @click="$router.push('/author_proxy?id='+ val.senderId)">查看详情 ></span>
                 </div>
               </div>
             </div>
             <div v-else>
               <p class="time">{{ val.createdDate | timeAuto }}</p>
               <div class="content">
-                <p>   您的朋友 [{{ val.senderName }}]光顾了您的微银行，请注意 维护好客户关系，
-                  做好服务工作，如有不明白可 咨询系统客服，
-                  联系电话：0755-********，或是 在公众号中留言。<br>
-                  会员编号：{{ val.senderName }} <br>
+                <p> 您的朋友 [{{ val.senderName }}]光顾了您的微银行，请注意 维护好客户关系，
+                  做好服务工作，如有不明白可 咨询系统客服，<br>
+                  用户昵称：{{ val.senderName }} <br>
                   加入时间：{{ val.createdDate | timeAuto }}
                 </p>
               </div>
@@ -153,6 +152,9 @@
     },
     mounted() {
       this.getData()
+      creditCardAPI.readInfo(()=>{
+        this.$store.dispatch('getUnreadInfo')
+      })
     },
     filters: {
       timeAuto: function (val) {

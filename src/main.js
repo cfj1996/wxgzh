@@ -10,7 +10,11 @@ import App from './App'
 import clipboard from 'clipboard';
 // config 引入
 import config from './config'
+// 添加微信全局组件
+import addWechet from './components/addBuddy'
+
 Vue.prototype.config = config
+Vue.component('addWechat', addWechet)
 Vue.use(Router)
 
 // 处理移动端click事件300毫秒延迟
@@ -80,7 +84,11 @@ let initializeDATA = function (to, from, next) {
     console.log("加载完用户信息: ", data)
     store.dispatch('getDataSet').then((data) => {
       console.log("加载完基础数据: ", data)
-      next()
+      store.dispatch('getUnreadInfo').then((data)=>{
+        console.log("未读信息: ", data)
+        next()
+      })
+
       //关闭加载
       Indicator.close()
     })
@@ -126,6 +134,7 @@ router.beforeEach((to, from, next) => {
     }
     if (Util.isObject(user)) {
       store.dispatch('setUserDetail', user)
+      store.dispatch('setUnreadInfo', sessionStorage.getItem("read"))
       console.log('session.user', user)
     }
     // 是否需要登录

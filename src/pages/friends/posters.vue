@@ -111,6 +111,9 @@
         color: white;
         border-radius: 20px;
       }
+      .bg-middle{
+        color: $color3;
+      }
       .item {
         font-size: 16px;
         line-height: 1.2;
@@ -171,6 +174,7 @@
     <div class="main-img view"><img :src="pageData.posterURL" alt=""></div>
     <div class="btn">
       <div class="item bg-letf" @click="$router.push({path: '/friends'})">邀请链接</div>
+      <div class="item bg-middle" @click="updataDaiLi()">更新海报</div>
       <div class="item bg-rigth" @click="saveOpen = true">保存邀请海报</div>
     </div>
     <div class="s1" v-if="saveOpen" @click="saveOpen=false">
@@ -184,7 +188,7 @@
 <script>
   import FenXiang from '../../components/fenxing'
   import { mapState } from 'vuex'
-  import { Toast } from 'mint-ui'
+  import { Toast, Indicator } from 'mint-ui'
   import config from '@/config'
   import weixin from '../../common/weixin'
   import orderAPI from '../../api/orderAPI'
@@ -212,9 +216,16 @@
       })
     },
     methods: {
-      seve() {
-        alert(1)
-      }
+      updataDaiLi() {
+        Indicator.open({
+          text: '正在更新海报...',
+          spinnerType: 'fading-circle'
+        });
+        orderAPI.generateAgentPoster((res2) => {
+          this.pageData.posterURL = res2.data.url
+          Indicator.close();
+        })
+      },
     },
     mounted() {
       orderAPI.getAgent((res) => {

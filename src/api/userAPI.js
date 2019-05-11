@@ -308,6 +308,18 @@ export default {
     http.request('/m/fund/countWithdrew', {
       success: successCallback
     })
-  }
+  },
+  /*
+  * 客服列表
+  * */
+//  /m/agent/listCustomerService
+  listCustomerService(fn){
+    http.request('/m/agent/listCustomerService', {
+      success: fn
+    })
+  },
+  /*
+  * 用户模块管理
+  * */
 }
 

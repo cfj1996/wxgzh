@@ -5,13 +5,15 @@
  */
 
 import userAPI from '../../api/userAPI'
+import creditCardAPI from '../../api/creditCardAPI'
 
 // initial state
 let state = {
   user: {},
   auth: {},
   weiXin: {},
-  logined: false
+  logined: false,
+  read: 0
 }
 
 // getters
@@ -129,6 +131,18 @@ const actions = {
       })
     })
   },
+  setUnreadInfo({commit}, data){
+    commit('SET_READ', data)
+  },
+  getUnreadInfo({commit}) {
+    return new Promise((resolve, reject) => {
+      creditCardAPI.unreadInfo((res) => {
+        commit('SET_READ', Number(res.data.count) )
+        sessionStorage.setItem("read", res.data.count)
+        resolve(Number(res.data.count))
+      })
+    })
+  }
 }
 
 // mutations
@@ -167,6 +181,10 @@ const mutations = {
 
     state.logined = false
   },
+
+  SET_READ(state, data){
+    state.read = data
+  }
 }
 
 export default {

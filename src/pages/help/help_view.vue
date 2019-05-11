@@ -32,10 +32,11 @@
   <div class="page help-view">
     <div class="view">
       <h2 class="title">{{ this.$route.params.name }}</h2>
+      <p>测试数据</p>
       <div class="body">
         <!--http://devxykviph5.isales.tech/static/help.html-->
         <iframe id="guideFrame" frameborder=0 name="guideFrame" scrolling=auto width="100%" height="100%"
-                src="http://devxykviph5.isales.tech/static/help.html"></iframe>
+                src="/static/help.html"></iframe>
         <!--<iframe id="guideFrame" frameborder=0 name="guideFrame" scrolling=auto width="100%" height="100%"-->
                 <!--:src="$route.params.path"></iframe>-->
       </div>
