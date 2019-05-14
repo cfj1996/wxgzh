@@ -196,8 +196,8 @@
       <span class="xieyi" @click="popupVisible = true">《淘个卡平台服务协议》</span>
       <mt-popup v-model="popupVisible" position="right">
         <xie-yi :isDaili="true"/>
-        <div style="text-align: center">
-          <div style="line-height: 35px;" @click="popupVisible = false" size="small">关闭</div>
+        <div style="text-align: center; padding: 0 10px">
+          <div class="xiye-out" @click="popupVisible = false" size="small">关闭</div>
         </div>
       </mt-popup>
       <div class="notice">

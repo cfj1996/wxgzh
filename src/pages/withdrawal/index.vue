@@ -58,10 +58,7 @@
       li {
         display: flex;
         padding: 15px 0;
-        border-top: 1px solid #e4e4e4;
-        &:nth-child(1) {
-          border-left: none;
-        }
+        border-bottom: 1px solid $hei;
         p {
           color: $color1;
           flex: 0 0 100px;

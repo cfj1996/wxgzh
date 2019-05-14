@@ -61,14 +61,17 @@
         padding-bottom: 10px;
       }
       .mint-badge.is-primary {
+        box-sizing: border-box;
         border: 1px solid #7c868c;
         color: $mainFontColor;
         margin: 10px 0 0 10px;
         background-color: #fff;
+        height: 20px;
+        line-height: 16px;
         &.checked {
           background-color: $color3;
           color: #fff;
-          border: none;
+          border: 1px solid transparent;
         }
       }
 
@@ -185,17 +188,18 @@
       <span v-if="isToBeingAgent" class="xieyi" @click="popupVisible = true; xieyi = false">《淘个卡平台信用卡推广规范守则》</span>
       <mt-popup v-model="popupVisible" position="right" style="border-radius: 0">
         <xie-yi :isDaili="xieyi"/>
-        <div style="text-align: center">
-          <div class="xy-out" @click="popupVisible = false" size="small">关闭</div>
+        <div style="text-align: center; padding: 5px 10px">
+          <div class="xiye-out" @click="popupVisible = false" size="small">关闭</div>
         </div>
       </mt-popup>
 
       <div class="notice">
         <h4>注意事项：</h4>
+
         <p>1.必须填写真实个人信息，否则无法在平台办理业务。</p>
-        <p>2.收到办卡审核通知短信，第2个工作日查到进度并提示“等待工作人员审核”。</p>
+        <p>2.收到办卡审核通知短信，第2个工作日查到进度并提示“等待工作人员审核。</p>
         <p>3.在淘个卡申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
-        <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
+        <p> 4.会员资料与银行无关，淘个卡对此资料提供隐私保护。</p>
       </div>
       <br>
       <div style="padding:0 10px;">
@@ -339,7 +343,7 @@
       validate() {
         let msg = ''
         msg = this.validateRealName()
-        // !msg && (msg = this.validateIDCardNo())
+        !msg && (msg = this.validateIDCardNo())
         !msg && (msg = this.validateMobile())
         !msg && (msg = this.validateAuthCode())
 
@@ -455,7 +459,7 @@
       })
     },
     mounted() {
-      alert(window.location.href)
+      // alert(window.location.href)
       if (this.$route.path.includes('/be_agent_form')) {
         this.isToBeingAgent = true
       }

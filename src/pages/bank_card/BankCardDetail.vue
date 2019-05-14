@@ -199,6 +199,15 @@
         </li>
       </ul>
     </mt-popup>
+    <bzw-dialog class="credit-card-authorise-dialog" v-model="ONyoung"
+                :showCloseButton="false"
+                :showHeader="false"
+                :showFooter="false">
+      <div class="tip-content">
+        <p>非常遗憾</p>
+        <p> 您的年龄未达到该信用卡申请的年龄要求，适龄范围为{{ detail.minAge }}周岁至{{ detail.maxAge }}周岁。</p>
+      </div>
+    </bzw-dialog>
     <fen-xiang :show="fenxin"></fen-xiang>
   </div>
 </template>
@@ -214,6 +223,7 @@
   import banner3 from '@/assets/img/banks_banner/guangda-3.png'
   import weixin from '../../common/weixin'
   import creditCardAPI from '@/api/creditCardAPI'
+  import orderAPI from '../../api/orderAPI'
 
   export default {
     name: 'BankCardDetail',
@@ -223,6 +233,7 @@
     },
     data () {
       return {
+        ONyoung: false,
         fenxin: false,
         show: false,
         isToBeingAgent: false, // 控制是否显示会员相关表单信息
@@ -254,26 +265,33 @@
         if (this.user) {
           if (this.user.identity && this.user.identity.IDCardNo) {
             // 已经实名认证过
-            if (Number(this.user.level) > 1) {
-              // 会员
-              // 跳转到确认申请人信息页面
-              this.$router.push({
-                path: '/confirm_applicant_info',
-                query: {
-                  // bankId: this.$route.query.bankId || '',
-                  creditCardId: this.creditCardId
+            orderAPI.checkCondition({id: this.creditCardId}, (res)=>{
+              if(res.success){
+                if (Number(this.user.level) > 1) {
+                  // 会员
+                  // 跳转到确认申请人信息页面
+                  this.$router.push({
+                    path: '/confirm_applicant_info',
+                    query: {
+                      // bankId: this.$route.query.bankId || '',
+                      creditCardId: this.creditCardId
+                    }
+                  })
+                } else {
+                  // 普通用户
+                  this.$router.push({
+                    path: '/confirm_applicant_info',
+                    query: {
+                      // bankId: this.$route.query.bankId || '',
+                      creditCardId: this.creditCardId
+                    }
+                  })
                 }
-              })
-            } else {
-              // 普通用户
-              this.$router.push({
-                path: '/confirm_applicant_info',
-                query: {
-                  // bankId: this.$route.query.bankId || '',
-                  creditCardId: this.creditCardId
-                }
-              })
-            }
+              } else {
+                this.ONyoung = true
+              }
+            })
+
           } else {
             // 未实名认证则跳转到信用卡申请，用户资料填写
             this.$router.push({
@@ -298,7 +316,7 @@
       }
     },
     created() {
-      alert(window.location.href)
+      // alert(window.location.href)
       this.getCardDetail()
     },
     mounted() {

@@ -155,12 +155,12 @@
   <div class="page">
     <!-- navbar -->
     <mt-navbar class="page-part" v-model="selected">
-      <mt-tab-item id="1" @click="getData">招募代理商</mt-tab-item>
+      <mt-tab-item id="1" @click="getData">会员招募</mt-tab-item>
       <mt-tab-item id="2">信用卡推广</mt-tab-item>
     </mt-navbar>
     <!-- tabcontainer -->
     <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="1">
+      <mt-tab-container-item id="1" style="overflow: auto">
         <div class="img-ku"><img v-if="pageDailiData.posterURL" :src="pageDailiData.posterURL" alt=""></div>
         <div class="post-foot">
           <div class="item" @click="updataDaiLi()">
@@ -178,7 +178,7 @@
             <p>复制链接</p></button>
         </div>
       </mt-tab-container-item>
-      <mt-tab-container-item id="2">
+      <mt-tab-container-item id="2" style="overflow: auto">
         <div class="yh-list">
           <ul class="img-list" :style="lunbo">
             <li v-for="(val, key) in imgList" :class="val.id === inId? 'active': ''"><img @click="inId = val.id"

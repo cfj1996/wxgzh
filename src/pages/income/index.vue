@@ -13,7 +13,7 @@
         color: white;
         text-align: center;
         padding: 20px;
-        background: linear-gradient(to left, $color2, $color3);
+        background: linear-gradient(to top, $color2, $color3);
         p {
           font-size: 14px;
         }
@@ -30,7 +30,7 @@
           div:nth-child(1) {
             flex: 1;
             h2 {
-              border-right: 1px solid $color1;
+              border-right: 1px solid #ff7777;
               padding: 0;
               margin-top: 10px;
             }
@@ -41,7 +41,7 @@
 
               padding: 0;
               margin-top: 10px;
-              border-left: 1px solid $color1;
+              border-left: 1px solid #ff7777;
             }
           }
         }
@@ -57,15 +57,15 @@
           padding: 0 15px;
           li {
             padding: 15px 10px;
-            color: $color1;
+            color: $textColor1;
             display: flex;
             justify-content: space-between;
-            border-top: 1px solid $color1;
+            border-top: 1px solid #f2f2f2;
             &:nth-child(1) {
               border-top: none;
             }
             p {
-              color: #3eb7f3;
+              color: $color3;
               .mintui {
                 color: $color1;
                 margin-left: 10px;

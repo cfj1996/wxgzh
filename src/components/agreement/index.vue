@@ -28,7 +28,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  height: 94%;
+  height: 92%;
   padding: 20px;
   overflow: auto;
   section{

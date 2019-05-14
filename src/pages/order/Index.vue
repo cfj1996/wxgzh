@@ -15,7 +15,7 @@
       width: 100%;
       min-height: 90px;
       padding-top: 20px;
-      background: linear-gradient(to left, $color2, $color3);
+      background: linear-gradient(to top, $color2, $color3);
       color: white;
 
       .title{
@@ -98,8 +98,8 @@
         li {
           position: relative;
           margin-bottom: 10px;
-          padding-bottom: 10px;
-          border-bottom: 1px solid $color4;
+          padding-bottom: 15px;
+          border-bottom: 1px solid $fgxian;
 
           &:last-child{
             border-bottom: none;
@@ -113,7 +113,7 @@
             position: absolute;
             right: 0;
             top: 2px;
-
+            color: $gray;
             i{
               font-size: 14px;
               color: $color4;
@@ -154,9 +154,9 @@
       }
     }
     .set-btn{
-      background-color: $color3;
-      border: $color3;
-      color: white;
+      background: none;
+      border: 1px solid $color3;
+      color: $color3;
     }
   }
 </style>
@@ -241,14 +241,14 @@
                 <li v-for="(item , index) in creditOrderList">
                   <div class="title">{{item.productName}}</div>
                   <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己': '客户'}}</label>
-                  <p>申请人：{{item.realName}} (ID：{{item.employeeNo}})</p>
-                  <p>手机号：{{item.mobile}}</p>
+                  <p>申请人：{{item.realName | nameXXX }} (ID：{{item.employeeNo}})</p>
+                  <p>手机号：{{item.mobile | mobileXXX }}</p>
                   <p>浏览时间：{{item.createdDate | timeAuto}}</p>
-                  <section>
+                  <section v-if="activeState !== 4 && activeState !== 3">
                     <mt-button size="small" v-if="activeState !== 1" class="mini set-btn" @click="move(item, 1)">移至待确认</mt-button>
                     <mt-button size="small" v-if="activeState !== 2" class="mini set-btn" @click="move(item, 2)">移至待再查</mt-button>
                     <mt-button v-if="activeState !== 6" size="small" class="mini set-btn" @click="move(item, 6)">移至回收站</mt-button>
-                    <mt-button v-if="activeState === 1" size="small" class="mini set-btn" @click="$router.push({path: 'schedule_form', query:{id: item.productId	}})">查看进度</mt-button>
+                    <mt-button v-if="activeState === 1 || activeState === 5" size="small" class="mini set-btn" @click="$router.push({path: 'schedule_form', query:{orderid: item.id	}})">查看进度</mt-button>
                   </section>
                 </li>
               </ul>
@@ -265,7 +265,7 @@
             321
           </mt-tab-container-item>
       </mt-tab-container>
-        <div style="text-align: center; margin-top: 60px;color: #a4a4a4">
+        <div v-if="false" style="text-align: center; margin-top: 60px;color: #a4a4a4;">
           <p>淘个卡</p>
           <br>
           <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
@@ -458,7 +458,21 @@
     filters: {
       timeAuto: function (val) {
         return moment(Number(val)).format('YYYY-MM-DD HH:mm')
+      },
+      mobileXXX(val){
+        let a = ''
+        if(val){
+          a = val.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
+        }
+        return a
+      },
+      nameXXX(val){
+        let a = ''
+        if(val){
+          a = val.trim().replace(/^(\S{1})(.*)/g,'$1**')
+        }
+        return a
       }
-    }
+    },
   }
 </script>

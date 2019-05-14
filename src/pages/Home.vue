@@ -181,15 +181,14 @@
 
       li {
         overflow: hidden;
-        flex: 0 0 32%;
-        margin-right: 2%;
+        flex: 0 0 33.333%;
         box-sizing: border-box;
         min-height: 60px;
         /*margin-top: 10px;*/
         text-align: center;
         position: relative;
 
-        &:after {
+        &::after {
           content: " ";
           width: 1px;
           background-color: #7c868c;
@@ -198,15 +197,8 @@
           top: 10px;
           bottom: 10px;
         }
-
-        &:nth-child(3n) {
-          margin-right: 0;
-          &:after {
-            display: none;
-          }
-        }
-        &:nth-child(3n+1) {
-          margin-left: 0;
+        &:last-child::after{
+          display: none;
         }
         div {
           display: inline-block;
@@ -232,11 +224,6 @@
     <section class="page-main home-page">
       <div class="slide-wrapper wrapper1">
         <swiper :options="swiperOption" style="height: auto">
-          <swiper-slide class="credit-asset">
-            <h3>信用资产</h3>
-            <p>暂未激活信用资产</p>
-            <p>信用即财富，分值越高，用户信用评级越好</p>
-          </swiper-slide>
           <swiper-slide v-for="(item, index) in basicInfo.banners" :key="index" class="banners">
             <a :href="item.forwardUrl || 'javascript:;'">
               <img class="slide-img" :src="item.imageUrl">
@@ -256,17 +243,17 @@
       </div>
 
       <ul class="card-ul">
-        <li @click="toRedirectPage(1)">
+        <li @click="toRedirectPage(1)" v-if="permissions('CREDIT_CARD', 'List')">
           <!--<div class="iconfont iconxinyongqiahuankuan" style="color: #000;"></div>-->
           <div class="page-icon"><img src="../assets/img/new_img/home/xyka.png" alt=""></div>
           <p>信用卡</p>
         </li>
-        <li @click="toRedirectPage(2)">
+        <li @click="toRedirectPage(2)" v-if="permissions('BANK_SCHEDULER', 'Query')">
           <!--<div class="iconfont icongroup47"></div>-->
           <div class="page-icon"><img src="../assets/img/new_img/home/jdcx.png" alt=""></div>
           <p>进度中心</p>
         </li>
-        <li @click="toRedirectPage(3)">
+        <li @click="toRedirectPage(3)" v-if="permissions('USER_CENTER', 'View')">
           <!--<div class="iconfont iconyonghuzhongxin user-icon"></div>-->
           <div class="page-icon"><img src="../assets/img/new_img/home/user.png" alt=""></div>
           <p>用户中心</p>
@@ -398,7 +385,7 @@
     computed: {
       ...mapState({
         user: (state => state.security.user),
-        permissions: state => state.user.permissions
+        userPerm: state => state.security && state.security.userPerm || {},
       }),
       /* propProdStyleObject(){
         return {
@@ -414,6 +401,13 @@
       }
     },
     methods: {
+      permissions(name, page) {
+        if(this.userPerm[name] && this.userPerm[name][page] === 1){
+          return true
+        } else {
+          return false
+        }
+      },
       showGoodsPage(item) {
         this.$router.push({path: '/credit_card'})
       },
@@ -498,7 +492,7 @@
       }
     },
     mounted() {
-      alert(window.location.href)
+      // alert(window.location.href)
       if (this.$route.query.operation === '2') {
         if (this.user.level * 1 == 1) {
           if (this.user.agentApproveStatus && this.user.agentApproveStatus == 1) {
@@ -514,6 +508,13 @@
           path: '/credit_card',
           query: {
             creditCardId: this.$route.query.biz
+          }
+        })
+      } else if(this.$route.query.operation === '3'){
+        this.$router.push({
+          path: '/to_author',
+          query: {
+            id: this.$route.query.biz
           }
         })
       }

@@ -12,7 +12,7 @@
         color: white;
         text-align: center;
         padding: 20px;
-        background: linear-gradient(to left, $color2, $color3);
+        background: linear-gradient(to top, $color2, $color3);
         p {
           font-size: 14px;
         }
@@ -29,7 +29,7 @@
           div:nth-child(1) {
             flex: 1;
             h2 {
-              border-right: 1px solid $color1;
+              border-right: 1px solid #ff7777;
               padding: 0;
               margin-top: 10px;
             }
@@ -40,24 +40,33 @@
 
               padding: 0;
               margin-top: 10px;
-              border-left: 1px solid $color1;
+              border-left: 1px solid #ff7777;
             }
           }
         }
       }
       .body {
         section {
+          h3{
+            color: $textColor1;
+          }
           padding: 15px;
           ul {
             border-radius: 10px;
             background: white;
             padding: 0 15px;
             li {
+              span{
+                color: $textColor1;
+              }
+              .shuzi{
+                color: $color3;
+              }
               padding: 15px 10px;
               color: $color1;
               display: flex;
               justify-content: space-between;
-              border-top: 1px solid $color1;
+              border-top: 1px solid $fgxian;
               &:nth-child(1) {
                 border-top: none;
               }
@@ -118,7 +127,7 @@
                 v-if="val.value !== 1 && val.value !== 6 &&val.value !== 7"
                 @click="$router.push({path: 'team_detailed', query: {level: val.value}})">
               <span>{{ val.label }}</span>
-              <p><span>{{ getSet(val.value) }}</span> <span class="mintui mintui-back"></span></p>
+              <p><span class="shuzi">{{ getSet(val.value) }}</span> <span class="mintui mintui-back"></span></p>
             </li>
           </ul>
         </section>
@@ -127,7 +136,7 @@
           <ul>
             <li @click="$router.push({path: 'team_detailed', query: {level: 1}})">
               <span>客户</span>
-              <p><span>{{ pageData.customerCount }}</span> <span class="mintui mintui-back"></span></p>
+              <p><span class="shuzi">{{ pageData.customerCount }}</span> <span class="mintui mintui-back"></span></p>
             </li>
           </ul>
         </section>
@@ -139,7 +148,7 @@
             <p>为了保障您的资金安全，同时依照《国家反洗钱法》的要求，必须通过实名认证后方可提款</p>
           </div>
           <div style="padding: 0 20px 20px;">
-            <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="this.$router.push('/real_name')">
+            <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="$router.push('/real_name')">
               立即实名认证
             </mt-button>
           </div>
@@ -202,6 +211,7 @@
         return msg
       },
       tixanToFrom() {
+        this.$router.push('/withd_from')
         this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
       }
     },

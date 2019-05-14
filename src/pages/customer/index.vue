@@ -47,7 +47,7 @@
           img {
             border-radius: 50%;
             overflow: hidden;
-            width: 35px;
+            width: px;
             height: 35px;
             display: block;
           }
@@ -81,9 +81,9 @@
         <p style="margin-top: 16px;">加我微信</p>
       </div>
     </div>
-    <add-wechat :open="ISopen" v-model="ISopen" :weChatImg="pageData.weixinQRCodeURL" :weChatName="pageData.weixinAccountNo"/>
+    <add-wechat :open="ISopen" v-model="ISopen" :user-name="pageData.displayName" :weChatImg="pageData.weixinQRCodeURL" :weChatName="pageData.weixinAccountNo"/>
     <p style="padding: 50px 10%;line-height: 1.5;font-size: 16px">
-      专属服务经理是淘个卡面对用户的第一责任人，在享有淘个卡相关权益的同时，也肩负指导、培训和为用户排疑解惑的责任与义务。</p>
+      推荐人是淘个卡面对用户的第一责任人，在享有淘个卡相关权益的同时，也肩负指导、培训和为用户排疑解惑的责任与义务。</p>
   </div>
 </template>
 

@@ -10,10 +10,7 @@
           display: flex;
           justify-content: space-between;
           padding: 15px;
-          border-top: 1px solid $color1;
-          &:nth-child(1) {
-            border-top: none;
-          }
+          border-bottom: 1px solid $hei;
           p {
 
           }
@@ -36,13 +33,13 @@
           <mt-tab-item id="2">信用卡</mt-tab-item>
         </mt-navbar>
         <mt-tab-container v-model="selected">
-          <mt-tab-container-item id="1">
+          <mt-tab-container-item id="1" style="overflow: auto">
             <ul>
               <li v-for="val in pageData.daili" @click="$router.push({name: 'helpView',params: val})"><p>
                 {{ val.name }}</p> <span class="mintui mintui-back"></span></li>
             </ul>
           </mt-tab-container-item>
-          <mt-tab-container-item id="2">
+          <mt-tab-container-item id="2" style="overflow: auto">
             <ul>
               <li v-for="val in pageData.xyoka" @click="$router.push({name: 'helpView',params: val})"><p>
                 {{ val.name }}</p> <span class="mintui mintui-back"></span></li>

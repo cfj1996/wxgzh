@@ -14,8 +14,8 @@
             flex: 0 0 33.333%;
             display: flex;
             justify-content: center;
-            height: 150px;
-            padding: 15px 5px;
+            height: 125px;
+            padding: 5px;
             .content{
               background-color: white;
               width: 100%;

@@ -56,13 +56,15 @@
         transition: all .5s;
         transform-origin: bottom;
         position: fixed;
-        z-index: 9999;
+        z-index: 1999;
         bottom: 0;
         left: 0;
-        height: 50%;
+        height: 45%;
         width: 100%;
         background: #fff;
         .f-title {
+          padding-bottom: 10px;
+          border-bottom: 1px solid $fgxian;
           p {
             margin: 0 10px;
             color: red;
@@ -78,7 +80,7 @@
           align-items: center;
           .f-cont-item2 {
             flex: 1 0 auto;
-            border-bottom: 1px solid #7c868c;
+            border-bottom: 1px solid $fgxian;
             padding: 10px;
           }
           .img-bo {
@@ -107,31 +109,40 @@
             font-size: 14px;
             color: #6f6f6f;
           }
-        ;
         }
-        .f-btn {
-          position: absolute;
-          left: 0;
-          padding: 0 10px;
-          bottom: 10px;
+        .foot {
+          position: relative;
           width: 100%;
+          height: 54px;
+          padding: 10px;
+          margin-top: 35px;
           display: flex;
-          text-align: center;
-          justify-content: space-around;
-          font-size: 16px;
-          line-height: 40px;
-          height: 40px;
-          div {
-            border-radius: 20px;
-            padding: 0 40px;
+          .btn1 {
+            flex: 0 50%;
+            color: white;
+            background: linear-gradient(to left, $color2, $color3);
+            height: 34px;
+            font-size: 18px;
+            text-align: center;
+            line-height: 34px;
+            border-top-right-radius: 5px;
+            border-bottom-right-radius: 5px;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
           }
-          .btn-out {
+          .btn2 {
+            flex: 0 50%;
             color: $color3;
             border: 1px solid $color3;
-          }
-          .btn-shq {
-            color: #fff;
-            background: linear-gradient(to left, $color2, $color3);
+            height: 34px;
+            font-size: 18px;
+            text-align: center;
+            line-height: 34px;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+            border-top-left-radius: 5px;
+            border-bottom-left-radius: 5px;
+            border-right: none;
           }
         }
       }
@@ -141,7 +152,7 @@
       font-size: 16px;
       color: white;
       text-align: center;
-      background: linear-gradient(to left, $color2, $color3);
+      background: linear-gradient(to top, $color2, $color3);
     }
     .item {
       li {
@@ -245,7 +256,6 @@
           <img src="../../assets/img/gingao.png" width="36" height="36" alt="">
           <p>你的客户 <b>{{listItem.displayName}}</b> 正在实习中！</p>
         </div>
-        <hr>
         <div class="f-cont">
           <div class="img-bo">
             <img :src="listItem.headImgURL" alt="">
@@ -257,13 +267,13 @@
         </div>
         <div class="f-yao">
           <p>{{listItem.approvalNo}}</p>
-          <p>会员类型: 青铜</p>
+          <p>会员等级: 青铜</p>
           <p>授权限状态：{{listItem.status | isStatus}}</p>
           <p>申请时间：{{listItem.submitDate | timeAuto}}</p>
         </div>
-        <div class="f-btn">
-          <div class="btn-out" @click="open = false">关闭</div>
-          <div class="btn-shq" @click="shouquan()">授权</div>
+        <div class="foot">
+          <div class="btn2" @click="open = false">关闭</div>
+          <div class="btn1" @click="shouquan()">授权</div>
         </div>
       </div>
     </div>
@@ -286,20 +296,7 @@
         order: null,
         dataList: [],
         noData: false,
-        listItem: {
-          id: '',
-          approvalNo: '',
-          submitterId: '',
-          displayName: '',
-          employeeNo: '',
-          weixinAccountNo: '',
-          realName: '',
-          mobile: '',
-          category: 1,
-          submitDate: '',
-          status: '',
-          headImgURL: ''
-        },
+        listItem: {},
         retrieve: '',
         fandou: false,
         page: {

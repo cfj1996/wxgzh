@@ -28,11 +28,11 @@
           }
           .btn{
             width: 150px;
-            height: 50px;
+            height: 40px;
             align-items: center;
-            color: $color3;
+            color: #1AAD19;
             background: none;
-            box-shadow: 0 0 1px $color3;
+            box-shadow: 0 0 1px #1AAD19;
           }
         }
       }
@@ -55,7 +55,7 @@
   }
 </style>
 <style lang="scss">
-  .kefu .btn  .mint-button-text{
+  .kefu .add-wecher .btn  .mint-button-text{
     display: flex;
     align-items: center;
     img {
@@ -67,15 +67,14 @@
 <template>
   <div class="page kefu">
     <div class="view">
-      <p>测试数据</p>
       <ul>
         <li v-for="val in pageData.list">
           <div>
             <div class="img-content"><img :src="val.headImgURL" width="80px" height="80px" alt=""></div>
             <p class="name">{{ val.name }}</p>
           </div>
-          <div>
-            <mt-button @click="openModel(val.weixinQRCodeURL)" class="btn"><img width="35px" height="35px" src="../../assets/img/weixin.png" alt="">加我微信</mt-button>
+          <div class="add-wecher">
+            <mt-button @click="openModel(val.weixinQRCodeURL, val.name)" class="btn"><img width="30px" height="30px" src="../../assets/img/weixin.png" alt="">加我微信</mt-button>
           </div>
         </li>
         <li style="margin-top: 10px;">
@@ -86,7 +85,7 @@
           </div>
         </li>
       </ul>
-      <add-wechat :open="ISopen" v-model="ISopen" :weChatImg="weixinQRCodeURL" :kefu="true"/>
+      <add-wechat :open="ISopen" :user-name="userName" v-model="ISopen" :weChatImg="weixinQRCodeURL" :kefu="true"/>
     </div>
     <div class="foot">
       <div class="btn" @click="$router.push('/user_center')">返回</div>
@@ -101,39 +100,24 @@
     name: "index",
     data(){
       return {
+        userName: '',
         ISopen: false,
         weixinQRCodeURL: '',
         pageData: {
-          list: [
-            {
-              headImgURL: 'http://img5.imgtn.bdimg.com/it/u=1396190427,3962471256&fm=26&gp=0.jpg',
-              name: 'aaa',
-              weixinQRCodeURL: 'http://pic.chinaz.com/2018/0409/18040918011940118.jpg'
-            },
-
-            {
-              headImgURL: 'http://img2.imgtn.bdimg.com/it/u=1122649470,955539824&fm=26&gp=0.jpg',
-              name: 'bbb',
-              weixinQRCodeURL: 'http://awb.img.xmtbang.com/img/uploadnew/201505/21/68ce949527c24ea6948e1273bb50f031.jpg'
-            },
-            {
-              headImgURL: 'http://img2.imgtn.bdimg.com/it/u=2472745293,2225498805&fm=26&gp=0.jpg',
-              name: 'ccc',
-              weixinQRCodeURL: 'http://img.atobo.com/ProductImg/EWM/UWeb/2/4/9/0/3225/24903225/1.gif'
-            }
-          ]
+          list: []
         }
       }
     },
     methods:{
-      openModel(url){
+      openModel(url, name){
         this.weixinQRCodeURL = url
+        this.userName = name
         this.ISopen = true
       }
     },
     created(){
       userAPI.listCustomerService(res=>{
-        // this.pageData.list = res.data
+        this.pageData.list = res.data
       })
     }
   }

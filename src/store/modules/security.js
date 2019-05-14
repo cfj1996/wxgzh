@@ -13,7 +13,8 @@ let state = {
   auth: {},
   weiXin: {},
   logined: false,
-  read: 0
+  read: 0,
+  userPerm: {}
 }
 
 // getters
@@ -44,7 +45,7 @@ const actions = {
 
   signin({commit}) {
     return new Promise((resolve, reject) => {
-      let token=sessionStorage.getItem("requestToken")
+      let token = sessionStorage.getItem("requestToken")
       userAPI.signin({
         requestToken: token
       }, function (res) {
@@ -105,7 +106,7 @@ const actions = {
             IDCardHandPicture: "http://xxx.jpg" // 手持身份证照
           }
         }*/
-        // res.data.level = 3  // 自己设置的等级
+        // res.data.level = 1  // 自己设置的等级
         sessionStorage.setItem("user", JSON.stringify(res.data||[]))
         commit('SET_USER_DETAILS', res.data)
         console.log('获取用户基本信息')
@@ -131,17 +132,31 @@ const actions = {
       })
     })
   },
-  setUnreadInfo({commit}, data){
+  setUnreadInfo({commit}, data) {
     commit('SET_READ', data)
   },
   getUnreadInfo({commit}) {
     return new Promise((resolve, reject) => {
       creditCardAPI.unreadInfo((res) => {
-        commit('SET_READ', Number(res.data.count) )
+        commit('SET_READ', Number(res.data.count))
         sessionStorage.setItem("read", res.data.count)
         resolve(Number(res.data.count))
       })
     })
+  },
+  // 获取用户权限
+  getUserPerm({commit}) {
+    return new Promise((resolve, reject) => {
+      userAPI.getPermissions(res => {
+        commit('USER_PERM', res.data)
+        sessionStorage.setItem('userPerm', JSON.stringify(res.data))
+        resolve(res.data)
+      })
+    })
+  },
+  // 已登陆sessionStorage取值赋值
+  setUserPerm({commit}, data){
+    commit('USER_PERM', data)
   }
 }
 
@@ -153,7 +168,7 @@ const mutations = {
     if (data.platform) {
       _data = data.platform
     }
-    if(_data && _data.shortName) {
+    if (_data && _data.shortName) {
       window.COMPANY_NAME = _data.shortName
       window.WEIXIN_NAME = _data.accountName
       window.APP_TYPE = _data.appType // 100=微信,200=支付宝
@@ -182,8 +197,11 @@ const mutations = {
     state.logined = false
   },
 
-  SET_READ(state, data){
+  SET_READ(state, data) {
     state.read = data
+  },
+  USER_PERM(state, data){
+    state.userPerm = data
   }
 }
 

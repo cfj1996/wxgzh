@@ -97,9 +97,9 @@
   }
 
   .bo-wei {
-    border-color: #00D30C;
+    border-color: #1AAD19;
     span {
-      color: #00D30C !important;
+      color: #1AAD19 !important;
     }
   }
 
@@ -108,6 +108,13 @@
     span {
       color: #32b3ec !important;
     }
+  }
+  .xiye-out{
+    background-image: linear-gradient(to bottom, $color2 -30%, $color3);
+    border-radius: 10px;
+    color: white;
+    font-size: 16px;
+    line-height: 34px;
   }
 </style>
 

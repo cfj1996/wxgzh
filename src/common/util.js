@@ -5,6 +5,7 @@
  */
 
 import {Toast, MessageBox, Indicator} from 'mint-ui'
+import orderAPI from '../api/orderAPI'
 
 /***
  * 金额格式化（过滤器中用到）
@@ -14,7 +15,6 @@ import {Toast, MessageBox, Indicator} from 'mint-ui'
  * @returns {*}
  */
 export const moneyHandler = (value, isPenny, unit = true) => {
-  console.log('extt ', value, isPenny, unit)
   value = value || 0
   value = Number(value)
   if (!isPenny) { //以分做单位
@@ -34,6 +34,14 @@ export const moneyHandler = (value, isPenny, unit = true) => {
   }
 }
 export default {
+  /*
+  * 身份证判断年龄18-60岁之间
+  *
+  * */
+  ISyoung(){
+
+  },
+
   /**
    * 设置title
    * @param title

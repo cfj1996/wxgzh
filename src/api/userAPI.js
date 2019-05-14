@@ -321,5 +321,10 @@ export default {
   /*
   * 用户模块管理
   * */
+  getPermissions(fn){
+    http.request('/m/member/getPermissions', {
+      success: fn
+    })
+  },
 }
 

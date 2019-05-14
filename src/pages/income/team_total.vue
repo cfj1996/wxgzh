@@ -9,7 +9,7 @@
       color: white;
       padding: 20px;
       text-align: center;
-      background: linear-gradient(to left, $color2, $color3);
+      background: linear-gradient(to top, $color2, $color3);
       p {
         font-size: 14px;
       }
@@ -37,7 +37,7 @@
             background-color: white;
             padding: 0 10px;
             .time-list {
-              border-top: 1px solid #d0d0d0;
+              border-top: 1px solid $fgxian;
               padding: 10px 0;
               &:nth-child(1) {
                 border: none;
@@ -57,21 +57,34 @@
           }
         }
       }
-      .no-data-view{
+      .no-data-view {
         margin-top: 50px;
         position: relative;
         min-height: 200px;
         text-align: center;
-        img{
+        img {
           width: 250px;
           height: auto;
         }
-        p{
+        p {
           padding-top: 10px;
         }
       }
       .bound {
         text-align: center;
+      }
+    }
+    .load {
+      text-align: center;
+      padding: 10px;
+      p {
+        font-size: 12px;
+        display: inline-block;
+        background: #cacaca;
+        height: 20px;
+        line-height: 16px;
+        border-radius: 10px;
+        padding: 3px 10px;
       }
     }
     .foot {
@@ -105,9 +118,9 @@
           <div class="min-head"><span>{{ val.time }}</span> <span>小计: ￥{{ val.minAll | currencyAuot }}</span></div>
           <section>
             <div class="time-list" v-for="i in val.list">
-              <p class="title">直推业务奖励:{{ i.productId | productName }}</p>
+              <p class="title">团队业务奖励:{{ i.productId | productName }}</p>
               <div class="content">
-                客户：{{i.orderNo}}, {{ i.realName }}, {{ i.mobile }} <span><i style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
+                {{ isName(i.employeeNo) }}：{{ i.realName| nameXXX }} <span><i style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
                 <br>
                 时间：{{ i.createdDate | timeAuto }}
               </div>
@@ -120,8 +133,8 @@
         <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
         <p>暂无数据</p>
       </div>
-      <div class="bound" v-if="load">
-        <mt-button size="small" @click="DataLoad">加载更多数据</mt-button>
+      <div class="load" v-if="load">
+        <p @click="DataLoad">加载更多数据</p>
       </div>
       <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
                   :showCloseButton="false"
@@ -150,6 +163,8 @@
   import {mapState} from 'vuex'
   import BzwDialog from '@/components/dialog/BzwDialog'
 
+
+  // 测试数据
   export default {
     name: 'mine_total',
     components: {
@@ -164,7 +179,7 @@
         load: false,
         noData: false,
         page: {
-          limit: 2,
+          limit: 10,
           pageNum: 1
         },
         lan: [],
@@ -188,6 +203,9 @@
             this.load = false
           }
           let dataList = res.data.items // 请求的原始数据
+          if(dataList.length === 0){
+            return
+          }
           dataList.forEach((val, key) => {
             dataList[key].yyyyddd = moment(Number(val.createdDate)).format('YYYY-MM-DD')
           })
@@ -205,6 +223,7 @@
             }
             index++
           }
+          console.log('pinZhuang1', pinZhuang)
           pinZhuang.forEach((val, key) => {
             let all = 0
             val.list.forEach(v => {
@@ -227,6 +246,7 @@
           } else {
             this.zuZhuangData.push(...pinZhuang)
           }
+          console.log('pinZhuang3', pinZhuang)
         })
       },
       DataLoad() {
@@ -238,6 +258,12 @@
       },
       tixanToFrom() {
         this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
+      },
+      isName(uid) {
+        if (this.user.employeeNo === uid) {
+          return '自己'
+        }
+        return '客户'
       }
     },
     filters: {
@@ -260,6 +286,13 @@
           }
         })
         return name
+      },
+      nameXXX(val) {
+        let a = ''
+        if (val) {
+          a = val.trim().replace(/^(\S{1})(.*)/g, '$1**')
+        }
+        return a
       }
     },
     created() {

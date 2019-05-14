@@ -4,13 +4,13 @@
       <div class="img-ku"><img src="../../assets/img/sqok.png" alt=""></div>
       <p>申请成功等待审核</p>
     </div>
-    <p class="text">请联系您的推荐人授权，尽快完成实习任务（直接推荐客户或是自己成功办理一笔业务）成为淘个卡正式代理商。</p>
+    <p class="text">请联系您的推荐人授权，尽快完成实习任务（直接推荐客户或是自己成功办理一笔业务）成为淘个卡会员。</p>
     <div class="content">
       <div class="img-ku"><img v-if="pageData.headImgURL" :src="pageData.headImgURL" alt=""></div>
       <div>
         <div class="name">{{ pageData.realName }}(昵称： {{pageData.weixinAccountNo}}) <span :class="'level' + (pageData.level - 1)" class="level"></span></div>
         <div class="gonh">工号：{{ pageData.employeeNo }}</div>
-        <div class="zhiw">职务：{{ pageData.level | setLevel }}</div>
+        <div class="zhiw">等级：{{ pageData.level | setLevel }}</div>
       </div>
     </div>
     <div class="lt">

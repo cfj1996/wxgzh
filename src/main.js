@@ -86,7 +86,11 @@ let initializeDATA = function (to, from, next) {
       console.log("加载完基础数据: ", data)
       store.dispatch('getUnreadInfo').then((data)=>{
         console.log("未读信息: ", data)
-        next()
+        store.dispatch('getUserPerm').then(data=>{
+          console.log('权限', data)
+          next()
+        })
+
       })
 
       //关闭加载
@@ -135,7 +139,7 @@ router.beforeEach((to, from, next) => {
     if (Util.isObject(user)) {
       store.dispatch('setUserDetail', user)
       store.dispatch('setUnreadInfo', sessionStorage.getItem("read"))
-      console.log('session.user', user)
+      store.dispatch('setUserPerm', JSON.parse(sessionStorage.getItem("userPerm")))
     }
     // 是否需要登录
     if (to.matched.find(record => !record.meta.requireAuth)) {
@@ -171,9 +175,10 @@ router.beforeEach((to, from, next) => {
 router.afterEach(function (transition) {
   //微信更新header
   if (transition.meta && transition.meta.title) {
-    Util.setWxTitle(transition.meta.title)
+    // Util.setWxTitle(transition.meta.title)
   } else {
     Util.setWxTitle(window.WEIXIN_NAME)
+    Util.setWxTitle('淘个卡')
   }
 })
 Vue.prototype.clipboard = clipboard

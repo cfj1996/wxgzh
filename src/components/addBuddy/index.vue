@@ -11,10 +11,10 @@
       h2 {
         display: flex;
         align-items: center;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #F5F5F5;
         img {
           margin-right: 15px;
-          width: 10%;
-          height: auto;
         }
         font-size: 18px;
         font-weight: 400;
@@ -35,17 +35,21 @@
       }
       .foot {
         position: relative;
-        width: 100%;
+        top: 12px;
+        background-color: $fgxian;
+        width: calc(100% + 20px);
+        margin: 0 -10px;
         height: 54px;
         padding: 10px;
         display: flex;
         .btn {
           flex: 1;
-          color: white;
-          background: linear-gradient(to left, $color2, $color3);
+          border: 1px solid $color3;
+          color: $color3;
+          text-align: center;
+          background: none;
           height: 34px;
           font-size: 18px;
-          text-align: center;
           line-height: 34px;
           border-radius: 10px;
         }
@@ -58,7 +62,7 @@
   <div class="addWachat">
     <mt-popup v-model="popupVisible" style="width: 100%" position="bottom">
       <div class="content">
-        <h2><img src="../../assets/img/weixin.png" alt="">{{ kefu? '客服微信':'推荐人微信' }}</h2>
+        <h2><img src="../../assets/img/weixin.png" width="35px" height="35px" alt="">{{ kefu? userName + '微信': userName + '微信' }}</h2>
         <div class="img-content" v-if="weChatImg !== ''">
           <img :src="weChatImg" alt="" width="110px" height="110px">
           <p>长按二维码，<br>加我微信</p>
@@ -72,12 +76,14 @@
         <div class="foot">
           <mt-button class="btn" @click="out">关闭</mt-button>
         </div>
+
       </div>
     </mt-popup>
   </div>
 </template>
 
 <script>
+  import {Toast} from 'mint-ui';
   export default {
     name: 'index',
     data() {
@@ -101,6 +107,10 @@
       'kefu': {
         type: Boolean,
         default: false
+      },
+      'userName': {
+        type: String,
+        default: ''
       }
     },
     computed: {
@@ -125,6 +135,7 @@
             message: '已成功复制微信号',
             position: 'top'
           })
+          _this.out()
           e.clearSelection();
         });
       }
@@ -138,6 +149,10 @@
           this.out()
         }
       }
+    },
+    created(){
+      this.onCope()
+      console.log(this.userName)
     }
   }
 </script>

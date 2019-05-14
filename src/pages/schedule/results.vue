@@ -64,7 +64,7 @@
           <img src="../../assets/img/jdbnaner.png" alt="">
         </div>
         <h3 class="title">查询结果</h3>
-        <div class="content" v-if="!this.$route.params.cardUserName">
+        <div class="content" v-if="$route.params.data.length === 0">
           <p>未查询到您的申请记录有如下原因：</p>
           <ul>
             <li>1,请确认是否已收到银行下卡的申卡成功短信。</li>
@@ -80,15 +80,17 @@
             <tbody>
             <tr>
               <td>持卡人</td>
+              <td>卡名称</td>
               <td>卡种类</td>
               <td>申请日期</td>
               <td>状态</td>
             </tr>
-            <tr>
-              <td>{{ this.$route.params.cardUserName }}</td>
-              <td>{{ this.$route.params.cardCategory }}</td>
-              <td>{{ this.$route.params.applyDate }}</td>
-              <td>{{ this.$route.params.status }}</td>
+            <tr v-for="val in $route.params.data">
+              <td>{{ val.userName }}</td>
+              <td>{{ val.cardName }}</td>
+              <td>{{ val.categoryName }}</td>
+              <td>{{ val.resultDate | timeAuto }}</td>
+              <td>{{ val.status | start }}</td>
             </tr>
             </tbody>
           </table>
@@ -98,3 +100,26 @@
     </div>
   </div>
 </template>
+
+<script>
+  import moment from 'moment'
+  export default {
+    filters: {
+      timeAuto: function (val) {
+        return moment(Number(val)).format('YYYY-MM-DD HH:mm')
+      },
+      start(val){
+        if(Number(val) === 1){
+          return '审核中'
+        } else if(Number(val) === 2){
+          return '已通过'
+        } else {
+          return '未通过'
+        }
+      }
+    },
+    created(){
+      console.log(this.$route.params)
+    }
+  }
+</script>

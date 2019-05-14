@@ -178,7 +178,7 @@
     }
     .my-shru {
       .title {
-        padding: 15px;
+        padding: 15px 15px 10px 15px;
         font-size: 18px;
       }
     }
@@ -190,7 +190,7 @@
       .ku {
         flex: 0 25%;
         position: relative;
-        .is-info{
+        .is-info {
           position: absolute;
           right: 0;
           top: 0;
@@ -227,7 +227,7 @@
   <div class="page">
     <div class="page-main user-center">
       <section class="user-info">
-        <div class="left-info" @click="$router.push('/inform_set')">
+        <div class="left-info" @click="$router.push('/inform_set')" v-if="permissions('USER_INFO', 'View')">
           <img v-if="user.headImgURL" :src="user.headImgURL"/>
           <img v-else src="../../assets/img/new_img/user/iocn/user.png" alt="">
         </div>
@@ -249,82 +249,82 @@
           <div class="xian"></div>
         </div>
       </section>
-      <div class="my-shru">
+      <div class="my-shru" v-if="permissions('FUND', 'General')">
         <p class="title">我的收入</p>
         <div class="list">
-          <div class="ku" v-if="level" @click="$router.push('/income')">
+          <div class="ku" v-if="permissions('FUND', 'General')" @click="$router.push('/income')">
             <img src="../../assets/img/new_img/user/iocn/mysq.png" alt="">
             <p>我的收入</p>
             <span>￥{{integrantCount.exchangeableCount}}</span>
           </div>
-          <div class="ku" @click="$router.push('/order')">
+          <div class="ku" v-if="permissions('ORDER', 'List')" @click="$router.push('/order')">
             <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
             <p>订单明细</p>
           </div>
-          <div class="ku" v-if="level">
+          <div class="ku" v-if="permissions('FUND', 'General')" @click="$router.push('/income')">
             <img src="../../assets/img/new_img/user/iocn/szmx.png" alt="">
             <p>收支明细</p>
           </div>
-          <div class="ku" @click="$router.push('/notice')">
+          <div class="ku" v-if="permissions('NOTIFICATION', 'List')" @click="$router.push('/notice')">
             <img src="../../assets/img/new_img/user/iocn/xttz.png" alt="">
             <mt-badge v-if="Number(read) > 0" class="is-info" type="error" size="small">{{ read }}</mt-badge>
             <p>系统通知</p>
           </div>
         </div>
       </div>
-      <div class="my-shru" v-if="level">
+      <div class="my-shru" v-if="permissions('CUSTOMER', 'General')">
         <p class="title">我的团队</p>
         <div class="list">
-          <div class="ku" v-if="level" @click="$router.push('/my_team')">
+          <div class="ku" v-if="permissions('CUSTOMER', 'General')" @click="$router.push('/my_team')">
             <img src="../../assets/img/new_img/user/iocn/khgl.png" alt="">
             <p>客户管理</p>
             <span>{{ userInfo.count }}人</span>
           </div>
-          <div class="ku" v-if="level" @click="$router.push('/author_proxy')">
-            <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
+          <div class="ku" v-if="permissions('AGENT_AUTHZ', 'List')" @click="$router.push('/author_proxy')">
+            <img src="../../assets/img/new_img/user/iocn/dlsq.png" alt="">
             <p>会员授权</p>
           </div>
         </div>
       </div>
-      <div class="my-shru">
+      <div class="my-shru" >
         <p class="title">推广</p>
         <div class="list">
-          <div class="ku" v-if="level" @click="$router.push('/friends')">
+          <div class="ku" v-if="permissions('INVITATION', 'Invite')" @click="$router.push('/friends')">
             <img src="../../assets/img/new_img/user/iocn/yqhy.png" alt="">
             <p>邀请好友</p>
           </div>
-          <div class="ku" v-if="level" @click="$router.push('/posters')">
+          <div class="ku" v-if="permissions('SELF_POSTER', 'Agent')" @click="$router.push('/posters')">
             <img src="../../assets/img/new_img/user/iocn/zshb.png" alt="">
             <p>专属海报</p>
           </div>
-          <div class="ku" @click="$router.push('/customer')">
+          <div class="ku" v-if="permissions('RECOMMENDER', 'View')" @click="$router.push('/customer')">
             <img src="../../assets/img/new_img/user/iocn/tjr.png" alt="">
             <p>推荐人</p>
           </div>
-          <div class="ku" @click="$router.push('/mykefu')">
+          <div class="ku" v-if="permissions('CUSTOMER_SERVICE', 'View')" @click="$router.push('/mykefu')">
             <img src="../../assets/img/new_img/user/iocn/kf.png" alt="">
             <p>客服</p>
           </div>
         </div>
       </div>
-      <div class="my-shru" v-if="level">
+      <div class="my-shru" v-if="permissions('AGENT_RULE', 'View')">
         <p class="title">资料</p>
         <div class="list">
-          <div class="ku" v-if="level" @click="$router.push('/members_doc')">
+          <div class="ku" v-if="permissions('AGENT_RULE', 'View')" @click="$router.push('/members_doc')">
             <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
             <p>会员必读</p>
           </div>
-          <div class="ku" @click="$router.push('/help')">
+          <div class="ku" v-if="permissions('HELP_CENTER', 'List')" @click="$router.push('/help')">
             <img src="../../assets/img/new_img/user/iocn/help.png" alt="">
             <p>帮助中心</p>
           </div>
-          <div class="ku" v-if="level" @click="$router.push('/user_set')">
+          <div class="ku" v-if="permissions('SETTING', 'Weixin')" @click="$router.push('/user_set')">
             <img src="../../assets/img/new_img/user/iocn/set.png" alt="">
             <p>设置</p>
           </div>
         </div>
       </div>
-      <div style="text-align: center; margin-top: 20px;color: #a4a4a4">
+      <div v-if="false" style="text-align: center; margin-top: 20px;color: #a4a4a4">
         <p>淘个卡</p>
         <br>
         <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
@@ -351,6 +351,7 @@
     computed: {
       ...mapState({
         user: state => state.security && state.security.user || {},
+        userPerm: state => state.security && state.security.userPerm || {},
         read: (state => state.security.read),
         identity: state => state.security && state.security.user && state.security.user.identity || {}
       }),
@@ -394,6 +395,13 @@
       }
     },
     methods: {
+      permissions(name, page) {
+        if(this.userPerm[name] && this.userPerm[name][page] === 1){
+          return true
+        } else {
+          return false
+        }
+      },
       levelIcon(level) {
         if (level !== this.user.level - 1) {
           return `level${level}-nh`
@@ -408,6 +416,7 @@
       }
     },
     mounted() {
+      console.dir(this.userPerm)
       userAPI.userIncome((res) => {
         let a = Number(res.data.mineTotal) + Number(res.data.teamTotal)
         this.integrantCount.exchangeableCount = (a / 100).toFixed(2)

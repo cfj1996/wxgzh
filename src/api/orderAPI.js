@@ -19,6 +19,16 @@ export default {
     })
   },
   /*
+  *
+  * 获取订单详情
+  * */
+  getDetails(params, fn){
+    http.request('/m/order/getDetails', {
+      data: params,
+      success: fn
+    })
+  },
+  /*
    * 获取信用卡订单列表
    * @param params
    * @param successCallback
@@ -87,6 +97,17 @@ export default {
     http.request('/m/agent/enroll',  {
       data: params,
       success: successCallback
+    })
+  },
+  /*
+  * /m/product/checkCondition
+  * 判断年龄是否合格
+  *
+  * */
+  checkCondition(params, fn){
+    http.request('/m/product/checkCondition',  {
+      data: params,
+      success: fn
     })
   }
 }

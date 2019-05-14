@@ -10,7 +10,7 @@
         <div class="cont-text">
           <div class="name">{{ pageData.displayName }} (实名: {{ pageData.realName }}) <span class="level" :class="'level' + (Number(pageData.level) - 1)"></span></div>
           <div class="xx">
-            <span>ID: {{ pageData.employeeNo }}</span> <span>职务: {{ pageData.level | setLevel }}</span>
+            <span>ID: {{ pageData.employeeNo }}</span> <span>等级: {{ pageData.level | setLevel }}</span>
           </div>
         </div>
       </div>

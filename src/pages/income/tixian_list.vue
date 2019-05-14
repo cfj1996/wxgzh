@@ -23,6 +23,19 @@
         }
       }
       .body{
+        .no-data-view {
+          margin-top: 50px;
+          position: relative;
+          min-height: 200px;
+          text-align: center;
+          img {
+            width: 250px;
+            height: auto;
+          }
+          p {
+            padding-top: 10px;
+          }
+        }
         ul{
           padding: 15px 10px;
           li{
@@ -66,7 +79,7 @@
         display: block;
         width: 100%;
         color: white;
-        background: linear-gradient(to left, $color2, $color3);
+        background: linear-gradient(to top, $color2, $color3);
         height: 34px;
         font-size: 18px;
         text-align: center;
@@ -80,8 +93,8 @@
   <div class="page tixian-list">
     <div class="view">
       <div class="head">
-        <h2>以提现</h2>
-        <p>{{ pageData.count | currencyAuot }}</p>
+        <h2>已提现</h2>
+        <p>￥{{ pageData.count | currencyAuot }}</p>
       </div>
       <div class="body">
         <ul>
@@ -144,7 +157,7 @@
         load: false,
         noData: false,
         page: {
-          limit: 2,
+          limit: 10,
           pageNum: 1
         }
       }

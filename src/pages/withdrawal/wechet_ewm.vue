@@ -67,7 +67,7 @@
 <script>
   import {mapState} from 'vuex'
   import userAPI from '../../api/userAPI'
-  import imgj from '../../assets/img/icon_empty_logo.png'
+  import imgj from '../../assets/img/addwecher.png'
   import weixin from '../../common/weixin';
   import {Toast} from 'mint-ui';
 

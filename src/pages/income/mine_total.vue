@@ -9,7 +9,7 @@
       color: white;
       padding: 20px;
       text-align: center;
-      background: linear-gradient(to left, $color2, $color3);
+      background: linear-gradient(to top, $color2, $color3);
       p {
         font-size: 14px;
       }
@@ -117,7 +117,7 @@
             <div class="time-list" v-for="i in val.list">
               <p class="title">直推业务奖励：{{i.productCatalog}} {{ i.productId | productName }}</p>
               <div class="content">
-                客户：{{i.employeeNo}} <br>姓名：{{ i.realName }}<br> 手机：{{ i.mobile }} <span><i style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
+                客户：{{i.employeeNo}} <br>姓名：{{ i.realName| nameXXX }}<br> 手机：{{ i.mobile| mobileXXX }} <span><i style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
                 <br>
                 时间：{{ i.createdDate | timeAuto }}
               </div>
@@ -172,7 +172,7 @@
         load: false,
         noData: false,
         page: {
-          limit: 3,
+          limit: 10,
           pageNum: 1
         },
         lan: [],
@@ -268,6 +268,20 @@
           }
         })
         return name
+      },
+      mobileXXX(val){
+        let a = ''
+        if(val){
+          a = val.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
+        }
+        return a
+      },
+      nameXXX(val){
+        let a = ''
+        if(val){
+          a = val.trim().replace(/^(\S{1})(.*)/g,'$1**')
+        }
+        return a
       }
     },
     created() {

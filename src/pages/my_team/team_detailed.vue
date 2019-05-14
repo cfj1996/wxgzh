@@ -7,7 +7,7 @@
       color: white;
       text-align: center;
       padding: 20px;
-      background: linear-gradient(to left, $color2, $color3);
+      background: linear-gradient(to top, $color2, $color3);
       p {
         font-size: 14px;
       }
@@ -26,7 +26,7 @@
           h2 {
             padding: 0;
             margin-top: 10px;
-            border-left: 1px solid $color1;
+            border-left: 1px solid #ff7777;
           }
           &:nth-child(1) {
             h2 {
@@ -54,7 +54,7 @@
             display: block;
             text-align: center;
           }
-          .active{
+          .active {
             background: linear-gradient(to left, $color2, $color3);;
             color: white;
             border: none;
@@ -68,10 +68,6 @@
         text-align: center;
         position: relative;
         margin-top: 30px;
-        img {
-          width: 150px;
-          height: 150px;
-        }
         p {
           margin-top: 20px;
           color: $color1;
@@ -92,14 +88,14 @@
         padding: 0 10px;
         li {
           background-color: white;
-          border-radius: 10px;
+          border-radius: 5px;
           margin-top: 20px;
-          &:nth-child(1){
+          &:nth-child(1) {
             margin-top: 10px;
           }
           padding: 10px 10px 0 10px;
           .user-msg {
-            border-bottom: 1px solid $color1;
+            border-bottom: 1px solid $fgxian;
             display: flex;
             .user-img {
               flex: 0 0 80px;
@@ -108,6 +104,10 @@
                 height: auto;
                 display: block;
                 border-radius: 50%;
+              }
+              p {
+                padding: 10px 0;
+                color: $gray;
               }
             }
             .text {
@@ -130,17 +130,29 @@
           }
           .user-lxfs {
             display: flex;
-            padding: 10px 0;
+            padding: 5px 0;
             justify-content: space-between;
             .img-ku {
+              position: relative;
               display: flex;
               justify-content: center;
               flex: 1;
               align-items: center;
+              &:before{
+                display: block;
+                content: ' ';
+                position: absolute;
+                width: 1px;
+                background-color: $fgxian;
+                height: 22px;
+                right: 0;
+                top: 15px;
+              }
               .wecher {
+                align-items: center;
                 border: none;
                 background: none;
-                display: block;
+                display: flex;
                 span {
                   line-height: 1.8;
                   display: block;
@@ -148,7 +160,8 @@
                 }
               }
               a {
-                display: block;
+                align-items: center;
+                display: flex;
                 color: black;
                 span {
                   line-height: 1.8;
@@ -158,8 +171,8 @@
               }
               img {
                 margin: 0 5px;
-                width: 25px;
-                height: 25px;
+                width: 16px;
+                height: 16px;
                 display: block;
               }
             }
@@ -176,22 +189,40 @@
           .xiala {
             box-sizing: border-box;
             position: relative;
-            height: 0px;
+            height: 0;
             overflow: hidden;
             transition: height .3s;
             display: flex;
             padding-top: 5px;
+            color: $gray;
             div {
+              &:nth-child(3):before{
+                display: none;
+              }
+              &:before{
+                display: block;
+                content: ' ';
+                position: absolute;
+                width: 1px;
+                background-color: $fgxian;
+                height: 22px;
+                right: 0;
+                top: 10px;
+              }
               text-align: center;
               flex: 1;
+              padding: 0 5px;
+              position: relative;
               p {
+                color: $textColor1;
                 line-height: 1.5;
+                font-size: 20px;
               }
             }
           }
           .active {
-            height: 45px !important;
-            border-top: 1px solid $color1;
+            height: 50px !important;
+            border-top: 1px solid $fgxian;
           }
         }
       }
@@ -259,33 +290,34 @@
       </div>
       <div class="tabbar">
         <!--1=信用卡，2=借记卡，3=贷款，4=保险，5=理财-->
-        <div class="tabbar-content">
-          <span @click="bankType('')" :class="type===''?'active': ''">全部</span>
-          <span @click="bankType('1')" :class="type==='1'?'active': ''">信用卡</span>
-          <span @click="bankType('2')" :class="type==='2'?'active': ''">借记卡</span>
-          <span @click="bankType('3')" :class="type==='3'?'active': ''">贷款</span>
-          <span @click="bankType('4')" :class="type==='4'?'active': ''">保险</span>
-          <span @click="bankType('5')" :class="type==='5'?'active': ''">理财</span>
-        </div>
+        <!--<div class="tabbar-content">-->
+        <!--<span @click="bankType('')" :class="type===''?'active': ''">全部</span>-->
+        <!--<span @click="bankType('1')" :class="type==='1'?'active': ''">信用卡</span>-->
+        <!--<span @click="bankType('2')" :class="type==='2'?'active': ''">借记卡</span>-->
+        <!--<span @click="bankType('3')" :class="type==='3'?'active': ''">贷款</span>-->
+        <!--<span @click="bankType('4')" :class="type==='4'?'active': ''">保险</span>-->
+        <!--<span @click="bankType('5')" :class="type==='5'?'active': ''">理财</span>-->
+        <!--</div>-->
       </div>
       <ul>
         <li v-for="(val, key) in pageList">
           <div class="user-msg">
             <div class="user-img">
-              <img :src="val.headImgURL || defUserImg" alt="">
-            </div>
-            <div class="text">
-              <p>姓名：{{ val.displayName }}</p>
-              <p>手机：{{ val.mobile }}</p>
-              <p>加入时间：{{ val.createdDate | timeAuto }}</p>
+              <img :src="val.headImgURL || defUserImg" alt="" width="60px" height="60px">
               <p>ID： {{ val.employeeNo}}</p>
             </div>
-            <div v-if="$route.query.level == 2 && val.direct" class="ztui"><span>直推</span></div>
+            <div class="text">
+              <p>姓名：{{ val.displayName }} ({{ val.realName|nameXXX }})</p>
+              <p>手机：{{ val.mobile | mobileXXX }}</p>
+              <p>加入时间：{{ val.createdDate | timeAuto }}</p>
+            </div>
+            <div v-if="$route.query.level === 2 && val.direct" class="ztui"><span>直推</span></div>
             <div v-if="$route.query.level !== 2" class="ztui"><span>{{ val.actived == 1 ? '活跃':'不活跃' }}</span></div>
           </div>
           <div class="user-lxfs">
             <div class="img-ku">
-              <div class="wecher" v-if="val.weixinQRCodeURL || val.weixinAccountNo" @click="openWeCher(val.weixinQRCodeURL, val.weixinAccountNo)">
+              <div class="wecher" v-if="val.weixinQRCodeURL || val.weixinAccountNo"
+                   @click="openWeCher(val.weixinQRCodeURL, val.weixinAccountNo, val.displayName)">
                 <img src="../../assets/img/weixin.png" alt="">
                 <span>微信</span>
               </div>
@@ -295,35 +327,39 @@
               </div>
             </div>
             <div class="img-ku">
-              <a :href="'tel:'+val.mobile">
+              <a :href="'tel:'+val.mobile" v-if="val.mobile">
                 <img src="../../assets/img/shouji.png" alt="">
                 <span>电话</span>
               </a>
+              <a href="javascript:void(0);" v-else>
+                <img src="../../assets/img/shouji_on.png" alt="">
+                <span>电话</span>
+              </a>
             </div>
-            <template v-if="$route.query.level !== 1">
+            <template v-if="Number($route.query.level) !== 1">
               <div class="jindu" v-if="inKey === key" @click="inKey = null">
                 <p style="padding: 16px 0">收起 <span class="mintui mintui-back"></span></p>
               </div>
               <div class="jindu" v-else @click="inKey = key">
-                <p style="padding: 16px 0">{{ $route.query.level === '2'? '查看转正进度': '查看团队详情' }} <span
+                <p style="padding: 16px 0">{{ Number($route.query.level) === 2? '查看转正进度': '查看团队详情' }} <span
                   class="mintui mintui-back"></span></p>
               </div>
             </template>
           </div>
-          <template v-if="$route.query.level !== 1">
-            <div v-if="$route.query.level == 2" class="xiala" :class="inKey === key? 'active' : ''">
+          <template v-if="Number($route.query.level) !== 1">
+            <div v-if="Number($route.query.level) === 2" class="xiala" :class="inKey === key? 'active' : ''">
               <div>转正任务 <p>{{ val.taskCount }}</p></div>
               <div>锁粉数 <p>{{ val.customerCount }}</p></div>
               <div>
-                <p>转正进度</p>
-                <mt-progress style="height: 5px" :value="Number(val.progress)" :bar-height="5"></mt-progress>
+                转正进度
+                <mt-progress style="height: 5px;margin-top: 5px" :value="Number(val.progress)" :bar-height="5"></mt-progress>
               </div>
             </div>
-            <div v-else class="xiala" :class="inKey === key? 'active' : ''">
-              <div><p>客户数</p><span>{{ val.customerCount }}</span></div>
-              <div><p>团队数</p><span>{{ val.teamCount }}</span></div>
-              <div><p>实习数</p><span>{{ val.probationCount }}</span></div>
-              <div><p>业务数</p><span>{{ val.orderCount }}</span></div>
+            <div v-if="Number($route.query.level) > 2" class="xiala" :class="inKey === key? 'active' : ''">
+              <div>客户数<p>{{ val.customerCount }}</p></div>
+              <div>团队数<p>{{ val.teamCount }}</p></div>
+              <div>实习数<p>{{ val.probationCount }}</p></div>
+              <div>业务数<p>{{ val.orderCount }}</p></div>
             </div>
           </template>
         </li>
@@ -332,7 +368,7 @@
         <img src="../../assets/img/icon_empty_logo.png">
         <p>暂无数据</p>
       </div>
-      <add-wechat :open="ISopen" v-model="ISopen" :weChatImg="weixinQRCodeURL" :weChatName="weixinAccountNo"/>
+      <add-wechat :open="ISopen" :user-name="userName" v-model="ISopen" :weChatImg="weixinQRCodeURL" :weChatName="weixinAccountNo"/>
       <div class="load" v-if="loadList">
         <p @click="load">加载更多</p>
       </div>
@@ -350,6 +386,7 @@
     name: 'team_detailed',
     data() {
       return {
+        userName: '',
         ISopen: false,
         weixinQRCodeURL: '',// 点击当前的item的微信头像
         weixinAccountNo: '', // 点击当前的item的微信名
@@ -369,7 +406,7 @@
         pageList: [],
         page: {
           pageNum: 1,
-          limit: 3
+          limit: 10
         },
         inKey: null,
         jindu: false
@@ -425,18 +462,36 @@
         }
 
       },
-      openWeCher(url, name){
+      openWeCher(url, name, username) {
         this.weixinQRCodeURL = url
         this.weixinAccountNo = name
+        this.userName = username
         this.ISopen = true
       }
     },
     filters: {
       timeAuto: function (val) {
         return moment(Number(val)).format('YYYY-MM-DD')
+      },
+      mobileXXX(val) {
+        let a = ''
+        if (val) {
+          a = val.replace(/^(\d{3})\d{4}(\d+)/, "$1****$2")
+        }
+        return a
+      },
+      nameXXX(val) {
+        let a = ''
+        if (val) {
+          a = val.trim().replace(/^(\S{1})(.*)/g, '$1**')
+        }
+        return a
       }
     },
     created() {
+      JSON.parse(sessionStorage.level).forEach(val => {
+
+      })
       console.log('level', this.$route.query.level)
       JSON.parse(sessionStorage.level).forEach(val => {
         if (val.value === this.$route.query.level) {

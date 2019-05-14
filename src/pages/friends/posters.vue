@@ -112,10 +112,12 @@
         border-radius: 20px;
       }
       .bg-middle{
-        color: $color3;
+        color: white;
+        background: linear-gradient(to right, #535BFF -30%, #41C2FF);
+        border-radius: 20px;
       }
       .item {
-        font-size: 16px;
+        font-size: 14px;
         line-height: 1.2;
         width: 110px;
         text-align: center;
@@ -232,9 +234,14 @@
         if (res.data.posterURL) {
           this.pageData = res.data
         } else {
+          Indicator.open({
+            text: '正在更新海报...',
+            spinnerType: 'fading-circle'
+          });
           orderAPI.generateAgentPoster((res2) => {
             this.pageData.posterURL = res2.data.url
             this.pageData.link = res.data.link
+            Indicator.close();
           })
         }
       })

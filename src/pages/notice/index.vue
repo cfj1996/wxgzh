@@ -64,7 +64,7 @@
       <mt-tab-item id="2">平台公告</mt-tab-item>
     </mt-navbar>
     <mt-tab-container v-model="selected">
-      <mt-tab-container-item id="1">
+      <mt-tab-container-item id="1" style="overflow: auto;">
         <ul>
           <li v-for="val in pageData">
             <div v-if="val.category === 1">
@@ -72,7 +72,7 @@
               <div class="content" style="padding-bottom: 25px">
                 <p class="lr" v-html="val.content"></p>
                 <div v-if="val.receiverId == user.id" style="border-top: 1px solid #f2f2f2;margin-top: 10px;padding-top: 10px">
-                  <span @click="$router.push('/author_proxy?id='+ val.senderId)">查看详情 ></span>
+                  <span @click="$router.push('/to_author?id='+ val.bizId)">查看详情 ></span>
                 </div>
               </div>
             </div>
@@ -118,7 +118,7 @@
         fandou: false,
         jiazai: true,
         page: {
-          limit: 5,
+          limit: 10,
           pageNum: 1
         },
         loadList: false

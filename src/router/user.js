@@ -28,6 +28,16 @@ export default [
     }
   },
   {
+    path: '/to_author',
+    name: '授权',
+    component: ()=> import('../pages/user/to_author'),
+    meta: {
+      title: '授权',
+      page: 'homePage',
+      requireAuth: true
+    }
+  },
+  {
     // 授权会员
     path: '/author_proxy',
     name: '授权会员',

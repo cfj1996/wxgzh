@@ -98,8 +98,8 @@
     </div>
     <mt-popup v-model="state.popupVisible" position="right" style="border-radius: 0">
       <xie-yi :isDaili="state.xieyi"/>
-      <div style="text-align: center">
-        <div class="xy-out" @click="state.popupVisible = false" size="small">关闭</div>
+      <div style="text-align: center; padding: 0 10px">
+        <div class="xiye-out" @click="state.popupVisible = false" size="small">关闭</div>
       </div>
     </mt-popup>
     <div class="foot">

@@ -41,7 +41,7 @@
         &.line {
           flex: 0.4%;
           height: 12px;
-          background: #37322e;
+          background: #cdcdcd;
           margin-top: 8px;
         }
         &.active {
@@ -65,7 +65,7 @@
 
       .card-section {
         display: flex;
-        margin-bottom: 6px;
+        margin-bottom: 1px;
         background: #fff;
         padding: 10px;
 
@@ -168,16 +168,18 @@
             height: 60px;
             background-repeat: no-repeat;
             -webkit-background-size: 30%;
-            background-size: 30%;
+            background-size: contain;
+            margin: 20px 0;
             background-position: center center;
           }
           .bank-card-tags {
-            position: relative;
+            position: absolute;
+            bottom: -5px;
             height: 20px;
             width: 100%;
             text-align: center;
             .xian {
-              background-color: #cdcdcd;
+              background-color: #f5f5f5;
               position: relative;
               z-index: 0;
               margin-top: 10px;
@@ -198,6 +200,7 @@
             }
           }
           .bank-card-name {
+            margin-top: 8px;
             text-align: center;
             width: 100%;
             display: block;
@@ -212,15 +215,17 @@
             font-size: 12px;
           }
           .bank-card-desc {
+            text-align: center;
             color: $color1;
             font-size: 12px;
             padding: 4px 2px;
             min-height: 55px;
           }
           .bank-card-bonus {
+            text-align: center;
             padding: 5px 0;
             width: 100%;
-            border-top: 1px solid #cdcdcd;
+            border-top: 1px solid #f5f5f5;
             color: #ff2521;
             font-size: 12px;
             padding-left: 5px;
@@ -362,7 +367,7 @@
       <ul class="recommend-card-ul">
         <li class="card-li" v-for="item in recommendBankCard" :key="item.id" @click="toBankCardDetail(item)">
           <section class="content">
-            <div style="width: 100%;position: relative;height: 90px;">
+            <div style="width: 100%;position: relative;">
               <div class="bank-icon" :style="{ 'background-image': `url(${item.galleryImg}`}"></div>
               <div class="bank-card-tags">
                 <div class="xian"></div>
@@ -395,6 +400,15 @@
         <mt-button type="primary" size="large" style="height: 34px;font-size: 16px;" @click="onAuthorise">
           立即实名申请
         </mt-button>
+      </div>
+    </bzw-dialog>
+    <bzw-dialog class="credit-card-authorise-dialog" v-model="ONyoung"
+                :showCloseButton="false"
+                :showHeader="false"
+                :showFooter="false">
+      <div class="tip-content">
+        <p>非常遗憾</p>
+        <p> 您的年龄未达到该信用卡申请的年龄要求，适龄范围为{{ minAge }}周岁至{{ maxAge }}周岁。</p>
       </div>
     </bzw-dialog>
     <mt-popup v-model="jiesGze">
@@ -445,6 +459,7 @@
   import banner7 from '../../assets/img/index_banner/banner-7.png'
   import banner8 from '../../assets/img/index_banner/banner-8.png'
   import banner9 from '../../assets/img/index_banner/banner-9.png'
+  import orderAPI from "../../api/orderAPI";
 
   export default {
     name: 'CreditCardIndex',
@@ -456,6 +471,9 @@
     data() {
       let self = this
       return {
+        ONyoung: false,
+        minAge: '',
+        maxAge: '',
         jiesGze: false,
         thisBonus: 0,
         levelList: [],
@@ -523,17 +541,26 @@
        * 免费申请
        * */
       freeApply(item) {
+        this.minAge = item.minAge
+        this.maxAge = item.maxAge
         this.paramBankId = item.bankId
         this.paramCreditCardId = item.id
         if (this.user.identity && this.user.identity.IDCardNo) {
           // 如果该用户已经实名认证过了，则跳转确认申请信息页面
-          this.$router.push({
-            path: '/confirm_applicant_info',
-            query: {
-              // bankId: this.paramBankId,
-              creditCardId: this.paramCreditCardId
+          orderAPI.checkCondition({id: item.id}, (res)=>{
+            if(res.success){
+              this.$router.push({
+                path: '/confirm_applicant_info',
+                query: {
+                  // bankId: this.paramBankId,
+                  creditCardId: this.paramCreditCardId
+                }
+              })
+            } else {
+              this.ONyoung = true
             }
           })
+
         } else {
           this.isVisibleDialog = true
         }
@@ -603,17 +630,25 @@
         }
       },
       toBankCardDetail(data) {
-        // data = {id: 3}
+        this.minAge = data.minAge
+        this.maxAge = data.maxAge
         if (this.user.identity && this.user.identity.IDCardNo) {
           // 如果该用户已经实名认证过了，则跳转确认银行详情页面
-          this.$router.push({
-            path: '/bank_card_info',
-            query: {
-              creditCardId: data.id
-              // bankId: data.bankId,
-              // title: data.title
+          orderAPI.checkCondition({id: data.id}, (res)=>{
+            if(res.success){
+              this.$router.push({
+                path: '/bank_card_info',
+                query: {
+                  creditCardId: data.id
+                  // bankId: data.bankId,
+                  // title: data.title
+                }
+              })
+            } else {
+              this.ONyoung = true
             }
           })
+
         } else {
           this.paramCreditCardId = data.id
           this.isVisibleDialog = true
@@ -628,8 +663,8 @@
       jiesuan(level, bonus) {
         let dili = null
         JSON.parse(sessionStorage.commissionRule).forEach(val => {
-          if (level === val.userLevel) {
-            dili = val.commission
+          if (level === val.level) {
+            dili = Number(val.commission)
           }
         })
         let the = bonus * dili / 10000
@@ -639,12 +674,11 @@
     created() {
       let that = this
       this.levelList = JSON.parse(sessionStorage.level)
-      alert(window.location.href)
+      // alert(window.location.href)
       if (this.$route.query.creditCardId) {
         this.paramCreditCardId = this.$route.query.creditCardId
       }
       creditCardApi.getCreditCards({ catalog: 1 }, (res) => {
-        console.log(res)
         that.recommendBankCard.splice(0, that.recommendBankCard.length)
         // 1=普通卡(推荐卡)，2=高端卡，3=学生卡
         if (res.data && res.data.length) {
@@ -654,10 +688,8 @@
             item.tags = (item.tag && item.tag.length && item.tag.split(',')) || []
             let category = Number(item.category)
             item.descn && (item.descn = item.descn.replace(/\n/gm, '<br>'))
-            console.log('item.descn ', item.descn)
             if (category === 1) {
               that.recommendBankCard.push(item)
-              console.log(that.recommendBankCard)
             } else if (category === 2) {
               highEndCard.push(item)
             } else {

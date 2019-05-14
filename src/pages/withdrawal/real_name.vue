@@ -44,10 +44,11 @@
           margin-top: 10px;
           display: flex;
           align-items: center;
-          justify-content: space-between;
+          /*justify-content: space-around;*/
           .img-ku {
             border: 1px solid #d9d9d9;
             height: 90px;
+            margin: 0 25px;
             flex: 0 0 140px;
             padding: 5px;
             text-align: center;
@@ -102,12 +103,12 @@
           <mt-button v-if="upIsLoad" size="small" @click="upLoad('身份证正面.jpg')">上传图片</mt-button>
         </div>
         <div class="sfz-lo">
-          <p>手持身份证照</p>
+          <p>身份证反面</p>
           <div class="img-ku">
             <img v-if="upImg.upImg.IDCardHandPictureURL" :src="upImg.upImg.IDCardHandPictureURL" alt="">
             <img v-else src="../../assets/img/real_name/on_yz3.png" alt="">
           </div>
-          <mt-button v-if="upIsLoad" size="small" @click="upLoad('手持身份证.jpg')">上传图片</mt-button>
+          <mt-button v-if="upIsLoad" size="small" @click="upLoad('手持身份证照.jpg')">上传图片</mt-button>
         </div>
       </div>
     </div>
@@ -144,10 +145,12 @@
     methods: {
       upLoad(name) {
         weixin.weixinUploadImg(3, name, (res) => {
-          if (name === '身份证正面') {
+          if (name === '身份证正面.jpg') {
             this.upImg.zhm = res
+            this.upImg.zhm.IDCardFrontPictureURL = res.url
           } else {
             this.upImg.upImg = res
+            this.upImg.upImg.IDCardHandPictureURl = res.url
           }
         })
       },
