@@ -75,7 +75,7 @@
                   :value="user.identity.mobile"></mt-field>
         <mt-field class="form-cell" label="验证码" placeholder="请输入图片验证码" type="text" :attr="{maxlength: 4}"
                   v-model="form.imgcode">
-          <img @click="getImgCode" :src="imgCodeSrc" height="45px" width="100px">
+          <img @click.prevent ="getImgCode" :src="imgCodeSrc" height="45px" width="100px">
           <p style="font-size: 12px;color: #3eb7f3;text-align: center">点击图片切换</p>
 
         </mt-field>
@@ -143,12 +143,12 @@
     methods: {
       tixain() {
         let qian = this.form.amount
-        console.log(qian)
         userAPI.withdraw({
           amount: qian,
           realName: this.form.name,
           mobile: this.user.identity.mobile,
-          authCode: this.form.mobileYzm
+          authCode: this.form.mobileYzm,
+          bizData: this.$route.query.bizData
         }, () => {
           Toast({
             message: '提现成功',
@@ -201,7 +201,7 @@
       userAPI.userIncome((res) => {
         this.availableTotal = (Number(res.data.availableTotal) / 100).toFixed(2)
       })
-      this.user.identity.certificatedStatus !== 2 ? this.$router.push('/income') : ''
+      // this.user.identity.certificatedStatus !== 2 ? this.$router.push('/income') : ''
     },
     watch: {
       'amount': function (val) {

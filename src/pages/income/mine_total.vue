@@ -132,6 +132,8 @@
       <div class="load" v-if="load">
         <p @click="DataLoad">加载更多数据</p>
       </div>
+      <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
+
       <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
                   :showCloseButton="false"
                   :showHeader="false"
@@ -165,6 +167,7 @@
     },
     data() {
       return {
+        loadNoData: false,
         certificatedStatus: false,
         pageData: {
           mineTotal: '0'
@@ -192,8 +195,10 @@
           }
           if (res.data.items.length === this.page.limit) {
             this.load = true
+            this.loadNoData = false
           } else {
             this.load = false
+            this.loadNoData = true
           }
           let dataList = res.data.items // 请求的原始数据
           dataList.forEach((val, key) => {
@@ -245,8 +250,13 @@
         this.$router.push('/real_name')
       },
       tixanToFrom() {
-        console.log(this.user.identity.certificatedStatus)
-        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
+        if (this.user.identity.certificatedStatus !== 2) {
+          this.certificatedStatus = true
+        } else {
+          userAPI.createWithdrawView(res => {
+            window.location.href = res.data.redirectURL
+          })
+        }
       }
     },
     filters: {

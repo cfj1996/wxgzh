@@ -24,12 +24,9 @@
               .img-ku {
                 width: 50px;
                 height: 50px;
+                background: no-repeat center;
+                background-size: contain;
                 margin: auto;
-                img {
-                  max-width: 100%;
-                  height: auto;
-                  display: block;
-                }
               }
               p{
                 text-align: center;
@@ -50,8 +47,7 @@
         <ul>
           <li v-for="val in pageData.bankList" @click="$router.push('/schedule_form?id=' + val.id)">
             <div class="content">
-              <div class="img-ku">
-                <img :src="val.logo" alt="">
+              <div class="img-ku" :style="{backgroundImage: 'url('+val.logo+')'}">
               </div>
               <p class="name">{{ val.bankName }}</p>
             </div>

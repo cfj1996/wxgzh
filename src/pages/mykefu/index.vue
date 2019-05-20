@@ -74,7 +74,8 @@
             <p class="name">{{ val.name }}</p>
           </div>
           <div class="add-wecher">
-            <mt-button @click="openModel(val.weixinQRCodeURL, val.name)" class="btn"><img width="30px" height="30px" src="../../assets/img/weixin.png" alt="">加我微信</mt-button>
+            <mt-button @click="openModel(val.weixinQRCodeURL, val.name)" class="btn">
+              <div class="wei-cher-icon" style="width: 30px;height: 30px"></div>加我微信</mt-button>
           </div>
         </li>
         <li style="margin-top: 10px;">

@@ -91,6 +91,7 @@
         <div class="load">
           <p v-if="loadList" @click="load" >加载更多</p>
         </div>
+        <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
         无消息
@@ -113,6 +114,7 @@
     },
     data() {
       return {
+        loadNoData: false,
         selected: '1',
         pageData: [],
         fandou: false,
@@ -136,8 +138,10 @@
           this.pageData.push(...res.data.items)
           if (res.data.items.length === this.page.limit){
             this.loadList = true
+            this.loadNoData = false
           } else if (res.data.items.length < this.page.limit){
             this.loadList = false
+            this.loadNoData = true
           }
           if (typeof fn === 'function') {
             fn(res.data.items)

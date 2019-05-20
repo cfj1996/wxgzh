@@ -4,6 +4,7 @@
 
   .set-inform {
     .view {
+      background: white;
       position: relative;
       width: 100%;
       height: calc(100% - 54px);
@@ -58,7 +59,7 @@
     <div class="view">
       <div class="head">
         <div>
-          <h2>修改申请人信息</h2>
+          <h2>修改个人资料</h2>
           <p>以上信息将直接关系您在平台的所有操作， <br>
             请如实填写您的相关信息，一旦提交，不予以修改。</p>
         </div>
@@ -72,7 +73,7 @@
           <template v-if="state.openMobile">
             <mt-field class="form-cell" label="验证码" placeholder="请输入图片验证码" type="text" :attr="{maxlength: 4}"
                       v-model="fromData.imgcode">
-              <img @click="getImgCode" :src="pageData.imgCodeSrc" height="45px" width="100px">
+              <img @click.prevent ="getImgCode" :src="pageData.imgCodeSrc" height="45px" width="100px">
               <p style="font-size: 12px;color: #3eb7f3;text-align: center">点击图片切换</p>
             </mt-field>
             <mt-field class="form-cell" label="短信验证码" placeholder="请输入短信验证码" v-model="fromData.mobileYzm">
@@ -87,11 +88,10 @@
             v-model="state.agreement"
             :options="pageData.options">
           </mt-checklist>
-          <p>
+          <p style="padding: 10px 20px">
             <span @click="state.popupVisible = true;state.xieyi = true">
               《淘个卡平台服务协议》
             </span>
-            <span @click="state.popupVisible = true;state.xieyi = false">《淘个卡平台信用卡推广规范守则》</span>
           </p>
         </div>
       </div>
@@ -198,7 +198,7 @@
         }
       },
       getYzmCode() {
-        if (this.form.imgcode === '') {
+        if (this.fromData.imgcode === '') {
           Toast({
             message: '请输入图片验证码',
             position: 'top'

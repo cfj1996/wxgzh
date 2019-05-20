@@ -3,16 +3,16 @@
   @import "../../assets/css/common";
 
   .page {
-    .no-data-icon{
+    .no-data-icon {
       text-align: center;
       position: relative;
       top: 40%;
       transform: translateY(-50%);
-      img{
+      img {
         width: 150px;
         height: 150px;
       }
-      p{
+      p {
         margin-top: 20px;
         color: $color1;
       }
@@ -59,11 +59,10 @@
         z-index: 1999;
         bottom: 0;
         left: 0;
-        height: 45%;
+        height: calc(40% + 40px);
         width: 100%;
         background: #fff;
         .f-title {
-          padding-bottom: 10px;
           border-bottom: 1px solid $fgxian;
           p {
             margin: 0 10px;
@@ -115,7 +114,7 @@
           width: 100%;
           height: 54px;
           padding: 10px;
-          margin-top: 35px;
+          /*margin-top: 35px;*/
           display: flex;
           .btn1 {
             flex: 0 50%;
@@ -249,6 +248,7 @@
     <div class="load">
       <p v-if="loadList" @click="load">加载更多</p>
     </div>
+    <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
     <div class="foot">
       <div class="zhezao" v-if="open" @click="open= false"></div>
       <div class="diji" :class="open ? 'open': '' ">
@@ -290,6 +290,7 @@
     data() {
       return {
         loadList: true,
+        loadNoData: false,
         shouquanId: null,
         open: false,
         jiazai: true,
@@ -311,8 +312,10 @@
           this.dataList.push(...res.data.items)
           if (res.data.items.length === this.page.limit) {
             this.loadList = true
+            this.loadNoData = false
           } else if (res.data.items.length < this.page.limit) {
             this.loadList = false
+            this.loadNoData = true
           }
           if (typeof fn === 'function') {
             fn(res.data.items)

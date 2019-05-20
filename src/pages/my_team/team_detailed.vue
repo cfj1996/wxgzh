@@ -129,6 +129,7 @@
             }
           }
           .user-lxfs {
+            height: 60px;
             display: flex;
             padding: 5px 0;
             justify-content: space-between;
@@ -138,6 +139,9 @@
               justify-content: center;
               flex: 1;
               align-items: center;
+              &:nth-child(2):before{
+                display: none;
+              }
               &:before{
                 display: block;
                 content: ' ';
@@ -196,9 +200,15 @@
             padding-top: 5px;
             color: $gray;
             div {
-              &:nth-child(3):before{
-                display: none;
+              &:nth-child(3){
+                &:before{
+                  display: none;
+                }
+                div:before{
+                  display: none;
+                }
               }
+
               &:before{
                 display: block;
                 content: ' ';
@@ -276,7 +286,15 @@
           <p>昨日新增（个）</p>
           <h2>{{ pageData.yesterdayCount }}</h2>
         </div>
-        <div v-if="$route.query.level === 5 || $route.query.level === 4">
+        <div v-if="+$route.query.level === 2">
+          <p>转正任务（笔）</p>
+          <h2>{{ pageData.taskCount }}</h2>
+        </div>
+        <div v-if="+$route.query.level === 2">
+          <p>间接授权（笔）</p>
+          <h2>{{ pageData.authzCount }}</h2>
+        </div>
+        <div v-if="+  $route.query.level === 5 || +$route.query.level === 4">
           <p>团队业绩（个）</p>
           <h2>{{ pageData.orderCount }}</h2>
         </div>
@@ -317,8 +335,8 @@
           <div class="user-lxfs">
             <div class="img-ku">
               <div class="wecher" v-if="val.weixinQRCodeURL || val.weixinAccountNo"
-                   @click="openWeCher(val.weixinQRCodeURL, val.weixinAccountNo, val.displayName)">
-                <img src="../../assets/img/weixin.png" alt="">
+                   @click.prevent ="openWeCher(val.weixinQRCodeURL, val.weixinAccountNo, val.displayName)">
+                <div class="wei-cher-icon" style="width: 18px;height: 18px;margin-right: 3px"></div>
                 <span>微信</span>
               </div>
               <div class="wecher" v-else>
@@ -372,6 +390,7 @@
       <div class="load" v-if="loadList">
         <p @click="load">加载更多</p>
       </div>
+      <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
     </div>
   </div>
 </template>
@@ -391,6 +410,7 @@
         weixinQRCodeURL: '',// 点击当前的item的微信头像
         weixinAccountNo: '', // 点击当前的item的微信名
         loadList: true,
+        loadNoData: false,
         retrieve: '',
         teamName: '',
         type: '',
@@ -418,8 +438,10 @@
           this.pageList.push(...res.data.items)
           if (res.data.items.length === this.page.limit) {
             this.loadList = true
+            this.loadNoData = false
           } else if (res.data.items.length < this.page.limit) {
             this.loadList = false
+            this.loadNoData = true
           }
           if (typeof fn === 'function') {
             fn(res.data.items)

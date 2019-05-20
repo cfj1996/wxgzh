@@ -301,6 +301,17 @@ export default {
       success: successCallback
     })
   },
+// /m/fund/createWithdrawView
+  /**
+   * 提现重定向
+   **/
+  createWithdrawView(successCallback){
+    http.request('/m/fund/createWithdrawView', {
+      success: successCallback
+    })
+  },
+
+
   /*
   * 已经提现金额
   * */

@@ -101,6 +101,7 @@
 </style>
 <style lang="scss" rel="stylesheet/scss">
   .agree-checkbox {
+    margin-top: 5px;
     .mint-checklist-title {
       display: none;
     }
@@ -160,8 +161,8 @@
         <mt-field class="form-cell" label="微信号" placeholder="请输入微信号" v-model="form.weixinAccountNo"
                   v-if="isToBeingAgent"></mt-field>
 
-        <p class="mint-cell-text">您是否有过以下推广经验<span>(请选择标签)</span></p>
-        <div class="badge-section">
+        <p v-if="isToBeingAgent" class="mint-cell-text">您是否有过以下推广经验<span>(请选择标签)</span></p>
+        <div v-if="isToBeingAgent" class="badge-section">
           <mt-badge size="small" @click.native="checkExperienceBadgeEv(item, experienceBadge)"
                     :class="item.checked ? 'checked': ''"
                     v-for="item in experienceBadge" :key="item.id">
@@ -288,10 +289,11 @@
           if (this.isToBeingAgent && this.user.identity && this.user.identity.IDCardNo) {
             orderAPI.enroll({
               weixinAccountNo: this.form.weixinAccountNo
-            }, () => {})
-            this.$router.replace({
-              path: '/applicant_uaer',
-              query: this.$route.query
+            }, () => {
+              this.$router.replace({
+                path: '/applicant_uaer',
+                query: this.$route.query
+              })
             })
           } else {
             if (this.isToBeingAgent) { // 会员

@@ -4,30 +4,31 @@
 * @date    19.04.04
 */
 
-<style scoped  lang="scss" rel="stylesheet/scss">
+<style scoped lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
-  .page-main{
+
+  .page-main {
     height: 100%;
     overflow: auto;
     margin-bottom: 0;
 
-    .head{
+    .head {
       width: 100%;
       min-height: 90px;
       padding-top: 20px;
       background: linear-gradient(to top, $color2, $color3);
       color: white;
 
-      .title{
+      .title {
         text-align: center;
         font-size: 20px;
         font-weight: bold;
       }
-      .amount{
+      .amount {
         text-align: center;
         font-size: 18px;
       }
-      >ul{
+      > ul {
         margin: 10px 40px 0;
         display: flex;
         min-height: 60px;
@@ -37,7 +38,7 @@
         }
       }
     }
-    .search-section{
+    .search-section {
       position: relative;
       display: flex;
       margin: 10px;
@@ -49,50 +50,50 @@
         border: none;
         border-radius: 4px;
       }
-      .search-btn{
+      .search-btn {
         flex: 30%;
         font-size: 12px;
         padding-left: 10px;
       }
     }
-    .nav{
+    .nav {
       padding: 0 10px;
-      margin-bottom:1px;
-      .mint-button{
+      margin-bottom: 1px;
+      .mint-button {
         border-radius: 8px 8px 1px 1px;
       }
     }
-    .order-tab-container{
+    .order-tab-container {
       width: 100%;
-
-      .order-tabbar{
+      height: calc(100% - 177px);
+      .order-tabbar {
         display: flex;
         background-color: #fff;
         height: 40px;
         line-height: 40px;
         padding: 0 10px;
 
-        li{
+        li {
           flex: 1;
           text-align: center;
-          &.actived{
+          &.actived {
             border-bottom: 3px solid;
-            border-image: linear-gradient(to left, $color2 , $color3) 3 3;
+            border-image: linear-gradient(to left, $color2, $color3) 3 3;
             color: $color3;
           }
         }
       }
-      .notice{
+      .notice {
         margin-top: 10px;
         color: red;
         font-size: 12px;
         padding: 0 10px;
       }
-      .order-list{
+      .order-list {
         position: relative;
         margin-top: 20px;
       }
-      .order-ul{
+      .order-ul {
         padding: 10px;
         background-color: #fff;
         li {
@@ -101,29 +102,29 @@
           padding-bottom: 15px;
           border-bottom: 1px solid $fgxian;
 
-          &:last-child{
+          &:last-child {
             border-bottom: none;
           }
-          .title{
+          .title {
             font-size: 18px;
             margin-bottom: 8px;
             padding-right: 50px;
           }
-          label{
+          label {
             position: absolute;
             right: 0;
             top: 2px;
             color: $gray;
-            i{
+            i {
               font-size: 14px;
               color: $color4;
               margin-right: 4px;
             }
-            span{
+            span {
               font-size: 12px;
             }
           }
-          p{
+          p {
             color: $color4;
             line-height: 20px;
           }
@@ -140,37 +141,53 @@
 
         }
       }
-      .no-data-view{
+      .no-data-view {
         position: relative;
         min-height: 200px;
         text-align: center;
-        img{
+        img {
           width: 150px;
           height: auto;
         }
-        p{
+        p {
           padding-top: 10px;
         }
       }
     }
-    .set-btn{
+    .set-btn {
       background: none;
       border: 1px solid $color3;
       color: $color3;
     }
   }
+
+  .load {
+    text-align: center;
+    padding: 10px;
+    p {
+      font-size: 12px;
+      display: inline-block;
+      background: #cacaca;
+      height: 20px;
+      line-height: 16px;
+      border-radius: 10px;
+      padding: 3px 10px;
+    }
+  }
 </style>
 <style lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/variable.scss";
-  #app .page.fixed{
+
+  #app .page.fixed {
     position: fixed;
     bottom: 55px;
     left: 0;
     right: 0;
     top: 0;
   }
-  .bg-1{
-    background: linear-gradient(to left, $color2 , $color3);
+
+  .bg-1 {
+    background: linear-gradient(to left, $color2, $color3);
     padding: 0 30px;
     color: white;
   }
@@ -178,107 +195,110 @@
 <template>
   <div class="page fixed">
     <section class="page-main">
-      <scroll-wrapper ref="scroll"
-                      :scrollbar="scrollbarObj"
-                      :pullDownRefresh="pullDownRefreshObj"
-                      :pullUpLoad="pullUpLoadObj"
-                      :startY="0"
-                      @pullingDown="onRefreshPage"
-                      @pullingUp="onPullingUp"
-      >
-        <div class="head">
-          <p class="title">订单总数</p>
-          <p class="amount">{{orderAmount}}</p>
-          <!--<ul>-->
-            <!--<li>-->
-              <!--<p>信用卡</p>-->
-              <!--<p>{{amountObj.creditCard}}</p>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<p>借记卡</p>-->
-              <!--<p>{{amountObj.debitCard}}</p>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<p>贷款</p>-->
-              <!--<p>{{amountObj.loans}}</p>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<p>保险</p>-->
-              <!--<p>{{amountObj.applyForReimbursement}}</p>-->
-            <!--</li>-->
-            <!--<li>-->
-              <!--<p>理财</p>-->
-              <!--<p>{{amountObj.financing}}</p>-->
-            <!--</li>-->
-          <!--</ul>-->
+      <div class="head">
+        <p class="title">订单总数</p>
+        <p class="amount">{{orderAmount}}</p>
+        <!--<ul>-->
+        <!--<li>-->
+        <!--<p>信用卡</p>-->
+        <!--<p>{{amountObj.creditCard}}</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<p>借记卡</p>-->
+        <!--<p>{{amountObj.debitCard}}</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<p>贷款</p>-->
+        <!--<p>{{amountObj.loans}}</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<p>保险</p>-->
+        <!--<p>{{amountObj.applyForReimbursement}}</p>-->
+        <!--</li>-->
+        <!--<li>-->
+        <!--<p>理财</p>-->
+        <!--<p>{{amountObj.financing}}</p>-->
+        <!--</li>-->
+        <!--</ul>-->
+      </div>
+      <div class="search-section">
+        <mt-field class="employee-no"
+                  placeholder="请输入ID搜索"
+                  :attr="{maxlength: 12}"
+                  v-model="searchKey">
+        </mt-field>
+        <div class="search-btn">
+          <mt-button size="small" class="bg-1" @click="search">查询</mt-button>
         </div>
-        <div class="search-section">
-          <mt-field class="employee-no"
-                    placeholder="请输入ID搜索"
-                    :attr="{maxlength: 12}"
-                    v-model="searchKey">
-          </mt-field>
-          <div class="search-btn">
-            <mt-button size="small" class="bg-1" @click="search">查询</mt-button>
-          </div>
-        </div>
-        <div class="nav">
-          <mt-button size="small" @click.native.prevent="active = 'creditCard'">信用卡</mt-button>
-          <!--<mt-button size="small" @click.native.prevent="active = 'debitCard'">借记卡</mt-button>-->
-          <!--<mt-button size="small" @click.native.prevent="active = 'loans'">贷款</mt-button>-->
-        </div>
-        <mt-tab-container v-model="active" class="order-tab-container">
-          <mt-tab-container-item id="creditCard">
-            <ul class="order-tabbar">
-              <li v-for="item in creditOrderBars" :class="activeState == item.index && 'actived'" @click="filter(item)">{{item.text}}</li>
+      </div>
+      <div class="nav">
+        <mt-button size="small" @click.native.prevent="active = 'creditCard'">信用卡</mt-button>
+        <!--<mt-button size="small" @click.native.prevent="active = 'debitCard'">借记卡</mt-button>-->
+        <!--<mt-button size="small" @click.native.prevent="active = 'loans'">贷款</mt-button>-->
+      </div>
+      <mt-tab-container v-model="active" class="order-tab-container">
+        <mt-tab-container-item id="creditCard" style="overflow: auto;">
+          <ul class="order-tabbar">
+            <li v-for="item in creditOrderBars" :class="activeState == item.index && 'actived'" @click="filter(item)">
+              {{item.text}}
+            </li>
+          </ul>
+          <p class="notice">
+            说明：该明细为用户进行信用卡申请页面时的浏览记录，不能视为信用卡申请订单。
+          </p>
+          <section class="order-list">
+            <ul class="order-ul" v-if="creditOrderList.length">
+              <li v-for="(item , index) in creditOrderList">
+                <div class="title">{{item.productName}}</div>
+                <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己':
+                  '客户'}}</label>
+                <p>申请人：{{item.realName | nameXXX }} (ID：{{item.employeeNo}})</p>
+                <p>手机号：{{item.mobile | mobileXXX }}</p>
+                <p>浏览时间：{{item.createdDate | timeAuto}}</p>
+                <section v-if="activeState !== 4 && activeState !== 3">
+                  <mt-button size="small" v-if="activeState !== 1" class="mini set-btn" @click="move(item, 1)">移至待确认
+                  </mt-button>
+                  <mt-button size="small" v-if="activeState !== 2" class="mini set-btn" @click="move(item, 2)">移至待再查
+                  </mt-button>
+                  <mt-button v-if="activeState !== 6" size="small" class="mini set-btn" @click="move(item, 6)">移至回收站
+                  </mt-button>
+                  <mt-button v-if="activeState === 1 || activeState === 5" size="small" class="mini set-btn"
+                             @click="$router.push({path: 'schedule_form', query:{orderid: item.id	}})">查看进度
+                  </mt-button>
+                </section>
+              </li>
             </ul>
-
-            <p class="notice">
-              说明：该明细为用户进行信用卡申请页面时的浏览记录，不能视为信用卡申请订单。
-            </p>
-            <section class="order-list">
-              <ul class="order-ul" v-if="creditOrderList.length">
-                <li v-for="(item , index) in creditOrderList">
-                  <div class="title">{{item.productName}}</div>
-                  <label><i class="iconkehuziliao iconfont"></i>{{item.employeeNo === user.employeeNo? '自己': '客户'}}</label>
-                  <p>申请人：{{item.realName | nameXXX }} (ID：{{item.employeeNo}})</p>
-                  <p>手机号：{{item.mobile | mobileXXX }}</p>
-                  <p>浏览时间：{{item.createdDate | timeAuto}}</p>
-                  <section v-if="activeState !== 4 && activeState !== 3">
-                    <mt-button size="small" v-if="activeState !== 1" class="mini set-btn" @click="move(item, 1)">移至待确认</mt-button>
-                    <mt-button size="small" v-if="activeState !== 2" class="mini set-btn" @click="move(item, 2)">移至待再查</mt-button>
-                    <mt-button v-if="activeState !== 6" size="small" class="mini set-btn" @click="move(item, 6)">移至回收站</mt-button>
-                    <mt-button v-if="activeState === 1 || activeState === 5" size="small" class="mini set-btn" @click="$router.push({path: 'schedule_form', query:{orderid: item.id	}})">查看进度</mt-button>
-                  </section>
-                </li>
-              </ul>
-              <div class="no-data-view" v-if="noData">
-                <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
-                <p>暂无数据</p>
-              </div>
-            </section>
-          </mt-tab-container-item>
-          <mt-tab-container-item id="debitCard">
-           借记卡内容 -- 待做
-          </mt-tab-container-item>
-          <mt-tab-container-item id="loans">
-            321
-          </mt-tab-container-item>
+            <div class="no-data-view" v-if="noData">
+              <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
+            </div>
+          </section>
+          <!---->
+          <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
+          <div class="load" v-if="loadList">
+            <p @click="load">加载更多</p>
+          </div>
+          <!---->
+        </mt-tab-container-item>
+        <mt-tab-container-item id="debitCard">
+          借记卡内容 -- 待做
+        </mt-tab-container-item>
+        <mt-tab-container-item id="loans">
+          321
+        </mt-tab-container-item>
       </mt-tab-container>
-        <div v-if="false" style="text-align: center; margin-top: 60px;color: #a4a4a4;">
-          <p>淘个卡</p>
-          <br>
-          <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
-        </div>
-      </scroll-wrapper>
+      <div v-if="false" style="text-align: center; margin-top: 60px;color: #a4a4a4;">
+        <p>淘个卡</p>
+        <br>
+        <p>copyright@2019-2020 taogeka.All Rights Reserved</p>
+      </div>
     </section>
   </div>
 </template>
 
 <script>
-  import { mapState } from 'vuex'
+  import {mapState} from 'vuex'
   import moment from 'moment'
-  import { Toast } from 'mint-ui'
+  import {Toast} from 'mint-ui'
   import orderAPI from '@/api/orderAPI'
   import ScrollWrapper from '../../components/scrollWrapper/ScrollWrapper'
 
@@ -293,7 +313,7 @@
         initialized: (state => state.metadata.initialized)
       })
     },
-    data () {
+    data() {
       return {
         orderAmount: null,
         limit: 10,
@@ -341,28 +361,50 @@
           applyForReimbursement: 10,
           financing: 5
         },
-        scrollbarObj: Object.freeze({
-          fade: true
-        }),
-        pullDownRefreshObj: Object.freeze({
-          threshold: 90,
-          stop: 40
-        }),
-        pullUpLoadObj: Object.freeze({
-          threshold: 0,
-          txt: { more: '加载更多', noMore: `没有更多` }
-        }),
         // 信用卡订单的翻页参数
         status: 1, // 状态值：1=待确认，2=待再查，3=待审核，4=已完成，5=未通过，6=回收站
         currentPage: 1, // 当前页
         noMore: false,
         noData: false,
-        creditOrderList: [] // 信用卡订单
+        creditOrderList: [], // 信用卡订单,
+        loadNoData: false,
+        loadList: false,
+        page: {
+          pageNum: 1,
+          limit: 10
+        },
       }
     },
     methods: {
+      getData(fn) {
+        let filter = []
+        if (this.searchKey) {
+          filter.push({
+            property: '_member.employeeNo',
+            value: this.searchKey
+          })
+        }
+        orderAPI.fetchOrderList({
+          status: this.status
+        }, this.page, (res) => {
+          this.creditOrderList.push(...res.data.items)
+          this.noData = false
+          if (this.page.pageNum === 1 && res.data.items.length === 0) {
+            this.noData = true
+          }
+          if (res.data.items.length === this.page.limit) {
+            this.loadList = true
+            this.loadNoData = false
+          } else if (res.data.items.length < this.page.limit) {
+            this.loadList = false
+            this.loadNoData = true
+          }
+          fn && fn(res)
+        }, filter)
+      },
       search() {
-        this.onRefreshPage()
+        this.creditOrderList = []
+        this.getData()
       },
       move(data, status) {
         orderAPI.moveCreditCardOrder({
@@ -375,49 +417,6 @@
             message: '操作成功',
             position: 'top'
           })
-        })
-      },
-      onRefreshPage(timeNum) {
-        // 模拟更新数据
-        this.pullingDownTimer && clearTimeout(this.pullingDownTimer)
-        this.pullingDownTimer = setTimeout(() => {
-          console.log('pulling down and refresh page')
-          this.currentPage = 1
-          this.noMore = false
-          this.fetchOrderList(this.currentPage, (res) => {
-            console.log('pulling down and refresh page')
-            let list = res.data && res.data.items || []
-            if (!list.length) {
-              // 页面空白,显示【暂无数据】
-              this.noData = true
-              this.creditOrderList.length = 0
-              this.$refs.scroll.forceUpdate()
-            } else {
-              this.noData = false
-              this.$refs.scroll.forceUpdate(true)
-              this.creditOrderList.length = 0
-              this.creditOrderList = this.creditOrderList.concat(list)
-            }
-          })
-        }, timeNum || 100)
-      },
-      onPullingUp() {
-        // 下一页数据
-        if (this.noData || this.noMore) {
-          this.$refs.scroll.forceUpdate(false) // 显示没有更多
-          return
-        }
-        this.fetchOrderList(++this.currentPage, (res) => {
-          let list = res.data && res.data.items && res.data.items.length || []
-          console.log('this ', list.length, this.limit)
-          if (list.length < this.limit) {
-            // 展示【没有更多数据】
-            this.noMore = true
-            this.$refs.scroll.forceUpdate(false) // 显示没有更多
-            return
-          }
-          this.$refs.scroll.forceUpdate(true)
-          this.creditOrderList = this.creditOrderList.concat(list)
         })
       },
       fetchOrderList(currentPage, callback) {
@@ -441,14 +440,19 @@
       filter(item) {
         this.status = this.activeState = item.index
         this.searchKey = ''
-        this.onRefreshPage()
-      }
+        this.page.pageNum = 1
+        this.creditOrderList = []
+        this.getData()
+      },
+      load() {
+        // 下一页数据
+        this.page.pageNum++
+        this.getData()
+      },
     },
     created() {
       this.status = this.$route.query.status || 1
-      this.$nextTick(() => {
-        this.onRefreshPage(500)
-      })
+      this.getData()
     },
     mounted() {
       orderAPI.count((res) => {
@@ -459,17 +463,17 @@
       timeAuto: function (val) {
         return moment(Number(val)).format('YYYY-MM-DD HH:mm')
       },
-      mobileXXX(val){
+      mobileXXX(val) {
         let a = ''
-        if(val){
-          a = val.replace(/^(\d{3})\d{4}(\d+)/,"$1****$2")
+        if (val) {
+          a = val.replace(/^(\d{3})\d{4}(\d+)/, "$1****$2")
         }
         return a
       },
-      nameXXX(val){
+      nameXXX(val) {
         let a = ''
-        if(val){
-          a = val.trim().replace(/^(\S{1})(.*)/g,'$1**')
+        if (val) {
+          a = val.trim().replace(/^(\S{1})(.*)/g, '$1**')
         }
         return a
       }

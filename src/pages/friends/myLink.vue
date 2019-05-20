@@ -18,7 +18,7 @@
         <div v-if="pageData.weixinQRCodeURL || pageData.weixinAccountNo"
              @click="ISopen = true"
              class="tiem btn-copy liao bo-wei">
-          <img src="../../assets/img/weixin.png" alt=""> <span>微信聊</span>
+          <div class="wei-cher-icon"></div> <span>微信聊</span>
         </div>
         <div v-else  class="tiem btn-copy liao bo-wei">
           <img src="../../assets/img/weixin_on.png" alt=""> <span>微信聊</span>

@@ -302,7 +302,7 @@
   }
 
   .mf-btn {
-    margin-top: 30px;
+    margin-top: 15px;
     color: #ff2521;
     background: none;
     font-size: 14px !important;
@@ -325,6 +325,12 @@
     margin-top: 20px;
     left: 50%;
     transform: translateX(-50%);
+    div{
+      width: 46px;
+      height: 46px;
+      background: url(../../assets/img/out.png) no-repeat center;
+      background-size: contain;
+    };
   }
 </style>
 
@@ -436,7 +442,7 @@
           </div>
         </div>
       </div>
-      <div class="out" @click="jiesGze = false"><img src="../../assets/img/out.png" alt=""></div>
+      <div class="out" @click="jiesGze = false"><div></div></div>
     </mt-popup>
     <bottom-menu></bottom-menu>
   </div>
@@ -533,7 +539,7 @@
         initialized: state => state.metadata.initialized
       }),
       isAgent() {
-        return Number(this.user.level) > 1
+        return Number(this.user.level) > 2
       }
     },
     methods: {

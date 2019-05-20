@@ -4,19 +4,22 @@
 * @date    19.04.01
 */
 
-<style  lang="scss" rel="stylesheet/scss">
+<style lang="scss" rel="stylesheet/scss">
   @import "~@/assets/css/px2rem.scss";
   @import "~@/assets/css/variable.scss";
 
-  .swiper-pagination-bullet{
+  .swiper-pagination-bullet {
     background: #000;
   }
+
   .wrapper1 .swiper-container {
-    padding-bottom: 30px!important;
+    padding-bottom: 30px !important;
   }
-  .swiper-pagination-bullet{
-    background: $color2!important;
+
+  .swiper-pagination-bullet {
+    background: $color2 !important;
   }
+
   .page-main.home-page {
     height: calc(100% - 56px);
     overflow-x: hidden;
@@ -197,7 +200,7 @@
           top: 10px;
           bottom: 10px;
         }
-        &:last-child::after{
+        &:last-child::after {
           display: none;
         }
         div {
@@ -212,11 +215,20 @@
   .page-icon {
     width: 40px;
     height: 40px;
-    img {
-      display: block;
-      max-width: 100%;
-      height: auto;
-    }
+    background: no-repeat center;
+    background-size: contain;
+  }
+
+  .bg1 {
+    background-image: url("../assets/img/new_img/home/xyka.png");
+  }
+
+  .bg2 {
+    background-image: url("../assets/img/new_img/home/jdcx.png");
+  }
+
+  .bg3 {
+    background-image: url("../assets/img/new_img/home/user.png");
   }
 </style>
 <template>
@@ -225,9 +237,9 @@
       <div class="slide-wrapper wrapper1">
         <swiper :options="swiperOption" style="height: auto">
           <swiper-slide v-for="(item, index) in basicInfo.banners" :key="index" class="banners">
-            <a :href="item.forwardUrl || 'javascript:;'">
+            <router-link to="/credit_card">
               <img class="slide-img" :src="item.imageUrl">
-            </a>
+            </router-link>
           </swiper-slide>
           <div class="swiper-pagination" slot="pagination"></div>
         </swiper>
@@ -237,7 +249,7 @@
         <div class="store-info-left">
           <p>财富优选</p>
           <p>
-            <span>尊享财富之选，开启梦想生活</span>
+            <span>优享信用生活，开启财富之选。</span>
           </p>
         </div>
       </div>
@@ -245,17 +257,17 @@
       <ul class="card-ul">
         <li @click="toRedirectPage(1)" v-if="permissions('CREDIT_CARD', 'List')">
           <!--<div class="iconfont iconxinyongqiahuankuan" style="color: #000;"></div>-->
-          <div class="page-icon"><img src="../assets/img/new_img/home/xyka.png" alt=""></div>
+          <div class="page-icon bg1"></div>
           <p>信用卡</p>
         </li>
         <li @click="toRedirectPage(2)" v-if="permissions('BANK_SCHEDULER', 'Query')">
           <!--<div class="iconfont icongroup47"></div>-->
-          <div class="page-icon"><img src="../assets/img/new_img/home/jdcx.png" alt=""></div>
+          <div class="page-icon bg2"></div>
           <p>进度中心</p>
         </li>
         <li @click="toRedirectPage(3)" v-if="permissions('USER_CENTER', 'View')">
           <!--<div class="iconfont iconyonghuzhongxin user-icon"></div>-->
-          <div class="page-icon"><img src="../assets/img/new_img/home/user.png" alt=""></div>
+          <div class="page-icon bg3"></div>
           <p>用户中心</p>
         </li>
       </ul>
@@ -263,19 +275,23 @@
       <section class="proprietary-products clearfix">
         <swiper :options="swiperProperietaryOption">
           <swiper-slide :key="key" v-for="(item, key) in proprietaryProductsList">
-            <div class="item" @click="showGoodsPage(item)">
-              <img :src="item.imageUrl">
+            <div class="item">
+              <router-link to="credit_card">
+                <img :src="item.imageUrl">
+              </router-link>
             </div>
           </swiper-slide>
         </swiper>
       </section>
 
       <ul v-if="recommendedProductList.length" class="recommended-products clearfix">
-        <li v-for="(item, index) in recommendedProductList" :class="index%2 == 0? 'row-left': 'row-right'"
-            @click="showGoodsPage(item)">
-          <img v-bind:style="recommendedProdStyleObject" :src="item.imageUrl">
-          <p class="prod-desc"><span class="mark-proprietary" v-if="item.isStoreAutotrophy">自营</span> {{item.name}}</p>
-          <p class="prod-money"><span>￥{{item.salesPrice | moneyInteger}}.</span>{{item.salesPrice | moneyPenny}}</p>
+        <li v-for="(item, index) in recommendedProductList" :class="index%2 == 0? 'row-left': 'row-right'">
+          <router-link to="credit_card">
+            <img v-bind:style="recommendedProdStyleObject" :src="item.imageUrl">
+            <p class="prod-desc"><span class="mark-proprietary" v-if="item.isStoreAutotrophy">自营</span> {{item.name}}
+            </p>
+            <p class="prod-money"><span>￥{{item.salesPrice | moneyInteger}}.</span>{{item.salesPrice | moneyPenny}}</p>
+          </router-link>
         </li>
       </ul>
     </section>
@@ -402,7 +418,7 @@
     },
     methods: {
       permissions(name, page) {
-        if(this.userPerm[name] && this.userPerm[name][page] === 1){
+        if (this.userPerm[name] && this.userPerm[name][page] === 1) {
           return true
         } else {
           return false
@@ -493,9 +509,9 @@
     },
     mounted() {
       // alert(window.location.href)
-      if (this.$route.query.operation === '2') {
-        if (this.user.level * 1 == 1) {
-          if (this.user.agentApproveStatus && this.user.agentApproveStatus == 1) {
+      if (+this.$route.query.operation === 2) {
+        if (+this.user.level === 1) {
+          if (this.user.agentApproveStatus && +this.user.agentApproveStatus === 1) {
             this.$router.push('/waitFor'); // 等待审核
           } else {
             this.$router.push('/newpage?'); // 申请审核
@@ -503,20 +519,26 @@
         } else {
           this.$router.push('/mylink');
         }
-      } else if (this.$route.query.operation === '1' && this.$route.query.biz !== '0') { // 信用卡分享过来的
+      } else if (+this.$route.query.operation === 1 && +this.$route.query.biz !== 0) { // 信用卡分享过来的
         this.$router.push({
           path: '/credit_card',
           query: {
             creditCardId: this.$route.query.biz
           }
         })
-      } else if(this.$route.query.operation === '3'){
+      } else if (+this.$route.query.operation === 3) {
         this.$router.push({
           path: '/to_author',
           query: {
             id: this.$route.query.biz
           }
         })
+      } else if (+this.$route.query.operation === 5) {
+        this.$router.push('credit_card')
+      } else if (+this.$route.query.operation === 6) {
+        this.$router.push('user_center')
+      } else if (+this.$route.query.operation === 7) {
+        this.$router.push('mykefu')
       }
     }
   }

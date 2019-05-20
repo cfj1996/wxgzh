@@ -120,7 +120,8 @@
             <div class="time-list" v-for="i in val.list">
               <p class="title">团队业务奖励:{{ i.productId | productName }}</p>
               <div class="content">
-                {{ isName(i.employeeNo) }}：{{ i.realName| nameXXX }} <span><i style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
+                {{ isName(i.employeeNo) }}：{{ i.realName| nameXXX }} <span><i
+                style="font-size: 18px;padding-top: 3px">+</i>￥{{i.amount | currencyAuot }}</span>
                 <br>
                 时间：{{ i.createdDate | timeAuto }}
               </div>
@@ -136,6 +137,7 @@
       <div class="load" v-if="load">
         <p @click="DataLoad">加载更多数据</p>
       </div>
+      <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
       <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
                   :showCloseButton="false"
                   :showHeader="false"
@@ -172,6 +174,7 @@
     },
     data() {
       return {
+        loadNoData: false,
         certificatedStatus: false,
         pageData: {
           teamTotal: 0
@@ -199,11 +202,13 @@
           }
           if (res.data.items.length === this.page.limit) {
             this.load = true
+            this.loadNoData = false
           } else {
             this.load = false
+            this.loadNoData = true
           }
           let dataList = res.data.items // 请求的原始数据
-          if(dataList.length === 0){
+          if (dataList.length === 0) {
             return
           }
           dataList.forEach((val, key) => {
@@ -257,7 +262,13 @@
         this.$router.push('/real_name')
       },
       tixanToFrom() {
-        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
+        if (this.user.identity.certificatedStatus !== 2) {
+          this.certificatedStatus = true
+        } else {
+          userAPI.createWithdrawView(res => {
+            window.location.href = res.data.redirectURL
+          })
+        }
       },
       isName(uid) {
         if (this.user.employeeNo === uid) {

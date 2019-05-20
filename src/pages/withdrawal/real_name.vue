@@ -10,6 +10,13 @@
       overflow: auto;
       .img-title {
         margin: 25px auto;
+        div {
+          width: 96px;
+          height: 96px;
+          margin: 0 auto;
+          background: no-repeat center;
+          background-size: contain;
+        }
         img {
           display: block;
           margin: auto;
@@ -52,10 +59,12 @@
             flex: 0 0 140px;
             padding: 5px;
             text-align: center;
-            img {
-              height: 100%;
-              width: 100%;
-            }
+            background: no-repeat center;
+            background-size: contain;
+            /*img {*/
+            /*height: 100%;*/
+            /*width: 100%;*/
+            /*}*/
           }
         }
       }
@@ -83,7 +92,7 @@
   <div class="page real-name">
     <div class="view">
       <div class="img-title">
-        <img :src="auditStateImg" alt="">
+        <div :style="{backgroundImage: 'url('+auditStateImg+')'}"></div>
         <p>{{ auditState }}</p>
       </div>
       <div class="content">
@@ -96,19 +105,20 @@
       <div class="img-upload">
         <div class="sfz-lo">
           <p>身份证正面</p>
-          <div class="img-ku">
-            <img v-if="upImg.zhm.IDCardFrontPictureURL" :src="upImg.zhm.IDCardFrontPictureURL" alt="">
-            <img v-else src="../../assets/img/real_name/on_yz2.png" alt="">
+          <div v-if="upImg.zhm.IDCardFrontPictureURL" class="img-ku"
+               :style="{backgroundImage: 'url('+ upImg.zhm.IDCardFrontPictureURL+')'}">
           </div>
-          <mt-button v-if="upIsLoad" size="small" @click="upLoad('身份证正面.jpg')">上传图片</mt-button>
+          <div v-else class="img-ku" :style="{backgroundImage: 'url('+ sfzZmz+')'}"></div>
+          <mt-button v-if="upIsLoad" size="small" @click="upLoad1('身份证正面.jpg')">上传图片</mt-button>
         </div>
         <div class="sfz-lo">
           <p>身份证反面</p>
-          <div class="img-ku">
-            <img v-if="upImg.upImg.IDCardHandPictureURL" :src="upImg.upImg.IDCardHandPictureURL" alt="">
-            <img v-else src="../../assets/img/real_name/on_yz3.png" alt="">
+
+          <div v-if="upImg.zhm.IDCardFrontPictureURL" class="img-ku"
+               :style="{backgroundImage: 'url('+ upImg.zhm.IDCardHandPictureURL+')'}">
           </div>
-          <mt-button v-if="upIsLoad" size="small" @click="upLoad('手持身份证照.jpg')">上传图片</mt-button>
+          <div v-else class="img-ku" :style="{backgroundImage: 'url('+ sfzFmz+')'}"></div>
+          <mt-button v-if="upIsLoad" size="small" @click="upLoad2('手持身份证照.jpg')">上传图片</mt-button>
         </div>
       </div>
     </div>
@@ -127,6 +137,9 @@
   import failure from '../../assets/img/real_name/on_yz1.png'
   import successful from '../../assets/img/real_name/yes_yz1.png'
 
+  import dFsfzZmz from '../../assets/img/real_name/on_yz2.png'
+  import dFsfzFmz from '../../assets/img/real_name/on_yz3.png'
+
   export default {
     name: 'real_name',
     data() {
@@ -134,24 +147,33 @@
         upState: '提交申请',
         auditState: '未认证',
         auditStateImg: failure,
+        sfzZmz: dFsfzZmz,
+        sfzFmz: dFsfzFmz,
         upIsLoad: true,
         isSubmit: false,
         upImg: {
-          zhm: {},
-          upImg: {}
+          zhm: {
+            id: '',
+            IDCardFrontPictureURL: ''
+          },
+          upImg: {
+            id: '',
+            IDCardHandPictureURL: ''
+          }
         }
       }
     },
     methods: {
-      upLoad(name) {
+      upLoad1(name) {
         weixin.weixinUploadImg(3, name, (res) => {
-          if (name === '身份证正面.jpg') {
-            this.upImg.zhm = res
-            this.upImg.zhm.IDCardFrontPictureURL = res.url
-          } else {
-            this.upImg.upImg = res
-            this.upImg.upImg.IDCardHandPictureURl = res.url
-          }
+          this.upImg.zhm.id = res.id
+          this.upImg.zhm.IDCardFrontPictureURL = res.url
+        })
+      },
+      upLoad2(name) {
+        weixin.weixinUploadImg(3, name, (res) => {
+          this.upImg.upImg.id = res.id
+          this.upImg.upImg.IDCardHandPictureURL = res.url
         })
       },
       submitImgData() {

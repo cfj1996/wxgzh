@@ -85,15 +85,14 @@
     }
     .share-ul{
       position: relative;
-      height: 60px;
+      height: 800px;
       display: flex;
       bottom: 0;
       padding: 8px 0;
-      >li {
+      &>li {
         flex: 1;
         text-align: center;
         border-right: 1px solid #cecece;
-
         &:last-child{
           border-right: none;
         }
@@ -190,11 +189,13 @@
       <div :class="show?'show': ''" class="fenxian" @click="isVisibleSharePopup = false"></div>
       <ul class="share-ul">
         <li @click="share">
-          <img src="../../assets/img/wechat.png" width="24" height="24">
+          <div class="wei-cher-icon"></div>
+          <!--<img src="../../assets/img/weixin.png" width="24px" height="24px">-->
           <p>微信</p>
         </li>
         <li @click="share">
-          <img src="../../assets/img/wx-zone.png" width="24" height="24">
+          <div class="wei-cher-pyq"></div>
+          <!--<img src="../../assets/img/wx-zone.png" width="24px" height="24px">-->
           <p>微信朋友圈</p>
         </li>
       </ul>

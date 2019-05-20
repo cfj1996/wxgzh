@@ -29,7 +29,7 @@
             <i class="mintui mintui-field-error"></i>
           </div>
           <div class="mint-field-other">
-            <img  @click="clickImg" class="address-icon" src="~@/assets/img/location.png" width="20" height="20">
+            <img  @click.prevent ="clickImg" class="address-icon" src="~../assets/img/location.png" width="20" height="20">
           </div>
       </div>
     </div>

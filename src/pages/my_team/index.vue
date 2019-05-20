@@ -211,8 +211,13 @@
         return msg
       },
       tixanToFrom() {
-        this.$router.push('/withd_from')
-        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
+        if (this.user.identity.certificatedStatus !== 2) {
+          this.certificatedStatus = true
+        } else {
+          userAPI.createWithdrawView(res => {
+            window.location.href = res.data.redirectURL
+          })
+        }
       }
     },
     created() {

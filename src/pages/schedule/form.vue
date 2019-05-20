@@ -59,7 +59,7 @@
           <mt-field v-if="pageData.imgCode" class="form-cell" label="验证码" placeholder="请输入图片验证码"
                     :attr="{maxlength: 4}"
                     v-model="formData.imgcode">
-            <img @click="getImgCode" :src="pageData.imgCodeSrc" height="45px" width="100px">
+            <img @click.prevent ="getImgCode" :src="pageData.imgCodeSrc" height="45px" width="100px">
             <p style="font-size: 12px;color: #3eb7f3;text-align: center">点击图片切换</p>
           </mt-field>
           <mt-field v-if="pageData.smsCodeRequired" class="form-cell" label="短信验证码" type="number" placeholder="请输入短信验证码"
@@ -72,7 +72,7 @@
         <div class="text">
           <h3>温馨提示：</h3>
           <p>请输入与申请人提交的信用卡申请资料一致的身份证号码或手机号码。
-            <span v-if="user.level !== 1">否则，无法查询到信用卡申请进度，也不能领取信用卡推广奖励金。</span></p>
+            <span v-if="user.level > 2">否则，无法查询到信用卡申请进度，也不能领取信用卡推广奖励金。</span></p>
         </div>
       </div>
     </div>

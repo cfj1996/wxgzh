@@ -129,7 +129,7 @@
           <div v-if="pageData.weixinQRCodeURL || pageData.weixinAccountNo"
                @click="ISopen = true"
                class="tiem btn-copy liao bo-wei shu">
-            <img src="../../assets/img/weixin.png" alt=""> <span>微信聊</span>
+            <div class="wei-cher-icon"></div> <span>微信聊</span>
           </div>
           <div v-else  class="tiem btn-copy liao bo-wei">
             <img src="../../assets/img/weixin_on.png" alt=""> <span>微信聊</span>
@@ -141,7 +141,7 @@
       <add-wechat :open="ISopen" v-model="ISopen" :user-name="pageData.displayName" :weChatImg="pageData.weixinQRCodeURL" :weChatName="pageData.weixinAccountNo"/>
     </div>
     <div class="foot">
-      <mt-button class="btn2" @click="$router.push('/notice')">关闭</mt-button>
+      <mt-button class="btn2" @click="out">关闭</mt-button>
       <mt-button class="btn1" :disabled="pageData.status === 2 ? true: false" @click="shouquan">{{ pageData.status | sqyuan }}</mt-button>
     </div>
   </div>
@@ -157,6 +157,7 @@
     name: 'to_author',
     data(){
       return {
+        isOut: true,
         ISopen: false,
         pageData: {},
         start: {
@@ -187,12 +188,19 @@
     },
     methods: {
       shouquan() {
-        proxyApi.aprvAgent({id: this.$route.query.id, status: 2}, () => {
+        proxyAPI.aprvAgent({id: this.$route.query.id, status: 2}, () => {
           Toast({
             message: '操作成功'
           });
-          this.$router.push('/notice')
+          this.out()
         })
+      },
+      out(){
+        if(this.isOut){
+          this.$router.go(-1)
+        }else {
+        this.$util.closeWindow()
+        }
       }
     },
     created(){
@@ -203,7 +211,16 @@
         id: this.$route.query.id
       }, res => {
         this.pageData = res.data
-        console.log(this.pageData.headImgURL)
+      })
+      console.log('信息', this.$router.currentRoute)
+
+    },
+    beforeRouteEnter(to, from, next){
+      next(vm=>{          //  这里的vm指的就是vue实例，可以用来当做this使用
+        console.log(from)
+        if(from.path === '/'){
+          vm.isOut = false
+        }
       })
     }
   }

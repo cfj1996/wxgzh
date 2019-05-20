@@ -73,10 +73,9 @@
         </a>
       </div>
       <div class="item">
-        <div @click="ISopen = true"
-             style="margin-bottom: 13px"
-             v-if="pageData.weixinQRCodeURL || pageData.weixinAccountNo">
-          <img src="../../assets/img/weixin.png" alt=""></div>
+        <div @click="ISopen = true" style="margin-bottom: 13px" v-if="pageData.weixinQRCodeURL || pageData.weixinAccountNo">
+          <div class="wei-cher-icon"></div>
+        </div>
         <div style="margin-bottom: 13px" v-else><img src="../../assets/img/weixin_on.png" alt=""></div>
         <p style="margin-top: 16px;">加我微信</p>
       </div>

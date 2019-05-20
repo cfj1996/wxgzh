@@ -38,6 +38,12 @@
     left: 50%;
     transform: translateX(-50%);
     padding-top: 25px;
+    div{
+      width: 46px;
+      height: 46px;
+      background: url("../../assets/img/out.png") no-repeat center;
+      background-size: contain;
+    }
   }
 </style>
 <template>
@@ -63,7 +69,7 @@
             </div>
           </slot>
         </footer>
-        <div class="zhezao-out" @click="show = false"><img src="../../assets/img/out.png" alt=""></div>
+        <div class="zhezao-out" @click="show = false"><div></div></div>
       </div>
     </div>
   </transition>

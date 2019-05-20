@@ -116,6 +116,42 @@
     font-size: 16px;
     line-height: 34px;
   }
+
+  .wei-cher-pyq{
+    width: 28px;
+    height: 35px;
+    margin: 0 auto;
+    background: url('./assets/img/wx-zone.png') no-repeat center;
+    background-size: contain;
+  }
+  .wei-cher-icon{
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    background: url('./assets/img/weixin.png') no-repeat center;
+    background-size: contain;
+  }
+  .on-wei-cher-icon{
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    background: url('./assets/img/weixin_on.png') no-repeat center;
+    background-size: contain;
+  }
+  .mobile-icon{
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    background: url('./assets/img/shouji.png') no-repeat center;
+    background-size: contain;
+  }
+  .on-mobile-icon{
+    width: 24px;
+    height: 24px;
+    margin: 0 auto;
+    background: url('./assets/img/shouji_on.png') no-repeat center;
+    background-size: contain;
+  }
 </style>
 
 <script>

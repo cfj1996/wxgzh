@@ -116,6 +116,7 @@
         <div class="bound" v-if="load">
           <mt-button size="small" @click="DataLoad">加载更多数据</mt-button>
         </div>
+        <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
       </div>
     </div>
     <bzw-dialog class="credit-card-authorise-dialog" v-model="certificatedStatus"
@@ -156,6 +157,7 @@
         },
         load: false,
         noData: false,
+        loadNoData: false,
         page: {
           limit: 10,
           pageNum: 1
@@ -175,8 +177,10 @@
           }
           if (res.data.items.length === this.page.limit) {
             this.load = true
+            this.loadNoData = false
           } else {
             this.load = false
+            this.loadNoData = true
           }
           let dataList = res.data.items // 请求的原始数据
           let newYYDDTT = dataList.map((val) => {
@@ -227,7 +231,13 @@
         this.getData()
       },
       tixanToFrom() {
-        this.user.identity.certificatedStatus !== 2 ? this.certificatedStatus = true : this.$router.push('/withd_from')
+        if (this.user.identity.certificatedStatus !== 2) {
+          this.certificatedStatus = true
+        } else {
+          userAPI.createWithdrawView(res => {
+            window.location.href = res.data.redirectURL
+          })
+        }
       },
       onAuthorise() {
         this.$router.push('/real_name')

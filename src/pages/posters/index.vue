@@ -163,15 +163,15 @@
       <mt-tab-container-item id="1" style="overflow: auto">
         <div class="img-ku"><img v-if="pageDailiData.posterURL" :src="pageDailiData.posterURL" alt=""></div>
         <div class="post-foot">
-          <div class="item" @click="updataDaiLi()">
-            <img src="../../assets/img/genxin.png" alt="">
+          <div class="item">
+            <img @click.prevent ="updataDaiLi()" src="../../assets/img/genxin.png" alt="">
             <p>更新海报</p>
           </div>
           <div class="item">
-            <img src="../../assets/img/baocun.png" @click="saveOpen = true" alt="">
+            <img src="../../assets/img/baocun.png" @click.prevent="saveOpen = true" alt="">
             <p>保存海报</p>
           </div>
-          <div class="item" @click="dailiFenXiang"><img src="../../assets/img/fenxian.png" alt="">
+          <div class="item"><img @click="dailiFenXiang" src="../../assets/img/fenxian.png" alt="">
             <p>推广分享</p></div>
           <button type="button" class="item dai-cope btn-copy" :data-clipboard-text="pageDailiData.link"><img
             src="../../assets/img/fzhi.png" alt="">
@@ -181,8 +181,8 @@
       <mt-tab-container-item id="2" style="overflow: auto">
         <div class="yh-list">
           <ul class="img-list" :style="lunbo">
-            <li v-for="(val, key) in imgList" :class="val.id === inId? 'active': ''"><img @click="inId = val.id"
-                                                                                          :src="val.posterURL" alt="">
+            <li v-for="(val, key) in imgList" :class="val.id === inId? 'active': ''">
+              <img @click.prevent ="inId = val.id" :src="val.posterURL" alt="">
             </li>
           </ul>
           <div class="xyk-list">
@@ -191,8 +191,8 @@
           </div>
         </div>
         <div class="post-foot">
-          <div class="item" @click="updataXykKu = true">
-            <img src="../../assets/img/genxin.png" alt="">
+          <div class="item">
+            <img @click.prevent="updataXykKu = true" src="../../assets/img/genxin.png" alt="">
             <p>更新海报</p>
           </div>
           <div class="item">

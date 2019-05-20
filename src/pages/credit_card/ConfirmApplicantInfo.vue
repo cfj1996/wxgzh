@@ -206,7 +206,7 @@
         <p>2.收到办卡审核通知短信， 第2个工作日查到</p>
         <p>进度并提示“等待工作人员审核”。</p>
         <p>3.在淘个卡申请信用卡不收取任何费用，凡是索取均为欺诈，请不要相信！</p>
-        <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。平台监督举报电话：，举报属实者均有现金奖励。</p>
+        <p>4.会员资料与银行无关，淘个卡对此资料提供隐私保护。</p>
       </div>
     </section>
     <div class="bottom-single-btn">
@@ -224,8 +224,8 @@
         <p class="line-2">在淘个卡平台申请信用卡完全免费，凡索取费用的均为欺诈行为，请不要相信！</p>
         <ul>
           <li><label>姓名</label> <span>{{formInfo.realName}}</span></li>
-          <li><label>身份证</label> <span>{{formInfo.mobile}}</span></li>
-          <li><label>手机号</label> <span>{{formInfo.IDCardNo}}</span></li>
+          <li><label>身份证</label> <span>{{formInfo.IDCardNo}}</span></li>
+          <li><label>手机号</label> <span>{{formInfo.mobile}}</span></li>
         </ul>
       </div>
       <section class="dialog-btns" slot="footer">

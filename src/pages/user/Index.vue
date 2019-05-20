@@ -29,6 +29,13 @@
       .left-info {
         flex: 0 0 20%;
         position: relative;
+        div{
+          background: no-repeat center;
+          background-size: contain;
+          height: 80px;
+          width: 80px;
+          border-radius: 50%;
+        }
         img {
           position: relative;
           display: block;
@@ -188,6 +195,54 @@
       display: flex;
       flex-wrap: wrap;
       .ku {
+        .bg-img{
+          margin: 0 auto;
+          width: 42px;
+          height: 42px;
+          background: no-repeat center;
+          background-size: contain;
+        }
+        .bg1{
+          background-image: url("~@/assets/img/new_img/user/iocn/mysq.png");
+        }
+        .bg2{
+          background-image: url("~@/assets/img/new_img/user/iocn/ddmx.png");
+        }
+        .bg3{
+          background-image: url("~@/assets/img/new_img/user/iocn/szmx.png");
+        }
+        .bg4{
+          background-image: url("~@/assets/img/new_img/user/iocn/xttz.png");
+        }
+        .bg5{
+          background-image: url("~@/assets/img/new_img/user/iocn/khgl.png");
+        }
+        .bg6{
+          background-image: url("~@/assets/img/new_img/user/iocn/dlsq.png");
+        }
+        .bg7{
+          background-image: url("~@/assets/img/new_img/user/iocn/yqhy.png");
+        }
+        .bg8{
+          background-image: url("~@/assets/img/new_img/user/iocn/zshb.png");
+        }
+        .bg9{
+           background-image: url("~@/assets/img/new_img/user/iocn/tjr.png");
+         }
+        .bg10{
+           background-image: url("~@/assets/img/new_img/user/iocn/kf.png");
+         }
+        .bg11{
+           background-image: url("~@/assets/img/new_img/user/iocn/hybu.png");
+         }
+        .bg12{
+           background-image: url("~@/assets/img/new_img/user/iocn/help.png");
+         }
+        .bg13{
+           background-image: url("~@/assets/img/new_img/user/iocn/set.png");
+         }
+
+
         flex: 0 25%;
         position: relative;
         .is-info {
@@ -228,8 +283,7 @@
     <div class="page-main user-center">
       <section class="user-info">
         <div class="left-info" @click="$router.push('/inform_set')" v-if="permissions('USER_INFO', 'View')">
-          <img v-if="user.headImgURL" :src="user.headImgURL"/>
-          <img v-else src="../../assets/img/new_img/user/iocn/user.png" alt="">
+          <div :style="{backgroundImage: 'url('+ user.headImgURL || userImg +')'}"></div>
         </div>
         <div class="center-info">
           <p>{{ user.displayName || ''}}</p>
@@ -238,7 +292,7 @@
         <div class="right-info">
           <p><span :class="`level${user.level-1}`"></span>{{ userLevel}}</p>
         </div>
-        <div class="tidu">
+        <div class="tidu" v-if="user.level > 1">
           <ul>
             <li v-for="val in grade" v-if="val.value !== 1&&val.value !== 6&&val.value !== 7">
               <p :style="textLevel(val.value)">{{ val.label }}</p>
@@ -253,20 +307,24 @@
         <p class="title">我的收入</p>
         <div class="list">
           <div class="ku" v-if="permissions('FUND', 'General')" @click="$router.push('/income')">
-            <img src="../../assets/img/new_img/user/iocn/mysq.png" alt="">
+            <div class="bg-img bg1"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/mysq.png" alt="">-->
             <p>我的收入</p>
             <span>￥{{integrantCount.exchangeableCount}}</span>
           </div>
           <div class="ku" v-if="permissions('ORDER', 'List')" @click="$router.push('/order')">
-            <img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">
+            <div class="bg-img bg2"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/ddmx.png" alt="">-->
             <p>订单明细</p>
           </div>
           <div class="ku" v-if="permissions('FUND', 'General')" @click="$router.push('/income')">
-            <img src="../../assets/img/new_img/user/iocn/szmx.png" alt="">
+            <div class="bg-img bg3"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/szmx.png" alt="">-->
             <p>收支明细</p>
           </div>
           <div class="ku" v-if="permissions('NOTIFICATION', 'List')" @click="$router.push('/notice')">
-            <img src="../../assets/img/new_img/user/iocn/xttz.png" alt="">
+            <div class="bg-img bg4"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/xttz.png" alt="">-->
             <mt-badge v-if="Number(read) > 0" class="is-info" type="error" size="small">{{ read }}</mt-badge>
             <p>系统通知</p>
           </div>
@@ -276,12 +334,14 @@
         <p class="title">我的团队</p>
         <div class="list">
           <div class="ku" v-if="permissions('CUSTOMER', 'General')" @click="$router.push('/my_team')">
-            <img src="../../assets/img/new_img/user/iocn/khgl.png" alt="">
+            <div class="bg-img bg5"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/khgl.png" alt="">-->
             <p>客户管理</p>
             <span>{{ userInfo.count }}人</span>
           </div>
           <div class="ku" v-if="permissions('AGENT_AUTHZ', 'List')" @click="$router.push('/author_proxy')">
-            <img src="../../assets/img/new_img/user/iocn/dlsq.png" alt="">
+            <div class="bg-img bg6"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/dlsq.png" alt="">-->
             <p>会员授权</p>
           </div>
         </div>
@@ -290,19 +350,23 @@
         <p class="title">推广</p>
         <div class="list">
           <div class="ku" v-if="permissions('INVITATION', 'Invite')" @click="$router.push('/friends')">
-            <img src="../../assets/img/new_img/user/iocn/yqhy.png" alt="">
+            <div class="bg-img bg7"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/yqhy.png" alt="">-->
             <p>邀请好友</p>
           </div>
           <div class="ku" v-if="permissions('SELF_POSTER', 'Agent')" @click="$router.push('/posters')">
-            <img src="../../assets/img/new_img/user/iocn/zshb.png" alt="">
+            <div class="bg-img bg8"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/zshb.png" alt="">-->
             <p>专属海报</p>
           </div>
           <div class="ku" v-if="permissions('RECOMMENDER', 'View')" @click="$router.push('/customer')">
-            <img src="../../assets/img/new_img/user/iocn/tjr.png" alt="">
+            <div class="bg-img bg9"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/tjr.png" alt="">-->
             <p>推荐人</p>
           </div>
           <div class="ku" v-if="permissions('CUSTOMER_SERVICE', 'View')" @click="$router.push('/mykefu')">
-            <img src="../../assets/img/new_img/user/iocn/kf.png" alt="">
+            <div class="bg-img bg10"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/kf.png" alt="">-->
             <p>客服</p>
           </div>
         </div>
@@ -311,15 +375,18 @@
         <p class="title">资料</p>
         <div class="list">
           <div class="ku" v-if="permissions('AGENT_RULE', 'View')" @click="$router.push('/members_doc')">
-            <img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">
+            <div class="bg-img bg11"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/hybu.png" alt="">-->
             <p>会员必读</p>
           </div>
           <div class="ku" v-if="permissions('HELP_CENTER', 'List')" @click="$router.push('/help')">
-            <img src="../../assets/img/new_img/user/iocn/help.png" alt="">
+            <div class="bg-img bg12"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/help.png" alt="">-->
             <p>帮助中心</p>
           </div>
           <div class="ku" v-if="permissions('SETTING', 'Weixin')" @click="$router.push('/user_set')">
-            <img src="../../assets/img/new_img/user/iocn/set.png" alt="">
+            <div class="bg-img bg13"></div>
+            <!--<img src="../../assets/img/new_img/user/iocn/set.png" alt="">-->
             <p>设置</p>
           </div>
         </div>
@@ -341,6 +408,7 @@
   import BottomMenu from '@/pages/BottomMenu'
   import BzwDialog from '../../components/dialog/BzwDialog'
   import userAPI from '../../api/userAPI'
+  import userDefImg from '../../assets/img/new_img/user/iocn/user.png'
 
   export default {
     name: 'UserCenter',
@@ -371,6 +439,7 @@
     },
     data() {
       return {
+        userImg: userDefImg,
         grade: JSON.parse(sessionStorage.level),
         // avater: 'http://7xv6zz.com2.z0.glb.qiniucdn.com/20180104193451',
         integrantCount: {
