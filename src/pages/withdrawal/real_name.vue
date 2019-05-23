@@ -114,8 +114,8 @@
         <div class="sfz-lo">
           <p>身份证反面</p>
 
-          <div v-if="upImg.zhm.IDCardFrontPictureURL" class="img-ku"
-               :style="{backgroundImage: 'url('+ upImg.zhm.IDCardHandPictureURL+')'}">
+          <div v-if="upImg.upImg.IDCardHandPictureURL" class="img-ku"
+               :style="{backgroundImage: 'url('+ upImg.upImg.IDCardHandPictureURL+')'}">
           </div>
           <div v-else class="img-ku" :style="{backgroundImage: 'url('+ sfzFmz+')'}"></div>
           <mt-button v-if="upIsLoad" size="small" @click="upLoad2('手持身份证照.jpg')">上传图片</mt-button>
@@ -144,7 +144,7 @@
     name: 'real_name',
     data() {
       return {
-        upState: '提交申请',
+        upState: '提交资料',
         auditState: '未认证',
         auditStateImg: failure,
         sfzZmz: dFsfzZmz,
@@ -152,11 +152,11 @@
         upIsLoad: true,
         isSubmit: false,
         upImg: {
-          zhm: {
+          zhm: { // 正面
             id: '',
             IDCardFrontPictureURL: ''
           },
-          upImg: {
+          upImg: { // 反面
             id: '',
             IDCardHandPictureURL: ''
           }
@@ -164,14 +164,14 @@
       }
     },
     methods: {
-      upLoad1(name) {
-        weixin.weixinUploadImg(3, name, (res) => {
+      upLoad1() {
+        weixin.weixinUploadImg(3, '身份证正面.jpg', (res) => {
           this.upImg.zhm.id = res.id
           this.upImg.zhm.IDCardFrontPictureURL = res.url
         })
       },
-      upLoad2(name) {
-        weixin.weixinUploadImg(3, name, (res) => {
+      upLoad2() {
+        weixin.weixinUploadImg(3, '身份证反面.jpg', (res) => {
           this.upImg.upImg.id = res.id
           this.upImg.upImg.IDCardHandPictureURL = res.url
         })
@@ -179,7 +179,7 @@
       submitImgData() {
         if (this.upImg.zhm.id && this.upImg.upImg.id) {
           this.isSubmit = false
-          this.upState = '提交信息'
+          this.upState = '提交资料'
           userAPI.saveIDCardPicture({
             IDCardFrontPicture: this.upImg.zhm.id,
             IDCardHandPicture: this.upImg.upImg.id
@@ -206,7 +206,7 @@
           switch (state) {
             case 0:
               // 未认证
-              this.upState = '提交申请'
+              this.upState = '提交资料'
               this.auditState = '未认证'
               this.upIsLoad = true
               break;

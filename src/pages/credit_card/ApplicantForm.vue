@@ -324,9 +324,9 @@
                 experience: experience.join(','),
                 ownBankCard: ownBankCard.join(','),
                 authCode: this.form.authCode
-              }, (res) => {
+              }, (res) => { // 银行卡实名认证信息提交成功
                 Toast({
-                  message: '银行卡实名认证信息提交成功',
+                  message: '申请人信息已提交成功',
                   position: 'top'
                 })
                 this.refreshBaseData(() => {

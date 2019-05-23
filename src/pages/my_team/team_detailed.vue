@@ -64,15 +64,7 @@
 
       }
       position: relative;
-      .no-data-icon {
-        text-align: center;
-        position: relative;
-        margin-top: 30px;
-        p {
-          margin-top: 20px;
-          color: $color1;
-        }
-      }
+
       .search {
         .retrieve {
           align-items: center;
@@ -383,7 +375,7 @@
         </li>
       </ul>
       <div class="no-data-icon" v-if="noData">
-        <img src="../../assets/img/icon_empty_logo.png">
+        <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
         <p>暂无数据</p>
       </div>
       <add-wechat :open="ISopen" :user-name="userName" v-model="ISopen" :weChatImg="weixinQRCodeURL" :weChatName="weixinAccountNo"/>
@@ -435,14 +427,21 @@
     methods: {
       getData(fn, search) {
         userAPI.teamFindPaged({category: this.$route.query.level, catalog: this.type}, this.page, (res) => {
-          this.pageList.push(...res.data.items)
-          if (res.data.items.length === this.page.limit) {
-            this.loadList = true
+          this.noData = false
+          if (this.page.pageNum === 1 && res.data.items.length === 0) {
+            this.noData = true
             this.loadNoData = false
-          } else if (res.data.items.length < this.page.limit) {
             this.loadList = false
-            this.loadNoData = true
+          } else {
+            if (res.data.items.length === this.page.limit) {
+              this.loadList = true
+              this.loadNoData = false
+            } else{
+              this.loadList = false
+              this.loadNoData = true
+            }
           }
+          this.pageList.push(...res.data.items)
           if (typeof fn === 'function') {
             fn(res.data.items)
           }
@@ -451,13 +450,7 @@
       bankType(type) {
         this.pageList = []
         this.type = type
-        this.getData((list) => {
-          if (list.length === 0) {
-            this.noData = true
-          } else {
-            this.noData = false
-          }
-        })
+        this.getData()
       },
       load() {
         // 下一页数据
@@ -474,13 +467,7 @@
           this.page.pageNum = 1
           this.pageList = []
           let a = [{property: '_member.employeeNo', value: this.retrieve}]
-          this.getData((list) => {
-            if (list.length === 0) {
-              this.noData = true
-            } else {
-              this.noData = false
-            }
-          }, a)
+          this.getData((list) => {}, a)
         }
 
       },
@@ -523,13 +510,7 @@
       userAPI.statsCount({category: this.$route.query.level}, res => {
         this.pageData = res.data
       })
-      this.getData((list) => {
-        if (list.length === 0) {
-          this.noData = true
-        } else {
-          this.noData = false
-        }
-      })
+      this.getData()
     }
   }
 </script>

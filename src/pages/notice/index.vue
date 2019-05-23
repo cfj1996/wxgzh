@@ -88,13 +88,20 @@
             </div>
           </li>
         </ul>
+        <div class="no-data-view" v-if="noData">
+          <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
+          <p>暂无数据</p>
+        </div>
         <div class="load">
           <p v-if="loadList" @click="load" >加载更多</p>
         </div>
         <p v-if="loadNoData" style="padding: 10px;text-align: center">没有更多数据</p>
       </mt-tab-container-item>
       <mt-tab-container-item id="2">
-        无消息
+        <div class="no-data-view">
+          <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
+          <p>暂无公告</p>
+        </div>
       </mt-tab-container-item>
     </mt-tab-container>
   </div>
@@ -114,6 +121,7 @@
     },
     data() {
       return {
+        noData: false,
         loadNoData: false,
         selected: '1',
         pageData: [],
@@ -136,13 +144,21 @@
       getData(fn) {
         creditCardAPI.findPaged(this.page, (res) => {
           this.pageData.push(...res.data.items)
-          if (res.data.items.length === this.page.limit){
-            this.loadList = true
+          this.noData = false
+          if (this.page.pageNum === 1 && res.data.items.length === 0) {
+            this.noData = true
             this.loadNoData = false
-          } else if (res.data.items.length < this.page.limit){
             this.loadList = false
-            this.loadNoData = true
+          } else {
+            if (res.data.items.length === this.page.limit){
+              this.loadList = true
+              this.loadNoData = false
+            } else{
+              this.loadList = false
+              this.loadNoData = true
+            }
           }
+
           if (typeof fn === 'function') {
             fn(res.data.items)
           }

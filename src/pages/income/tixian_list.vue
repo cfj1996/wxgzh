@@ -23,19 +23,6 @@
         }
       }
       .body{
-        .no-data-view {
-          margin-top: 50px;
-          position: relative;
-          min-height: 200px;
-          text-align: center;
-          img {
-            width: 250px;
-            height: auto;
-          }
-          p {
-            padding-top: 10px;
-          }
-        }
         ul{
           padding: 15px 10px;
           li{
@@ -57,6 +44,9 @@
                 margin-bottom: 5px;
                 .mangli{
                   color: #2ba146;
+                }
+                .fail{
+                  color: $color3
                 }
                 span{
                   i{
@@ -103,8 +93,13 @@
               <div class="min-tis"><span>{{ val.time }}</span> <span>小计{{ val.minAll | currencyAuot }}</span></div>
               <div class="content" v-for="t in val.list">
                 <div class="a1"><p>收入提现</p></div>
-                <div class="a2"><p>提现至微信零钱</p><span class="mangli"><i>-</i>￥{{ t.amount | currencyAuot }}</span></div>
-                <div class="a2"><p>{{ t.createdDate | timeAuto }}</p> <span>提现成功</span></div>
+                <div class="a2"><p>提现至微信零钱</p>
+                  <span class="mangli" v-if="t.status === 200"><i>-</i>￥{{ t.amount | currencyAuot }}</span>
+                  <span class=" fail" v-else><i>-</i>￥{{ t.amount | currencyAuot }}</span>
+                </div>
+                <div class="a2">
+                  <p>{{ t.createdDate | timeAuto }}</p> <span>{{ t.status === 200 ? '提现成功' : '提现失败' }}</span>
+                </div>
               </div>
             </section>
           </li>
@@ -172,15 +167,19 @@
     methods: {
       getData() {
         userAPI.findWithdrawPaged(this.page, res => {
+          this.noData = false
           if (this.page.pageNum === 1 && res.data.items.length === 0) {
             this.noData = true
-          }
-          if (res.data.items.length === this.page.limit) {
-            this.load = true
             this.loadNoData = false
-          } else {
             this.load = false
-            this.loadNoData = true
+          } else {
+            if (res.data.items.length === this.page.limit) {
+              this.load = true
+              this.loadNoData = false
+            } else {
+              this.load = false
+              this.loadNoData = true
+            }
           }
           let dataList = res.data.items // 请求的原始数据
           let newYYDDTT = dataList.map((val) => {
@@ -203,7 +202,9 @@
           pinZhuang = pinZhuang.map(val => {
             let all = 0
             val.list.forEach(v => {
-              all += Number(v.amount)
+              if(v.status === 200){
+                all += Number(v.amount)
+              }
             })
             val.minAll = all
             return val

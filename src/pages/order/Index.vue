@@ -141,18 +141,6 @@
 
         }
       }
-      .no-data-view {
-        position: relative;
-        min-height: 200px;
-        text-align: center;
-        img {
-          width: 150px;
-          height: auto;
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
     }
     .set-btn {
       background: none;
@@ -270,6 +258,7 @@
             </ul>
             <div class="no-data-view" v-if="noData">
               <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
+              <p>暂无数据</p>
             </div>
           </section>
           <!---->
@@ -388,22 +377,27 @@
           status: this.status
         }, this.page, (res) => {
           this.creditOrderList.push(...res.data.items)
-          this.noData = false
-          if (this.page.pageNum === 1 && res.data.items.length === 0) {
-            this.noData = true
+          this.noData = false // 无数据图片隐藏
+          if (this.page.pageNum === 1 && res.data.items.length === 0) { // 首次查询无数据
+            this.noData = true // 图片隐藏
+            this.loadNoData = false // 加载按钮隐藏
+            this.loadList = false // 无更多数据提示文字隐藏
+          } else {
+            if (res.data.items.length === this.page.limit) {
+              this.loadList = true
+              this.loadNoData = false
+            } else if (res.data.items.length < this.page.limit) {
+              this.loadList = false
+              this.loadNoData = true
+            }
           }
-          if (res.data.items.length === this.page.limit) {
-            this.loadList = true
-            this.loadNoData = false
-          } else if (res.data.items.length < this.page.limit) {
-            this.loadList = false
-            this.loadNoData = true
-          }
+
           fn && fn(res)
         }, filter)
       },
       search() {
         this.creditOrderList = []
+        this.page.pageNum = 1
         this.getData()
       },
       move(data, status) {

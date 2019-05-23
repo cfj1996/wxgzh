@@ -201,7 +201,7 @@
         }
 
         if (that.pageData.mobile) {
-          if(that.pageData.realMobile === '') {
+          if(that.formData.mobileRequired === '') {
             MessageBox('错误', '手机号码必填');
             return
           }
@@ -258,7 +258,6 @@
           if(res.data){
             a = res.data
           }
-          console.log(a)
           this.$router.push({
             name: 'scheduleResults', params: {
               data: a

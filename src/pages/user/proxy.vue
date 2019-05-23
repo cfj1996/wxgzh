@@ -242,7 +242,7 @@
       </li>
     </ul>
     <div class="no-data-icon" v-if="noData">
-      <img src="../../assets/img/icon_empty_logo.png">
+      <img class="no-data-icon" src="../../assets/img/icon_empty_logo.png">
       <p>暂无数据</p>
     </div>
     <div class="load">
@@ -310,13 +310,21 @@
       getData(fn, search) {
         proxyApi.findAgentPaged(this.page, (res) => {
           this.dataList.push(...res.data.items)
-          if (res.data.items.length === this.page.limit) {
-            this.loadList = true
+          this.noData = false
+          if (this.page.pageNum === 1 && res.data.items.length === 0) {
+            this.noData = true
             this.loadNoData = false
-          } else if (res.data.items.length < this.page.limit) {
             this.loadList = false
-            this.loadNoData = true
+          } else {
+            if (res.data.items.length === this.page.limit) {
+              this.loadList = true
+              this.loadNoData = false
+            } else{
+              this.loadList = false
+              this.loadNoData = true
+            }
           }
+
           if (typeof fn === 'function') {
             fn(res.data.items)
           }
@@ -357,13 +365,7 @@
           this.page.pageNum = 1
           this.dataList = []
           let a = [{property: '_member.employeeNo', value: this.retrieve}]
-          this.getData((list) => {
-            if (list.length === 0) {
-              this.noData = true
-            } else {
-              this.noData = false
-            }
-          }, a)
+          this.getData((list) => {}, a)
         }
 
       }
@@ -382,13 +384,7 @@
       }
     },
     created() {
-      this.getData((list) => {
-        if (list.length === 0) {
-          this.noData = true
-        } else {
-          this.noData = false
-        }
-      })
+      this.getData()
     }
   }
 </script>

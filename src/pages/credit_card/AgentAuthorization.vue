@@ -106,17 +106,6 @@
         }
       }
     }
-    .no-data-view {
-      position: relative;
-      min-height: 200px;
-      text-align: center;
-      img {
-        width: 200px;
-      }
-      p {
-        padding-top: 10px;
-      }
-    }
   }
 
   .authorization-popup {

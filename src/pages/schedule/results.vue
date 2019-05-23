@@ -83,6 +83,7 @@
               <td>卡名称</td>
               <td>卡种类</td>
               <td>申请日期</td>
+              <td>渠道</td>
               <td>状态</td>
             </tr>
             <tr v-for="val in $route.params.data">
@@ -90,7 +91,8 @@
               <td>{{ val.cardName }}</td>
               <td>{{ val.categoryName }}</td>
               <td>{{ val.resultDate | timeAuto }}</td>
-              <td>{{ val.status | start }}</td>
+              <td>{{ val.channel }}</td>
+              <td>{{ val.statusName }}</td>
             </tr>
             </tbody>
           </table>

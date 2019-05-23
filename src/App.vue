@@ -152,6 +152,22 @@
     background: url('./assets/img/shouji_on.png') no-repeat center;
     background-size: contain;
   }
+  .no-data-view {
+    margin-top: 50px;
+    position: relative;
+    min-height: 200px;
+    text-align: center;
+    .no-data-icon {
+      max-width: 200px;
+      height: auto;
+      margin: auto;
+      display: block;
+    }
+    p {
+      margin-top: 10px;
+      padding-top: 10px;
+    }
+  }
 </style>
 
 <script>

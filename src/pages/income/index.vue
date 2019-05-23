@@ -171,16 +171,13 @@
     },
     methods: {
       tixanToFrom() {
-        userAPI.createWithdrawView(res => {
-          window.location.href = res.data.redirectURL
-        })
-     /*   if (this.user.identity.certificatedStatus !== 2) {
+        if (this.user.identity.certificatedStatus !== 2) {
           this.certificatedStatus = true
         } else {
           userAPI.createWithdrawView(res => {
             window.location.href = res.data.redirectURL
           })
-        }*/
+        }
       },
       onAuthorise() {
         this.$router.push('/real_name')

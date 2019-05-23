@@ -57,19 +57,7 @@
           }
         }
       }
-      .no-data-view {
-        margin-top: 50px;
-        position: relative;
-        min-height: 200px;
-        text-align: center;
-        img {
-          width: 250px;
-          height: auto;
-        }
-        p {
-          padding-top: 10px;
-        }
-      }
+
       .bound {
         text-align: center;
       }
@@ -197,15 +185,19 @@
     methods: {
       getData() {
         userAPI.findDirectPaged({category: 2}, this.page, (res) => {
+          this.noData = false
           if (this.page.pageNum === 1 && res.data.items.length === 0) {
             this.noData = true
-          }
-          if (res.data.items.length === this.page.limit) {
-            this.load = true
             this.loadNoData = false
-          } else {
             this.load = false
-            this.loadNoData = true
+          } else {
+            if (res.data.items.length === this.page.limit) {
+              this.load = true
+              this.loadNoData = false
+            } else {
+              this.load = false
+              this.loadNoData = true
+            }
           }
           let dataList = res.data.items // 请求的原始数据
           if (dataList.length === 0) {
